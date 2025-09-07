@@ -15,7 +15,7 @@ Découvrez tous les événements organisés par le BDE.
   <p><strong>Heure :</strong> {{ event.heure }}</p>
   <p><strong>Lieu :</strong> {{ event.lieu }}</p>
   <p>{{ event.content | strip_html | truncate: 150 }}</p>
-  <a href="{{ event.url }}">Voir les détails</a>
+  <a href="{{ event.url | relative_url }}">Voir les détails</a>
 </div>
 {% endfor %}
 

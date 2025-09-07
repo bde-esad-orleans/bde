@@ -16,7 +16,7 @@ Découvrez tous les événements organisés par le Bureau des Élèves !
   <p><strong>Date :</strong> {{ event.date | date: "%d/%m/%Y" }}</p>
   <p><strong>Heure :</strong> {{ event.heure }}</p>
   <p><strong>Lieu :</strong> {{ event.lieu }}</p>
-  <a href="{{ event.url }}">Voir les détails</a>
+  <a href="{{ event.url | relative_url }}">Voir les détails</a>
 </div>
 {% endfor %}
 
@@ -28,6 +28,6 @@ Découvrez tous les événements organisés par le Bureau des Élèves !
   <h3>{{ event.titre }}</h3>
   <p><strong>Date :</strong> {{ event.date | date: "%d/%m/%Y" }}</p>
   <p><strong>Lieu :</strong> {{ event.lieu }}</p>
-  <a href="{{ event.url }}">Voir l'archive</a>
+  <a href="{{ event.url | relative_url }}">Voir l'archive</a>
 </div>
 {% endfor %}

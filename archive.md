@@ -14,7 +14,7 @@ Retrouvez tous les événements passés du BDE avec les retours des étudiants e
   <p><strong>Date :</strong> {{ event.date | date: "%d/%m/%Y" }}</p>
   <p><strong>Lieu :</strong> {{ event.lieu }}</p>
   <p>{{ event.content | strip_html | truncate: 150 }}</p>
-  <a href="{{ event.url }}">Voir l'archive complète</a>
+  <a href="{{ event.url | relative_url }}">Voir l'archive complète</a>
 </div>
 {% endfor %}
 

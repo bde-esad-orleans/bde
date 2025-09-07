@@ -1,0 +1,48 @@
+# Configuration du site BDE
+title: "BDE - Bureau des Élèves"
+description: "Site officiel du Bureau des Élèves - Événements et archives"
+baseurl: "" # Le sous-dossier de votre site, ex: /blog
+url: "" # Le domaine de base de votre site, ex: https://username.github.io
+
+# Configuration Jekyll
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Collections pour les événements
+collections:
+  events:
+    output: true
+    permalink: /:collection/:name/
+  archive:
+    output: true
+    permalink: /:collection/:name/
+
+# Configuration par défaut
+defaults:
+  - scope:
+      path: ""
+      type: "events"
+    values:
+      layout: "event"
+  - scope:
+      path: ""
+      type: "archive"
+    values:
+      layout: "event"
+
+# Plugins
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+
+# Exclusions
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/

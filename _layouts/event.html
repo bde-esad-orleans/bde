@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+<article class="event-detail">
+    <header>
+        <h1>{{ page.titre }}</h1>
+        <div class="event-meta">
+            <p><strong>Date :</strong> {{ page.date | date: "%d/%m/%Y" }}</p>
+            <p><strong>Heure :</strong> {{ page.heure }}</p>
+            <p><strong>Lieu :</strong> {{ page.lieu }}</p>
+            {% if page.url_inscription %}
+            <p><a href="{{ page.url_inscription }}" class="btn btn-primary">S'inscrire</a></p>
+            {% endif %}
+        </div>
+    </header>
+
+    <div class="event-content">
+        {{ content }}
+    </div>
+
+    {% if page.poster %}
+    <div class="event-poster">
+        <img src="{{ page.poster | relative_url }}" alt="Affiche de {{ page.titre }}">
+    </div>
+    {% endif %}
+</article>

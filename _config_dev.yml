@@ -1,8 +1,8 @@
-# Configuration du site BDE
+# Configuration du site BDE - Version développement local
 title: "BDE - Bureau des Élèves"
 description: "Site officiel du Bureau des Élèves - Événements et archives"
-baseurl: "/bde" # Le sous-dossier de votre site GitHub Pages
-url: "https://a-massart.github.io" # Le domaine de base de votre site
+baseurl: "" # Pas de baseurl en local
+url: "http://localhost:4000" # URL locale
 
 # Configuration Jekyll
 markdown: kramdown

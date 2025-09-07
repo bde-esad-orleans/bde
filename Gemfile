@@ -1,11 +1,7 @@
 source "https://rubygems.org"
 
-gem "jekyll", "~> 3.9.0"
-
-group :jekyll_plugins do
-  gem "jekyll-feed", "~> 0.12"
-  gem "jekyll-sitemap"
-end
+# GitHub Pages compatible version
+gem "github-pages", "~> 227", group: :jekyll_plugins
 
 # Windows and JRuby does not include zoneinfo files, so bundle the tzinfo-data gem
 # and associated library.
@@ -21,4 +17,4 @@ gem "wdm", "~> 0.1.1", :platforms => [:mingw, :x64_mingw, :mswin]
 # do not have a Java counterpart.
 gem "http_parser.rb", "~> 0.6.0", :platforms => [:jruby]
 
-gem "kramdown-parser-gfm", "~> 1.1"
+# kramdown-parser-gfm is included in github-pages

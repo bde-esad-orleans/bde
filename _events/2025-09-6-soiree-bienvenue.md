@@ -1,6 +1,6 @@
 ---
 titre: "Soirée de Bienvenue BDE"
-date: 2025-09-15
+date: 2025-09-6
 heure: "19:00"
 lieu: "Centre Étudiant - Salle Polyvalente"
 poster: "assets/images/posters/soiree-bienvenue-2025.svg"
@@ -12,7 +12,7 @@ url_inscription: "https://forms.gle/example1"
 Rejoignez-nous pour la grande soirée de bienvenue du BDE ! Une occasion parfaite pour rencontrer vos nouveaux camarades et découvrir toutes les activités que nous organisons cette année.
 
 ## Détails de l'Événement
-- **Date** : 15 septembre 2025
+- **Date** : 6 septembre 2025
 - **Heure** : 19h00
 - **Lieu** : Centre Étudiant - Salle Polyvalente
 - **Inscription** : [Inscrivez-vous ici](https://forms.gle/example1)

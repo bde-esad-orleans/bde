@@ -16,7 +16,7 @@ layout: default
     </header>
 
     <div class="event-content">
-        {{ content }}
+        {{ content | markdownify }}
     </div>
 
     {% if page.poster %}

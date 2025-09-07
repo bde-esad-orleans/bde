@@ -18,6 +18,9 @@ jobs:
 
     - name: Archive past events
       run: |
+        set -e  # Arrêter en cas d'erreur critique
+        set -u  # Arrêter si variable non définie
+        
         # Créer le dossier archive s'il n'existe pas
         mkdir -p _archive
         
@@ -29,6 +32,11 @@ jobs:
         
         # Parcourir tous les fichiers .md dans _events/
         for file in _events/*.md; do
+          # Vérifier si le fichier existe (évite les erreurs si pas de fichiers .md)
+          if [[ ! -f "$file" ]]; then
+            continue
+          fi
+          
           # Ignorer .gitkeep
           if [[ "$file" == "_events/.gitkeep" ]]; then
             continue
@@ -47,12 +55,19 @@ jobs:
               
               # Vérifier si le fichier n'existe pas déjà dans les archives
               if [[ ! -f "$archive_path" ]]; then
-                mv "$file" "$archive_path"
-                echo "✅ Déplacé: $filename"
-                ((moved_count++))
+                if mv "$file" "$archive_path"; then
+                  echo "✅ Déplacé: $filename"
+                  moved_count=$((moved_count + 1))
+                else
+                  echo "❌ Erreur lors du déplacement de: $filename"
+                fi
               else
                 echo "⚠️  Fichier déjà dans les archives: $filename"
-                rm "$file" # Supprimer le doublon
+                if rm "$file"; then
+                  echo "🗑️  Doublon supprimé: $filename"
+                else
+                  echo "❌ Erreur lors de la suppression du doublon: $filename"
+                fi
               fi
             else
               echo "⏳ Événement futur: $filename"

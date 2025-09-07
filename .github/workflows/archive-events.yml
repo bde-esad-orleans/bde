@@ -94,8 +94,12 @@ jobs:
         if [ $moved_count -gt 0 ]; then
           echo "Archive automatique du $TODAY" > archive-log.txt
           echo "Événements déplacés: $moved_count" >> archive-log.txt
+          echo "MOVED_COUNT=$moved_count" >> $GITHUB_ENV
+          echo "ARCHIVE_DATE=$TODAY" >> $GITHUB_ENV
         else
           echo "✅ Aucun événement à archiver aujourd'hui"
+          echo "MOVED_COUNT=0" >> $GITHUB_ENV
+          echo "ARCHIVE_DATE=$TODAY" >> $GITHUB_ENV
         fi
 
     - name: Check for changes
@@ -136,10 +140,11 @@ jobs:
         echo "**Date d'exécution:** $(date)" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         
-        if [ -f archive-log.txt ]; then
+        if [ "$MOVED_COUNT" -gt 0 ]; then
           echo "**Résultat:**" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
-          cat archive-log.txt >> $GITHUB_STEP_SUMMARY
+          echo "Archive automatique du $ARCHIVE_DATE" >> $GITHUB_STEP_SUMMARY
+          echo "Événements déplacés: $MOVED_COUNT" >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
         else
           echo "**Résultat:** ✅ Aucun événement à archiver aujourd'hui" >> $GITHUB_STEP_SUMMARY

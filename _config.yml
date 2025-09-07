@@ -13,10 +13,10 @@ permalink: pretty
 collections:
   events:
     output: true
-    permalink: /:collection/:name/
+    permalink: /events/:name/
   archive:
     output: true
-    permalink: /:collection/:name/
+    permalink: /archive/:name/
 
 # Configuration par défaut
 defaults:

@@ -62,37 +62,37 @@ Le site web BDE vise à :
   - Aucune configuration supplémentaire requise
   - Hébergement gratuit inclus
 
-## 📋 Feuille de Route d'Implémentation
+## 📋 État d'Avancement du Projet
 
-### Phase 1 : Fondation (Semaine 1-2)
-- [ ] Configurer le dépôt GitHub
-- [ ] Activer GitHub Pages avec Jekyll
-- [ ] Créer la structure de base du site Jekyll
-- [ ] Configurer l'organisation des fichiers Markdown (`_events/` et `_archive/`)
+### ✅ Phase 1 : Fondation (TERMINÉE)
+- [x] Configurer le dépôt Git local
+- [x] Créer la structure de base du site Jekyll
+- [x] Configurer l'organisation des fichiers Markdown (`_events/` et `_archive/`)
+- [x] Configurer Jekyll avec les collections et layouts
 
-### Phase 2 : Fonctionnalités Principales (Semaine 3-4)
-- [ ] Implémenter l'affichage des événements à venir
-- [ ] Créer le système d'archive d'événements
-- [ ] Concevoir la mise en page responsive
-- [ ] Ajouter le style de base et l'identité visuelle
+### ✅ Phase 2 : Fonctionnalités Principales (TERMINÉE)
+- [x] Implémenter l'affichage des événements à venir
+- [x] Créer le système d'archive d'événements
+- [x] Concevoir la mise en page responsive
+- [x] Ajouter le style de base et l'identité visuelle
 
-### Phase 3 : Gestion de Contenu (Semaine 5-6)
-- [ ] Créer la structure de fichiers Markdown pour les événements (`_events/` et `_archive/`)
-- [ ] Configurer la reconstruction automatique du site lors des changements de fichiers
-- [ ] Créer un workflow d'édition Markdown simple pour les non-développeurs
-- [ ] Tester le workflow de gestion de contenu avec les téléchargements d'images
+### ✅ Phase 3 : Gestion de Contenu (TERMINÉE)
+- [x] Créer la structure de fichiers Markdown pour les événements
+- [x] Configurer la reconstruction automatique du site
+- [x] Créer un workflow d'édition Markdown simple
+- [x] Tester le workflow avec des événements d'exemple
 
-### Phase 4 : Fonctionnalités Avancées (Semaine 7-8)
-- [ ] Ajouter la fonctionnalité de galerie photo
-- [ ] Implémenter le système de retours/évaluations
-- [ ] Créer les capacités de recherche et filtrage
-- [ ] Optimiser les performances et le SEO
+### ✅ Phase 4 : Fonctionnalités Avancées (TERMINÉE)
+- [x] Créer des posters temporaires pour les événements
+- [x] Implémenter l'affichage des posters sur les pages d'événements
+- [x] Configurer la génération de pages individuelles
+- [x] Optimiser les URLs (sans extension .md)
 
-### Phase 5 : Lancement et Maintenance (Semaine 9+)
-- [ ] Déployer en production
-- [ ] Former les membres BDE sur la gestion de contenu
-- [ ] Surveiller et recueillir les retours
-- [ ] Planifier les améliorations futures
+### 🔄 Phase 5 : Déploiement (EN COURS)
+- [ ] Créer le dépôt GitHub
+- [ ] Pousser le code vers GitHub
+- [ ] Activer GitHub Pages
+- [ ] Tester le déploiement en production
 
 ## 🎨 Considérations de Design
 
@@ -113,59 +113,125 @@ Le site web BDE vise à :
 ### Modèle de Données d'Événement (Format Markdown)
 ```markdown
 ---
-# _events/2024-01-15-soiree-bienvenue-bde.md (événements à venir)
-# _archive/2024-01-15-soiree-bienvenue-bde.md (événements passés)
+# _events/2025-09-15-soiree-bienvenue.md (événements à venir)
+# _archive/2025-09-15-soiree-bienvenue.md (événements passés)
 titre: "Soirée de Bienvenue BDE"
-date: 2024-01-15
+date: 2025-09-15
 heure: "19:00"
-lieu: "Centre Étudiant"
-url_inscription: "https://..."
+lieu: "Centre Étudiant - Salle Polyvalente"
+poster: "assets/images/posters/soiree-bienvenue-2025.svg"
+url_inscription: "https://forms.gle/example1"
 ---
 
 # Soirée de Bienvenue BDE
 
-Rejoignez-nous pour la soirée de bienvenue pour commencer le nouveau semestre !
+Rejoignez-nous pour la grande soirée de bienvenue du BDE ! Une occasion parfaite pour rencontrer vos nouveaux camarades et découvrir toutes les activités que nous organisons cette année.
 
 ## Détails de l'Événement
-- **Date** : 15 janvier 2024
+- **Date** : 15 septembre 2025
 - **Heure** : 19h00
-- **Lieu** : Centre Étudiant
-- **Inscription** : [Inscrivez-vous ici](https://...)
+- **Lieu** : Centre Étudiant - Salle Polyvalente
+- **Inscription** : [Inscrivez-vous ici](https://forms.gle/example1)
 
-## Affiche de l'Événement
-![Affiche de l'Événement](images/posters/soiree-bienvenue-2024.jpg)
+## Au Programme
+- 🎵 **Musique live** avec des groupes étudiants
+- 🍕 **Buffet** et boissons
+- 🎮 **Jeux** et animations
+- 🎁 **Tombola** avec de nombreux lots
+- 💃 **Soirée dansante** jusqu'à minuit
 
-## Photos
-![Photo de l'Événement 1](images/events/soiree-bienvenue-1.jpg)
-![Photo de l'Événement 2](images/events/soiree-bienvenue-2.jpg)
+## Photos (pour les archives)
+![Photo de l'Événement 1](assets/images/events/soiree-bienvenue-1.jpg)
+![Photo de l'Événement 2](assets/images/events/soiree-bienvenue-2.jpg)
 
-## Retours des Étudiants
+## Retours des Étudiants (pour les archives)
 - **Marie** : "Événement incroyable ! ⭐⭐⭐⭐⭐"
 - **Pierre** : "Super ambiance et activités amusantes ! ⭐⭐⭐⭐⭐"
+```
+
+### Structure des Fichiers
+```
+bde_alice/
+├── _config.yml              # Configuration Jekyll
+├── _layouts/                # Templates HTML
+│   ├── default.html         # Layout principal
+│   └── event.html           # Layout pour les événements
+├── _plugins/                # Générateurs personnalisés
+│   └── event_pages.rb       # Générateur de pages d'événements
+├── _events/                 # Événements à venir
+│   ├── 2025-09-15-soiree-bienvenue.md
+│   ├── 2025-09-22-tournoi-football.md
+│   ├── 2025-09-28-cinema-en-plein-air.md
+│   └── 2025-09-30-atelier-cuisine.md
+├── _archive/                # Événements passés
+├── assets/                  # Ressources statiques
+│   ├── css/style.css        # Styles CSS
+│   └── images/              # Images et posters
+│       ├── posters/         # Affiches d'événements
+│       └── events/          # Photos d'événements
+├── index.md                 # Page d'accueil
+├── events.md                # Page liste des événements
+├── archive.md               # Page archives
+└── Gemfile                  # Dépendances Ruby
 ```
 
 ## 🔧 Configuration de Développement
 
 ### Prérequis
 - Git
+- Ruby (version 2.7.0 ou supérieure)
 - Compte GitHub
 - Compréhension de base de Markdown (optionnel - GitHub a un éditeur visuel)
 
-### Développement Local (Optionnel)
+### Installation et Test Local
+
+#### 1. Cloner le Projet
 ```bash
-# Cloner le dépôt
+# Cloner le dépôt (une fois créé sur GitHub)
 git clone https://github.com/votre-nom-utilisateur/bde-website.git
 cd bde-website
-
-# Installer Jekyll (si vous voulez prévisualiser localement)
-gem install jekyll bundler
-bundle install
-
-# Démarrer le serveur de développement local
-bundle exec jekyll serve
 ```
 
-**Note** : Le développement local est optionnel. Vous pouvez tout éditer directement sur GitHub et voir les changements en direct sur le site web.
+#### 2. Installation des Dépendances
+```bash
+# Installer les gems Jekyll
+bundle install
+```
+
+#### 3. Démarrage du Serveur Local
+```bash
+# Démarrer le serveur de développement
+bundle exec jekyll serve --host 0.0.0.0 --port 4000
+```
+
+#### 4. Accès au Site
+- **URL locale** : http://localhost:4000
+- **URL réseau** : http://0.0.0.0:4000 (accessible depuis d'autres appareils)
+
+### Pages Disponibles
+- **Accueil** : http://localhost:4000/
+- **Événements** : http://localhost:4000/events/
+- **Archives** : http://localhost:4000/archive/
+- **Événements individuels** :
+  - http://localhost:4000/events/2025-09-15-soiree-bienvenue/
+  - http://localhost:4000/events/2025-09-22-tournoi-football/
+  - http://localhost:4000/events/2025-09-28-cinema-en-plein-air/
+  - http://localhost:4000/events/2025-09-30-atelier-cuisine/
+
+### Commandes Utiles
+```bash
+# Reconstruire le site
+bundle exec jekyll build
+
+# Nettoyer et reconstruire
+rm -rf _site && bundle exec jekyll build
+
+# Vérifier la configuration
+bundle exec jekyll doctor
+
+# Arrêter le serveur
+Ctrl+C
+```
 
 ## 📝 Guide de Gestion de Contenu
 
@@ -206,10 +272,32 @@ bundle exec jekyll serve
 ## 🚀 Déploiement
 
 ### Déploiement GitHub Pages
-1. Pousser le code vers la branche principale
-2. Activer GitHub Pages dans les paramètres du dépôt
-3. Configurer le domaine personnalisé (optionnel)
-4. Configurer les déploiements automatiques
+1. **Créer le dépôt GitHub** :
+   ```bash
+   # Créer un nouveau dépôt sur GitHub (ex: bde-website)
+   ```
+
+2. **Pousser le code** :
+   ```bash
+   git remote add origin https://github.com/votre-username/bde-website.git
+   git branch -M main
+   git push -u origin main
+   ```
+
+3. **Activer GitHub Pages** :
+   - Aller dans Settings > Pages
+   - Source : Deploy from a branch
+   - Branch : main
+   - Folder : / (root)
+
+4. **Accès au site** :
+   - URL : https://votre-username.github.io/bde-website/
+   - Le site se met à jour automatiquement à chaque push
+
+### Configuration du Domaine Personnalisé (Optionnel)
+1. Ajouter un fichier `CNAME` avec votre domaine
+2. Configurer les DNS de votre domaine
+3. Activer HTTPS dans les paramètres GitHub Pages
 
 
 ## 🤝 Contribution
@@ -251,6 +339,31 @@ Ce projet est open source et disponible sous la [Licence MIT](LICENSE).
 
 ---
 
+## 🎯 Fonctionnalités Implémentées
+
+### ✅ Fonctionnalités Principales
+- **Site Jekyll** entièrement fonctionnel
+- **4 événements d'exemple** avec posters temporaires
+- **Pages individuelles** pour chaque événement
+- **URLs propres** sans extension .md
+- **Design responsive** et moderne
+- **Navigation intuitive** entre les sections
+
+### ✅ Posters d'Événements
+- **Soirée de Bienvenue** - Dégradé bleu/violet avec ballons
+- **Tournoi de Football** - Dégradé vert avec terrain de foot
+- **Cinéma en Plein Air** - Dégradé sombre avec étoiles
+- **Atelier Cuisine** - Dégradé rouge/orange avec ingrédients
+
+### ✅ Structure Technique
+- **Collections Jekyll** pour événements et archives
+- **Générateur personnalisé** pour les pages d'événements
+- **Layouts HTML** optimisés
+- **CSS responsive** avec design moderne
+- **Support Markdown** complet
+
+---
+
 **Dernière Mise à Jour** : Septembre 2025  
 **Version** : 1.0.0  
-**Statut** : Phase de Planification
+**Statut** : Prêt pour Déploiement

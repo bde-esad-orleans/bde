@@ -67,9 +67,13 @@ jobs:
         echo "   - Événements déplacés: $moved_count"
         echo "   - Date de traitement: $TODAY"
         
-        # Créer un fichier de log pour le commit
-        echo "Archive automatique du $TODAY" > archive-log.txt
-        echo "Événements déplacés: $moved_count" >> archive-log.txt
+        # Créer un fichier de log pour le commit seulement s'il y a des changements
+        if [ $moved_count -gt 0 ]; then
+          echo "Archive automatique du $TODAY" > archive-log.txt
+          echo "Événements déplacés: $moved_count" >> archive-log.txt
+        else
+          echo "✅ Aucun événement à archiver aujourd'hui"
+        fi
 
     - name: Check for changes
       id: check-changes
@@ -115,5 +119,7 @@ jobs:
           cat archive-log.txt >> $GITHUB_STEP_SUMMARY
           echo '```' >> $GITHUB_STEP_SUMMARY
         else
-          echo "**Résultat:** Aucun événement à archiver" >> $GITHUB_STEP_SUMMARY
+          echo "**Résultat:** ✅ Aucun événement à archiver aujourd'hui" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Tous les événements dans \`_events/\` sont encore à venir." >> $GITHUB_STEP_SUMMARY
         fi

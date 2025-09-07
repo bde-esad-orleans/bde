@@ -9,18 +9,19 @@ on:
 jobs:
   archive-events:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Permet de pousser des commits
+      pull-requests: read  # Permet de lire les PRs si nécessaire
     
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+        fetch-depth: 0  # Récupère tout l'historique Git
 
     - name: Archive past events
       run: |
-        set -e  # Arrêter en cas d'erreur critique
-        set -u  # Arrêter si variable non définie
-        
         # Créer le dossier archive s'il n'existe pas
         mkdir -p _archive
         
@@ -30,7 +31,14 @@ jobs:
         
         moved_count=0
         
+        # Vérifier si le dossier _events existe et contient des fichiers .md
+        if [ ! -d "_events" ]; then
+          echo "⚠️  Dossier _events/ n'existe pas"
+          exit 0
+        fi
+        
         # Parcourir tous les fichiers .md dans _events/
+        shopt -s nullglob  # Évite les erreurs si pas de fichiers correspondants
         for file in _events/*.md; do
           # Vérifier si le fichier existe (évite les erreurs si pas de fichiers .md)
           if [[ ! -f "$file" ]]; then

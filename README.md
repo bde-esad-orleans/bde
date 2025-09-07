@@ -88,11 +88,17 @@ Le site web BDE vise à :
 - [x] Configurer la génération de pages individuelles
 - [x] Optimiser les URLs (sans extension .md)
 
-### 🔄 Phase 5 : Déploiement (EN COURS)
-- [ ] Créer le dépôt GitHub
-- [ ] Pousser le code vers GitHub
-- [ ] Activer GitHub Pages
-- [ ] Tester le déploiement en production
+### ✅ Phase 5 : Automatisation (TERMINÉE)
+- [x] Créer l'action GitHub d'archivage automatique
+- [x] Configurer l'exécution quotidienne automatique
+- [x] Implémenter la gestion des permissions GitHub
+- [x] Tester l'archivage automatique des événements passés
+
+### ✅ Phase 6 : Déploiement (TERMINÉE)
+- [x] Créer le dépôt GitHub
+- [x] Pousser le code vers GitHub
+- [x] Activer GitHub Pages
+- [x] Tester le déploiement en production
 
 ## 🎨 Considérations de Design
 
@@ -269,30 +275,81 @@ Ctrl+C
    - Collaborer grâce aux fonctionnalités intégrées de GitHub
    - Prévisualiser les changements avant de commiter
 
+## 🤖 Archivage Automatique
+
+### Action GitHub "Archive Past Events"
+
+Le site dispose d'une **action GitHub automatisée** qui gère l'archivage des événements passés sans intervention manuelle.
+
+#### ⏰ Fonctionnement Automatique
+- **Exécution quotidienne** à 2h00 UTC (3h00/4h00 en France selon la saison)
+- **Déclenchement manuel** possible via l'onglet "Actions" de GitHub
+- **Analyse automatique** des fichiers dans le dossier `_events/`
+- **Déplacement intelligent** des événements passés vers `_archive/`
+
+#### 🔍 Logique d'Archivage
+1. **Extraction de la date** depuis le nom de fichier (format `YYYY-MM-DD-nom.md`)
+2. **Comparaison** avec la date actuelle
+3. **Déplacement automatique** si la date de l'événement est passée
+4. **Commit automatique** avec message descriptif
+5. **Résumé détaillé** dans l'interface GitHub Actions
+
+#### 📊 Exemple de Fonctionnement
+```
+📅 Date d'aujourd'hui: 2025-09-07
+🔍 Fichier: 2025-09-06-soiree-bienvenue.md (date: 2025-09-06)
+✅ Déplacé: 2025-09-06-soiree-bienvenue.md
+🔍 Fichier: 2025-09-22-tournoi-football.md (date: 2025-09-22)
+⏳ Événement futur: 2025-09-22-tournoi-football.md
+
+📊 Résumé:
+   - Événements déplacés: 1
+   - Date de traitement: 2025-09-07
+```
+
+#### 🛡️ Sécurité et Fiabilité
+- **Permissions GitHub** configurées pour permettre les commits automatiques
+- **Gestion d'erreur robuste** avec logs détaillés
+- **Prévention des doublons** (évite de recréer des fichiers existants)
+- **Action toujours réussie** même si aucun événement à archiver
+
+#### 🎯 Avantages
+- ✅ **Zéro maintenance** : Aucune intervention manuelle requise
+- ✅ **Archivage ponctuel** : Les événements sont archivés dès qu'ils sont passés
+- ✅ **Historique Git propre** : Commits automatiques avec messages clairs
+- ✅ **Transparence totale** : Logs détaillés dans GitHub Actions
+- ✅ **Flexibilité** : Exécution manuelle possible si nécessaire
+
+#### 🔧 Configuration Technique
+- **Fichier** : `.github/workflows/archive-events.yml`
+- **Permissions** : `contents: write` pour les commits automatiques
+- **Langage** : Script Bash simple et efficace
+- **Dépendances** : Aucune (pas de Ruby/Jekyll requis)
+
 ## 🚀 Déploiement
 
-### Déploiement GitHub Pages
-1. **Créer le dépôt GitHub** :
-   ```bash
-   # Créer un nouveau dépôt sur GitHub (ex: bde-website)
-   ```
+### ✅ Déploiement GitHub Pages (TERMINÉ)
+1. **✅ Dépôt GitHub créé** :
+   - Repository : `A-Massart/bde`
+   - URL : https://github.com/A-Massart/bde
 
-2. **Pousser le code** :
+2. **✅ Code poussé** :
    ```bash
-   git remote add origin https://github.com/votre-username/bde-website.git
+   git remote add origin https://github.com/A-Massart/bde.git
    git branch -M main
    git push -u origin main
    ```
 
-3. **Activer GitHub Pages** :
-   - Aller dans Settings > Pages
+3. **✅ GitHub Pages activé** :
+   - Settings > Pages
    - Source : Deploy from a branch
    - Branch : main
    - Folder : / (root)
 
-4. **Accès au site** :
-   - URL : https://votre-username.github.io/bde-website/
+4. **✅ Site en production** :
+   - URL : https://a-massart.github.io/bde/
    - Le site se met à jour automatiquement à chaque push
+   - Action GitHub d'archivage automatique opérationnelle
 
 ### Configuration du Domaine Personnalisé (Optionnel)
 1. Ajouter un fichier `CNAME` avec votre domaine
@@ -348,6 +405,7 @@ Ce projet est open source et disponible sous la [Licence MIT](LICENSE).
 - **URLs propres** sans extension .md
 - **Design responsive** et moderne
 - **Navigation intuitive** entre les sections
+- **Archivage automatique** via action GitHub
 
 ### ✅ Posters d'Événements
 - **Soirée de Bienvenue** - Dégradé bleu/violet avec ballons
@@ -361,9 +419,10 @@ Ce projet est open source et disponible sous la [Licence MIT](LICENSE).
 - **Layouts HTML** optimisés
 - **CSS responsive** avec design moderne
 - **Support Markdown** complet
+- **Action GitHub** pour archivage automatique
 
 ---
 
 **Dernière Mise à Jour** : Septembre 2025  
 **Version** : 1.0.0  
-**Statut** : Prêt pour Déploiement
+**Statut** : ✅ Déployé en Production

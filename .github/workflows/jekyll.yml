@@ -37,8 +37,11 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
-          bundler-cache: true
+          bundler-cache: false
           rubygems: latest
+      - name: Install Bundler
+        run: |
+          gem install bundler:2.6.9
       - name: Install dependencies
         run: |
           bundle config set --local deployment false
@@ -79,7 +82,8 @@ jobs:
             echo "" >> $GITHUB_STEP_SUMMARY
             echo "### 📦 Installed Gems" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
-            bundle list | head -20 >> $GITHUB_STEP_SUMMARY
+            echo "Bundler version: $(bundle --version 2>/dev/null || echo 'Bundler not found')" >> $GITHUB_STEP_SUMMARY
+            echo "Jekyll version: $(bundle exec jekyll --version 2>/dev/null || echo 'Jekyll not found')" >> $GITHUB_STEP_SUMMARY
             echo '```' >> $GITHUB_STEP_SUMMARY
           fi
 

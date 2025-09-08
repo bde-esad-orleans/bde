@@ -36,9 +36,9 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
-          bundler-cache: false # We'll install manually for debugging
-          rubygems: latest # Automatically update RubyGems to latest version
+          ruby-version: '3.2'
+          bundler-cache: true
+          rubygems: latest
       - name: Install dependencies
         run: |
           bundle config set --local deployment false

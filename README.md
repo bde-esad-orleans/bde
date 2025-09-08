@@ -185,7 +185,7 @@ bde_alice/
 
 ### Prérequis
 - Git
-- Ruby (version 2.7.0 ou supérieure)
+- Ruby (version 3.2.0 ou supérieure)
 - Compte GitHub
 - Compréhension de base de Markdown (optionnel - GitHub a un éditeur visuel)
 
@@ -221,10 +221,10 @@ source ~/.zshrc
 rbenv install --list
 
 # Installer Ruby (version recommandée pour Jekyll)
-rbenv install 3.1.0
+rbenv install 3.2.0
 
 # Définir comme version globale
-rbenv global 3.1.0
+rbenv global 3.2.0
 
 # Vérifier l'installation
 ruby --version

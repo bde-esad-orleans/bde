@@ -381,14 +381,33 @@ Le site dispose d'une **action GitHub automatisée** qui gère l'archivage des �
 
 3. **✅ GitHub Pages activé** :
    - Settings > Pages
-   - Source : Deploy from a branch
-   - Branch : main
-   - Folder : / (root)
+   - Source : GitHub Actions
+   - Le workflow `.github/workflows/jekyll.yml` gère automatiquement le déploiement
 
 4. **✅ Site en production** :
    - URL : https://a-massart.github.io/bde/
    - Le site se met à jour automatiquement à chaque push
    - Action GitHub d'archivage automatique opérationnelle
+
+### Configuration du Déploiement GitHub Actions
+
+Le déploiement utilise un workflow GitHub Actions automatisé :
+
+#### Workflow de Déploiement (`.github/workflows/jekyll.yml`)
+- **Déclenchement** : À chaque push sur la branche `main`
+- **Ruby Version** : 3.2 (compatible avec toutes les dépendances)
+- **Processus** :
+  1. Installation des dépendances avec Bundler
+  2. Construction du site Jekyll
+  3. Déploiement automatique vers GitHub Pages
+- **Monitoring** : Résumé détaillé dans l'onglet Actions de GitHub
+
+#### Avantages du Déploiement GitHub Actions
+- ✅ **Builds reproductibles** : Environnement isolé et cohérent
+- ✅ **Gestion des dépendances** : Installation automatique des gems
+- ✅ **Logs détaillés** : Debugging facile en cas d'erreur
+- ✅ **Sécurité** : Pas d'exposition des tokens de déploiement
+- ✅ **Performance** : Cache des dépendances entre les builds
 
 ### Configuration du Domaine Personnalisé (Optionnel)
 1. Ajouter un fichier `CNAME` avec votre domaine

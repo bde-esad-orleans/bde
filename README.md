@@ -189,6 +189,56 @@ bde_alice/
 - Compte GitHub
 - Compréhension de base de Markdown (optionnel - GitHub a un éditeur visuel)
 
+### Installation de Ruby avec rbenv (Recommandé)
+
+#### Installation de rbenv
+```bash
+# Sur macOS avec Homebrew
+brew install rbenv ruby-build
+
+# Sur Ubuntu/Debian
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+
+# Sur CentOS/RHEL/Fedora
+curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+```
+
+#### Configuration de rbenv
+```bash
+# Ajouter rbenv au PATH (ajouter à votre ~/.bashrc, ~/.zshrc, etc.)
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+
+# Recharger le shell
+source ~/.bashrc
+# ou pour zsh
+source ~/.zshrc
+```
+
+#### Installation de Ruby
+```bash
+# Voir les versions disponibles
+rbenv install --list
+
+# Installer Ruby (version recommandée pour Jekyll)
+rbenv install 3.1.0
+
+# Définir comme version globale
+rbenv global 3.1.0
+
+# Vérifier l'installation
+ruby --version
+```
+
+#### Installation de Bundler
+```bash
+# Installer Bundler
+gem install bundler
+
+# Configurer Bundler pour rbenv
+rbenv rehash
+```
+
 ### Installation et Test Local
 
 #### 1. Cloner le Projet
@@ -212,17 +262,6 @@ bundle exec jekyll serve --host 0.0.0.0 --port 4000
 
 #### 4. Accès au Site
 - **URL locale** : http://localhost:4000
-- **URL réseau** : http://0.0.0.0:4000 (accessible depuis d'autres appareils)
-
-### Pages Disponibles
-- **Accueil** : http://localhost:4000/
-- **Événements** : http://localhost:4000/events/
-- **Archives** : http://localhost:4000/archive/
-- **Événements individuels** :
-  - http://localhost:4000/events/2025-09-15-soiree-bienvenue/
-  - http://localhost:4000/events/2025-09-22-tournoi-football/
-  - http://localhost:4000/events/2025-09-28-cinema-en-plein-air/
-  - http://localhost:4000/events/2025-09-30-atelier-cuisine/
 
 ### Commandes Utiles
 ```bash

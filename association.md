@@ -5,7 +5,7 @@ title: "L'association"
 
 # L'équipe
 
-<img class="photo-centree" src="">
+<a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link"><img class="photo-centree" src="https://drive.google.com/file/d/16gZKaaYbz9gyZqgVteqTDpmQemHlteMG/view?usp=sharing"></a>
 
 <p>Gilles GAVET, Margot BILLON, Hugo DELATTRE, Lilou LEBOSSÉ, Alice MASSART</p>
 
@@ -30,6 +30,5 @@ Il y a plusieurs statuts :
 ## Quels sont les objectifs de l'association ?
 
 <p>En dehors des évènements, le BDE soutient la création de clubs dont il se porte responsable légalement. <br>
-L'année passée, nous avons vu naître le club d'animation, <a href="">le club fanzine</a>, <a href="">le club de foot</a> et <a href="">le club émission</a>. <br>
-Nous vous invitons d'ailleurs, chers étudiants, à nous contacter pour une quelconque question à ce sujet.<br><br>
-<a href="https://docs.google.com/forms/d/e/1FAIpQLSfdvX5rUUFXTu2i3cXDn03kfKD2BA0PLlPZJr6gO7AaRMh9zA/viewform?usp=dialog">Lien vers le formulaire 2025/2026 de création de club</a></p>
+Nous vous invitons d'ailleurs, chers étudiants, à nous contacter pour une quelconque question à ce sujet.
+<a href="{{ '/activites/' | relative_url }}">En savoir plus</a></p>

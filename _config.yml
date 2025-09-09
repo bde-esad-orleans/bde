@@ -2,7 +2,7 @@
 title: "BDE - Bureau des Élèves"
 description: "Site officiel du Bureau des Élèves - Événements et archives"
 baseurl: "/bde" # Le sous-dossier de votre site GitHub Pages
-url: "https://a-massart.github.io" # Le domaine de base de votre site
+url: "https://bde-esad-orleans.github.io" # Le domaine de base de votre site
 
 # Configuration Jekyll
 markdown: kramdown

@@ -17,6 +17,12 @@ collections:
   archive:
     output: true
     permalink: /archive/:name/
+  activites:
+    output: true
+    permalink: /activites/:name/
+  association:
+    output: true
+    permalink: /association/:name/
 
 # Configuration par défaut
 defaults:

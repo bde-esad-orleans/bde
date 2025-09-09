@@ -19,6 +19,12 @@ body {
     padding: 0 20px;
 }
 
+.photo-centree{
+    width: 70%;
+    display: block;
+    margin: 50px auto 50px auto;
+}
+
 /* Header */
 header {
     background: #2c3e50;

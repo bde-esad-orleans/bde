@@ -13,7 +13,7 @@
             <button class="burger" aria-label="Menu">☰</button>
             <div class="container">
                 <!--<h1><a href="{{ '/' | relative_url }}">{{ site.title }}</a></h1>-->
-                <ul>
+                <ul class="nav-links">
                     <li><a href="{{ '/' | relative_url }}">Actualités et évènements à venir</a></li>
                     <li><a href="{{ '/association/' | relative_url }}">L'association</a></li>
                     <li><a href="{{ '/activites/' | relative_url }}">Nos activités</a></li>
@@ -39,10 +39,13 @@
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
 
-            burger.addEventListener("click", () => {
-            navLinks.classList.toggle("active");
-            });
+            if (burger && navLinks) {
+                burger.addEventListener("click", () => {
+                navLinks.classList.toggle("active");
+                });
+            }
         });
     </script>
+
 </body>
 </html>

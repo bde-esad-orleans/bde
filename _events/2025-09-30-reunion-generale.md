@@ -3,42 +3,39 @@ titre: "Réunion Générale"
 date: 2025-09-30
 heure: "17:30"
 lieu: "Auditorium de l'ESAD"
-poster: "assets/images/posters/atelier-cuisine-2025.svg"
-url_inscription: "https://forms.gle/example4"
+poster: "assets/images/posters/reunion-generale-09-2025.png"
 ---
 
-# Atelier Cuisine Internationale
+# Réunion générale
 
-Découvrez les saveurs du monde lors de notre atelier cuisine ! Apprenez à préparer des plats traditionnels de différents pays en compagnie d'étudiants internationaux.
 
-## Détails de l'Événement
+## Détails de l'événement
 - **Date** : 30 septembre 2025
-- **Heure** : 18h00
-- **Lieu** : Cuisine Pédagogique - Bâtiment A
-- **Inscription** : [Réservez votre place](https://forms.gle/example4)
+- **Heure** : De 17h30 à 19h00
+- **Lieu** : Auditorium de l'ESAD
 
-## Au Menu
-- 🇮🇹 **Italie** : Pasta alla carbonara
-- 🇲🇽 **Mexique** : Tacos aux légumes
-- 🇯🇵 **Japon** : Sushi végétarien
-- 🇫🇷 **France** : Tarte tatin aux pommes
+## Invité(e)s
+- L'équipe du BDE
+- L'équipe de la COOP
+- L'équipe de la Prototek
+- Les représentants des clubs
+- Les étudiants porteurs de projet(s)
+- Les étudiants curieux
 
 ## Déroulement
-- **18h00** : Accueil et présentation des recettes
-- **18h15** : Formation des équipes (4-5 personnes)
-- **18h30** : Préparation des plats
-- **20h00** : Dégustation collective
-- **21h00** : Nettoyage et échanges
+- **17h30** : présentation du BDE + objectifs de la réunion
+- **17h35** : présentation de la Prototek
+- **17h40** : présentation de la COOP
+- **17h45** : présentation de la Vie Étudiante par Juliette BEAUCHOT
+- **17h50** : présentation des clubs + temps d'échange tous ensemble
 
-## Informations Pratiques
-- **Prix** : 8€ (ingrédients inclus)
-- **Matériel** : Tout fourni (tabliers, ustensiles)
-- **Niveau** : Débutant à intermédiaire
-- **Places** : Limitées à 20 participants
+## À préparer pour les clubs
+- **lister les membres du nouveau bureau et leur rôle**
+- **des contacts pour nous et pour les étudiants qui souhaitent vous contacter (insta, mail, etc.)**
+- **signer le contrat de club et nous le renvoyer**
 
-## À Apporter
-- Votre bonne humeur
-- Un tupperware pour les restes
-- Votre soif d'apprendre ! 👨‍🍳
-
-Une expérience culinaire inoubliable vous attend ! 🍽️
+- une affiche officielle du club
+- un petit récap / présentation
+- définir les objectifs de l'année ou du moins du premier semestre
+- définir les besoins spatiales, matériel, et autres
+- un planning d'évènements (facultatif)

@@ -83,6 +83,11 @@ main {
 
 /* Event cards */
 .event-card {
+    display: flex;
+    align-items: flex-start; /* aligne en haut */
+    gap: 15px; /* espace entre image et texte */
+    margin-bottom: 20px;
+
     background: white;
     border-radius: 8px;
     padding: 1.5rem;
@@ -114,12 +119,18 @@ main {
     text-decoration: underline;
 }
 
+.event-card img{
+    max-width: 150px; /* limite la taille de l'image */
+    border-radius: 8px; /* arrondir les coins, optionnel */
+}
+
 /* Event detail */
 .event-detail {
     background: white;
     border-radius: 8px;
     padding: 2rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex: 1; /* prend toute la largeur dispo */
 }
 
 .event-meta {

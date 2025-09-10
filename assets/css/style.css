@@ -84,8 +84,8 @@ main {
 /* Event cards */
 .event-card {
     display: flex;
-    align-items: flex-start; /* aligne en haut */
-    gap: 15px; /* espace entre image et texte */
+    align-items: flex-start;
+    gap: 15px;
     margin-bottom: 20px;
 
     background: white;
@@ -120,8 +120,7 @@ main {
 }
 
 .event-card img{
-    max-width: 150px; /* limite la taille de l'image */
-    border-radius: 8px; /* arrondir les coins, optionnel */
+    width: 17%;
 }
 
 /* Event detail */

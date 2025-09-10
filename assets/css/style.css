@@ -81,6 +81,13 @@ main {
     padding: 2rem 0;
 }
 
+h1, h2 {
+    padding: 25px 0 10px 0;
+}
+p{
+    text-align: justify;
+}
+
 /* Event cards */
 .event-card {
     display: flex;
@@ -263,14 +270,37 @@ footer {
 }
 
 /* Responsive */
+.burger {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
 @media (max-width: 768px) {
-    nav {
+    .event-card {
         flex-direction: column;
-        gap: 1rem;
     }
-    
-    nav ul {
+    nav {
+        flex-wrap: wrap;
+    }
+
+    .burger {
+        display: block;
+    }
+
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        width: 100%;
         gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .nav-links.active {
+        display: flex;
     }
     
     .container {

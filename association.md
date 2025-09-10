@@ -5,7 +5,7 @@ title: "L'association"
 
 # L'équipe
 
-<a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link"><img class="photo-centree" src="https://drive.google.com/file/d/16gZKaaYbz9gyZqgVteqTDpmQemHlteMG/view?usp=sharing"></a>
+<a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link"><img src="assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
 
 <p>Gilles GAVET, Margot BILLON, Hugo DELATTRE, Lilou LEBOSSÉ, Alice MASSART</p>
 

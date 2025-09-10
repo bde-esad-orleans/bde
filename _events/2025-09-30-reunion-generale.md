@@ -1,8 +1,8 @@
 ---
-titre: "Atelier Cuisine Internationale"
+titre: "Réunion Générale"
 date: 2025-09-30
-heure: "18:00"
-lieu: "Cuisine Pédagogique - Bâtiment A"
+heure: "17:30"
+lieu: "Auditorium de l'ESAD"
 poster: "assets/images/posters/atelier-cuisine-2025.svg"
 url_inscription: "https://forms.gle/example4"
 ---

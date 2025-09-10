@@ -3,7 +3,6 @@ layout: default
 title: Accueil
 ---
 
-# Bureau des étudiants de l'ESAD Orléans
 <!-- ATTENTION : le fichier planning doit être nommé    planning.png   et placé dans le dossier assets > images > planning -->
 <!--ATTENTION : Il ne peut y avoir QU'UN SEUL fichier dans planning.png-->
 <img class="photo-centree" src="assets/images/equipe-et-planning/planning.png">

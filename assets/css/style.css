@@ -119,10 +119,6 @@ main {
   padding: 2rem 0;
 }
 
-#equipe{
-    text-align: center;
-}
-
 /**** EVENT CARDS ****/
 .event-card {
   display: flex;

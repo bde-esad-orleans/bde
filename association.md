@@ -3,11 +3,11 @@ layout: default
 title: "L'association"
 ---
 
-<div id="equipe">
-    <h1>L'équipe</h1>
-    <a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank"><img class="photo-centree" src="../assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
-    <p>Gilles&nbsp;GAVET, Margot&nbsp;BILLON, Hugo&nbsp;DELATTRE, Lilou&nbsp;LEBOSSÉ, Alice&nbsp;MASSART</p>
-</ div>
+<h1 style="text-align: center; color: black;">L'équipe</h1>
+
+<a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank"><img class="photo-centree" src="../assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
+    
+<p style="text-align: center;">Gilles&nbsp;GAVET, Margot&nbsp;BILLON, Hugo&nbsp;DELATTRE, Lilou&nbsp;LEBOSSÉ, Alice&nbsp;MASSART</p>
 
 # Qu'est-ce qu'un BDE ?
 
@@ -30,5 +30,5 @@ Il y a plusieurs statuts :
 ## Quels sont les objectifs de l'association ?
 
 <p>En dehors des évènements, le BDE soutient la création de clubs dont il se porte responsable légalement. <br>
-Nous vous invitons d'ailleurs, chers étudiants, à nous contacter pour une quelconque question à ce sujet.
+Nous vous invitons d'ailleurs, chers étudiants, à nous contacter pour une quelconque question à ce sujet. <br>
 <a href="{{ '/activites/' | relative_url }}">En savoir plus</a></p>

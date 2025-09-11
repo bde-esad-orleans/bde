@@ -331,7 +331,7 @@ footer p {
   .event-card img {
     width: 17%;
     max-width: none;
-    margin: left;
+    margin: 0;
   }
 
   .event-detail {

@@ -5,7 +5,7 @@ title: "Nos activités"
 
 
 # Les Clubs
-<p>✨ <a href="https://docs.google.com/forms/d/e/1FAIpQLSfdvX5rUUFXTu2i3cXDn03kfKD2BA0PLlPZJr6gO7AaRMh9zA/viewform?usp=dialog">Lien vers le formulaire 2025/2026 de création de club</a></p>
+<p><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> <a href="https://docs.google.com/forms/d/e/1FAIpQLSfdvX5rUUFXTu2i3cXDn03kfKD2BA0PLlPZJr6gO7AaRMh9zA/viewform?usp=dialog">Lien vers le formulaire 2025/2026 de création de club</a></p>
 
 ### Clubs en cours d'activité
 <ul id="clubs-existants">

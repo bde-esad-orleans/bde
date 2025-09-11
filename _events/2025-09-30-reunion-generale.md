@@ -1,7 +1,7 @@
 ---
 titre: "Réunion Générale"
 date: 2025-09-30
-heure: "17:30"
+heure: "17:30 - 19h00"
 lieu: "Auditorium de l'ESAD"
 poster: "assets/images/posters/reunion-generale-09-2025.webp"
 ---

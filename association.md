@@ -3,11 +3,13 @@ layout: default
 title: "L'association"
 ---
 
-# L'équipe
+<div id="equipe">
+    <h1>L'équipe</h1>
 
-<a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank"><img class="photo-centree" src="../assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
+    <a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank"><img class="photo-centree" src="../assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
 
-<p>Gilles GAVET, Margot BILLON, Hugo DELATTRE, Lilou LEBOSSÉ, Alice MASSART</p>
+    <p>Gilles&nbsp;GAVET, Margot&nbsp;BILLON, Hugo&nbsp;DELATTRE, Lilou&nbsp;LEBOSSÉ, Alice&nbsp;MASSART</p>
+</ div>
 
 # Qu'est-ce qu'un BDE ?
 

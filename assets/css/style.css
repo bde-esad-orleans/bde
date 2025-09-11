@@ -119,6 +119,10 @@ main {
   padding: 2rem 0;
 }
 
+#equipe{
+    text-align: center;
+}
+
 /**** EVENT CARDS ****/
 .event-card {
   display: flex;
@@ -278,7 +282,7 @@ footer p {
   color: white;
 }
 
-/**** DESKTOP (>768px) ****/
+/**** DESKTOP (>769px) ****/
 @media (min-width: 769px) {
   nav {
     flex-direction: row;

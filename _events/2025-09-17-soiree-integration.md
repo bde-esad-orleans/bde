@@ -3,7 +3,7 @@ titre: "Soirée d'intégration"
 date: 2025-09-17
 heure: "17:00 - 00h00"
 lieu: "108 rue de Bourgogne, 45000 Orléans"
-poster: "assets/images/posters/atelier-cuisine-2025.svg"
+poster: ""
 ---
 
 # Soirée d'intégration

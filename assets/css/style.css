@@ -112,7 +112,7 @@ nav a:hover {
   border: none;
   color: white;
   cursor: pointer;
-  margin-left: auto;
+  margin: auto;
   z-index: 10;
 }
 
@@ -122,12 +122,20 @@ main {
   padding: 2rem 0;
 }
 
+.clubs-existants li{
+  padding-top: 1rem;
+}
+
 /**** EVENT CARDS ****/
 .event-card {
   display: flex;
   flex-direction: column;
+
+  text-align: center;
+
   gap: 1rem;
   margin-bottom: 1.5rem;
+
   background: white;
   border-radius: 8px;
   padding: 1rem;
@@ -143,6 +151,9 @@ main {
 .event-card img {
   width: 100%;
   max-width: 300px;
+  box-shadow: 0 0 4px rgba(0,0,0,0.1);
+  margin: auto;
+
 }
 
 .event-card h3 {
@@ -311,6 +322,7 @@ footer p {
     align-items: flex-start;
     gap: 30px;
     padding: 1.5rem;
+    text-align: left;
   }
 
   .event-card img {

@@ -9,6 +9,11 @@ title: "L'association"
     
 <p style="text-align: center;">Gilles&nbsp;GAVET, Margot&nbsp;BILLON, Hugo&nbsp;DELATTRE, Lilou&nbsp;LEBOSSÉ, Alice&nbsp;MASSART</p>
 
+## Nous contacter
+
+<a href="https://www.instagram.com/bdeesadorleans/">@bdeesadorleans</a>
+<a href="mailto:bde-communication@esad-orleans.fr">bde-communication@esad-orleans.fr</a>
+
 # Qu'est-ce qu'un BDE ?
 
 <p>Le bureau des étudiants est une association composée par des étudiants pour les étudiants. Il y a une co-direction composée par 5 de ces membres permanents qui gèrent l'ensemble de l'administration et de l'organisation de l'association. 
@@ -23,7 +28,7 @@ Le BDE organise aussi un gros Gala dans un château pendant le 2e semestre de l'
 ## Est-ce que les gens peuvent nous rejoindre ?
 
 <p>Bien sûr et nous encourageons tout le monde à nous rejoindre ! <br>
-Il y a plusieurs statuts :
+Il y a plusieurs statuts :<br>
 - Le premier statut est l'adhésion : Un étudiant peut adhérer au BDE pour une cotisation de 10€ afin de bénéficier d'avantages pendant les évènements tout au long de l'année.<br>
 - Le deuxième statut est l'agent volant : un étudiant adhérent qui souhaite nous aider davantage peut devenir agent volant et ainsi se mettre à disposition du BDE en cas de besoin lors des soirées, que ce soit pour les préparatifs, le déroulement ou le rangement.</p>
 

@@ -38,11 +38,15 @@ body {
 .photo-centree {
   width: 90%;
   display: block;
-  margin: 2rem auto;
+  margin: 1rem auto;
 }
 
 .blank-title {
   color: white;
+}
+
+.glitters{
+  height: 16px;
 }
 
 h1, h2 {
@@ -153,7 +157,6 @@ main {
   max-width: 300px;
   box-shadow: 0 0 4px rgba(0,0,0,0.1);
   margin: auto;
-
 }
 
 .event-card h3 {
@@ -328,6 +331,7 @@ footer p {
   .event-card img {
     width: 17%;
     max-width: none;
+    margin: left;
   }
 
   .event-detail {

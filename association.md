@@ -3,7 +3,7 @@ layout: default
 title: "L'association"
 ---
 
-<h1 style="text-align: center; color: black;">L'équipe</h1>
+<h1 style="text-align: center; color: black; padding: 0;">L'équipe</h1>
 
 <a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank"><img class="photo-centree" src="../assets/images/equipe-et-planning/photo-equipe.png" border="0"></a>
     
@@ -11,8 +11,8 @@ title: "L'association"
 
 ## Nous contacter
 
-<a href="https://www.instagram.com/bdeesadorleans/">@bdeesadorleans</a>
-<a href="mailto:bde-communication@esad-orleans.fr">bde-communication@esad-orleans.fr</a>
+<a href="https://www.instagram.com/bdeesadorleans/"><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif">@bdeesadorleans</a><br>
+<a href="mailto:bde-communication@esad-orleans.fr"><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif">bde-communication@esad-orleans.fr</a>
 
 # Qu'est-ce qu'un BDE ?
 

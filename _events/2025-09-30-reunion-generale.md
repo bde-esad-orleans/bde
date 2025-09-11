@@ -8,11 +8,7 @@ poster: "assets/images/posters/reunion-generale-09-2025.webp"
 
 # Réunion générale
 
-
-## Détails de l'événement
-- **Date** : 30 septembre 2025
-- **Heure** : De 17h30 à 19h00
-- **Lieu** : Auditorium de l'ESAD
+Cette réunion permettra aux clubs et aux associations de se rencontrer et de connaître les objectifs et les besoins de chacun.
 
 ## Invité(e)s
 - L'équipe du BDE

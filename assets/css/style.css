@@ -41,9 +41,12 @@ body {
   margin: 2rem auto;
 }
 
+.blank-title {
+  color: white;
+}
+
 h1, h2 {
   padding: 25px 0 10px 0;
-  color: white;
 }
 
 p {
@@ -162,7 +165,6 @@ main {
 
 /**** EVENT DETAIL ****/
 .event-detail {
-  color: black;
   background: white;
   border-radius: 8px;
   padding: 1.5rem;
@@ -171,6 +173,7 @@ main {
 }
 
 .event-meta {
+  color: black;
   background: #f8f9fa;
   padding: 1rem;
   border-radius: 4px;

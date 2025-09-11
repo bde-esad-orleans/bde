@@ -11,9 +11,6 @@ poster: "assets/images/posters/atelier-cuisine-2025.svg"
 Un moment de rencontre pour tous nos nouveaux étudiant(e)s.
 
 ## Détails de l'Événement
-- **Date** : 17 septembre 2025
-- **Heure** : De 17h00 à 00h00
-- **Lieu** : 108 rue de Bourgogne, 45000 Orléans
 - **Inscription aux jeux** : [Inscrivez votre équipe]()
 
 ## Déroulement

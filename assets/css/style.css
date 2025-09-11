@@ -353,99 +353,99 @@ footer p {
 /**************** BOITE A IDEES ******************/
 
 .mailbox-container button {
-      background-color: transparent;
-      border: none;
-      cursor: pointer;
-      transition: transform 0.3s;
-    }
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
 
-    .mailbox-container button:hover {
-      transform: scale(1.05);
-    }
+.mailbox-container button:hover {
+  transform: scale(1.05);
+}
 
-    .mailbox-container {
-      position: relative;
-      display: inline-block;
-      width: 60%;
-      max-width: 600px;
-    }
+.mailbox-container {
+  position: relative;
+  display: inline-block;
+  width: 60%;
+  max-width: 600px;
+}
 
-    #boite-a-idees img {
-      width: 75%;
-      height: auto;
-      border-radius: 25px;
-    }
+#boite-a-idees img {
+  width: 75%;
+  height: auto;
+  border-radius: 25px;
+}
 
-    #boite-a-idees__form {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+#boite-a-idees__form {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 
-      width: 60%;
-      max-width: 640px; 
-      height: 70%;
-      max-height: 500px;
+  width: 60%;
+  max-width: 640px; 
+  height: 70%;
+  max-height: 500px;
 
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      background: white;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 
-      opacity: 0;
-      pointer-events: none;
-      z-index: 10;
-      transition: opacity 0.4s ease;
-    }
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+  transition: opacity 0.4s ease;
+}
 
-    #boite-a-idees__form.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
+#boite-a-idees__form.active {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-    #fermer-form {
-      margin-top: 10px;
-      display: none;
-      padding: 6px 12px;
-      border: none;
-      border-radius: 5px;
-      background: #444;
-      color: white;
-      cursor: pointer;
-    }
+#fermer-form {
+  margin-top: 10px;
+  display: none;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  background: #444;
+  color: white;
+  cursor: pointer;
+}
 
-    #fermer-form:hover {
-      background: #666;
-    }
+#fermer-form:hover {
+  background: #666;
+}
 
-    #enveloppe-img {
-      display: block;
-      position: absolute;
-      top: 300px;
-      left: 50%;
-      transform: translate(-50%, -100%) scale(1);
-      width: 200px;
-      height: auto;
+#enveloppe-img {
+  display: block;
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  transform: translate(-50%, -100%) scale(1);
+  width: 200px;
+  height: auto;
 
-      opacity: 0;
-      pointer-events: none;
+  opacity: 0;
+  pointer-events: none;
 
-      z-index: 20;
-    }
+  z-index: 20;
+}
 
-    #enveloppe-img.active {
-      opacity: 1;
-      animation: animation-lettre 4s ease forwards;
-    }
+#enveloppe-img.active {
+  opacity: 1;
+  animation: animation-lettre 4s ease forwards;
+}
 
-    @keyframes animation-lettre {
-      0% {
-        transform: scale(1);
-        opacity: 1;
-      }
-      100% {
-        transform: scale(0);
-        opacity: 1;
-        display: none;
-      }
-    }
+@keyframes animation-lettre {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    opacity: 1;
+    display: none;
+  }
+}

@@ -21,5 +21,45 @@ title: "Nos activités"
 
 # Une idée d'évènement, de projet, ou d'amélioration ?
 
-<p><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> <a href="">Boîte à idées (à venir)</a></p>
+<div class="mailbox-container">
+    <!-- bouton avec image -->
+    <button type="button" id="boite-a-idees">
+        <img src="boite-a-idees.jpg" alt="Boîte à idées">
+    </button>
+
+    <!-- formulaire Google -->
+    <iframe id="boite-a-idees__form" 
+            src="https://docs.google.com/forms/d/e/1FAIpQLSeZC4b_vnbj5EnmH5EZkU8m4ZFO-NQGuxjY5On60DOWZQRaXg/viewform?embedded=true">
+    </iframe>
+
+    <img id="enveloppe-img" src="enveloppe.webp" alt="Enveloppe">
+</div>
+
+<br>
+<button type="button" id="fermer-form">Fermer</button>
+
+<script>
+    const bouton = document.getElementById("boite-a-idees");
+    const form = document.getElementById("boite-a-idees__form");
+    const fermer = document.getElementById("fermer-form");
+    const enveloppe = document.getElementById("enveloppe-img");
+
+    bouton.addEventListener("click", () => {
+      form.classList.add("active");
+      fermer.style.display = "inline-block";
+    });
+
+    fermer.addEventListener("click", () => {
+      form.classList.remove("active");
+      fermer.style.display = "none";
+
+      // lancer animation enveloppe
+      enveloppe.classList.add("active");
+
+      // remettre à zéro après animation
+      enveloppe.addEventListener("animationend", () => {
+        enveloppe.classList.remove("active");
+      }, { once: true });
+    });
+  </script>
 

@@ -3,9 +3,9 @@ layout: default
 title: Accueil
 ---
 
-<!-- ATTENTION : le fichier planning doit être nommé    planning.png   et placé dans le dossier assets > images > planning -->
-<!--ATTENTION : Il ne peut y avoir QU'UN SEUL fichier dans planning.png-->
-<img class="photo-centree" src="assets/images/equipe-et-planning/planning.png">
+<!-- ATTENTION : le fichier planning doit être nommé    planning.WEBP   et placé dans le dossier assets > images > planning -->
+<!--ATTENTION : Il ne peut y avoir QU'UN SEUL fichier dans planning.webp-->
+<img class="photo-centree" src="assets/images/equipe-et-planning/planning.webp">
 
 <div class="section-title">
   <div class="section-title__item line"></div>

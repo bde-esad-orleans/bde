@@ -3,7 +3,7 @@ titre: "Réunion Générale"
 date: 2025-09-30
 heure: "17:30"
 lieu: "Auditorium de l'ESAD"
-poster: "assets/images/posters/reunion-generale-09-2025.png"
+poster: "assets/images/posters/reunion-generale-09-2025.webp"
 ---
 
 # Réunion générale

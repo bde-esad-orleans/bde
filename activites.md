@@ -24,13 +24,13 @@ title: "Nos activités"
 <div class="mailbox-container">
     <!-- bouton avec image -->
     <button type="button" id="boite-a-idees">
-        <img src="assets/images/equipe-et-planning/boite-a-idees.jpg" alt="Boîte à idées">
+        <img src="../assets/images/equipe-et-planning/boite-a-idees.jpg" alt="Boîte à idées">
     </button>
     <!-- formulaire Google -->
     <iframe id="boite-a-idees__form" 
             src="https://docs.google.com/forms/d/e/1FAIpQLSeZC4b_vnbj5EnmH5EZkU8m4ZFO-NQGuxjY5On60DOWZQRaXg/viewform?embedded=true">
     </iframe>
-    <img id="enveloppe-img" src="assets/images/equipe-et-planning/enveloppe.webp" alt="Enveloppe">
+    <img id="enveloppe-img" src="../assets/images/equipe-et-planning/enveloppe.webp" alt="Enveloppe">
 </div>
 
 <br>

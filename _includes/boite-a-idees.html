@@ -1,0 +1,203 @@
+<style>
+/* --- réglages faciles --- */
+:root {
+    --mailbox-max-width: 380px; /* augmente si tu veux une boîte plus large sur desktop */
+    --envelope-max-width: 150px; /* taille max de l'enveloppe (px) */
+    --animation-duration: 1000ms;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 2rem;
+    display: flex;
+    justify-content: center;
+}
+
+.mailbox-container {
+    position: relative;                 /* conteneur relatif pour position absolute des overlays */
+    text-align: center;
+    margin: 2rem auto;
+    max-width: var(--mailbox-max-width); /* réduit la boîte sur grand écran */
+    width: 100%;
+}
+
+/* image responsive */
+.mailbox-image {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+    display: block;
+}
+
+/* mobile : garder le rendu parfait (par ex. ce que tu avais) */
+@media (max-width: 768px) {
+    .mailbox-container {
+    max-width: 90%;
+    }
+}
+
+/* overlay du formulaire (superposé sur la boîte) */
+.form-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: none;             /* affiché via JS */
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 10;               /* dessous du bouton fermer (afin qu'il reste cliquable) */
+    pointer-events: auto;
+    background-color: rgb(216, 216, 216);
+}
+
+.form-overlay iframe {
+    width: 100%;
+    border: none;
+    /* la hauteur est fixée dynamiquement par JS pour être = hauteur de l'image */
+    display: block;
+}
+
+/* bouton fermer (sous l'image) */
+.close-btn {
+    margin-top: 0.75rem;
+    padding: 0.5rem 1rem;
+    background: #222;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    display: none;             /* visible seulement quand le formulaire est ouvert */
+    position: relative;
+    z-index: 20;               /* au-dessus de l'overlay pour pouvoir cliquer dessus */
+}
+
+/* Enveloppe animée */
+.envelope {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;                /* proportionnelle à la boîte */
+    max-width: var(--envelope-max-width);
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: none;
+    display: none;
+    z-index: 15;
+}
+
+/* quand la classe 'animate' est ajoutée, on lance l'animation */
+.envelope.animate {
+    display: block;
+    animation: flyAway var(--animation-duration) forwards ease-in;
+}
+
+@keyframes flyAway {
+    0% {
+    transform: translate(-50%, -50%) scale(1);
+    }
+    100% {
+    /* se déplace et rétrécit. change les valeurs si tu veux une autre direction */
+    transform: translate(-300%, -300%) scale(0.12);
+    }
+}
+</style>
+
+<div class="mailbox-container" id="mailboxContainer">
+<!-- image de boîte aux lettres (remplace par ta propre image) -->
+<img
+    id="mailbox"
+    src="boite-a-idees.jpg"
+    alt="Boîte à idées — cliquer pour ouvrir le formulaire"
+    class="mailbox-image"
+/>
+
+<!-- overlay du formulaire (superposé au-dessus de l'image) -->
+<div class="form-overlay" id="formOverlay" aria-hidden="true">
+    <iframe
+    id="googleForm"
+    title="Formulaire Google"
+    src="https://docs.google.com/forms/d/e/1FAIpQLSfdvX5rUUFXTu2i3cXDn03kfKD2BA0PLlPZJr6gO7AaRMh9zA/viewform?embedded=true"
+    ></iframe>
+</div>
+
+<!-- bouton Fermer sous l'image (mais placé dans le même conteneur) -->
+<button class="close-btn" id="closeBtn" aria-controls="googleForm">Fermer</button>
+
+<!-- enveloppe animée (remplace par ton image enveloppe) -->
+<img
+    id="envelope"
+    class="envelope"
+    src="enveloppe.webp"
+    alt=""
+    aria-hidden="true"
+/>
+</div>
+
+<script>
+const mailbox = document.getElementById('mailbox');
+const formOverlay = document.getElementById('formOverlay');
+const googleForm = document.getElementById('googleForm');
+const closeBtn = document.getElementById('closeBtn');
+const envelope = document.getElementById('envelope');
+const mailboxContainer = document.getElementById('mailboxContainer');
+
+// utilitaire : met la hauteur de l'iframe = hauteur de l'image
+function setFormHeightToMailbox() {
+    const h = mailbox.clientHeight;
+    googleForm.style.height = h + 'px';
+    formOverlay.style.height = h + 'px';
+}
+
+// Ouvrir le formulaire (superposé)
+mailbox.addEventListener('click', () => {
+    setFormHeightToMailbox();
+    formOverlay.style.display = 'flex';
+    formOverlay.setAttribute('aria-hidden', 'false');
+    closeBtn.style.display = 'inline-block';
+    // optionnel : empêcher le scroll si tu veux :
+    // document.body.style.overflow = 'hidden';
+    // placer le focus sur l'iframe pour accessibilité (si possible)
+});
+
+// Redimension (si l'utilisateur change la fenêtre pendant que le formulaire est ouvert)
+window.addEventListener('resize', () => {
+    if (formOverlay.style.display === 'flex') {
+    setFormHeightToMailbox();
+    }
+});
+
+// Animation d'enveloppe : remise à zéro et restart à chaque fois
+function startEnvelopeAnimation() {
+    // s'assurer que l'enveloppe est visible
+    envelope.style.display = 'block';
+
+    // retire la classe si présente, forcer reflow, puis la remettre pour relancer l'anim
+    envelope.classList.remove('animate');
+    // forcer reflow :
+    void envelope.offsetWidth;
+    envelope.classList.add('animate');
+}
+
+// Fin de l'animation : masquer proprement l'enveloppe
+envelope.addEventListener('animationend', () => {
+    envelope.classList.remove('animate');
+    envelope.style.display = 'none';
+});
+
+// Fermer le formulaire + lancer animation d'enveloppe
+closeBtn.addEventListener('click', () => {
+    // masquer le formulaire
+    formOverlay.style.display = 'none';
+    formOverlay.setAttribute('aria-hidden', 'true');
+    closeBtn.style.display = 'none';
+    // réactiver le scroll si on l'avait désactivé :
+    // document.body.style.overflow = '';
+
+    // lancer l'animation (à chaque fois)
+    startEnvelopeAnimation();
+});
+
+// (optionnel) Si tu veux aussi que l'envoi du formulaire déclenche la fermeture côté parent :
+// impossible à détecter directement à cause du cross-origin iframe (Google Forms).
+// une stratégie est d'utiliser un message postMessage depuis une page intermédiaire si tu contrôles le formulaire,
+// mais pour un Google Form public, on ne peut pas détecter l'envoi depuis le parent.
+</script>

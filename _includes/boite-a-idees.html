@@ -1,16 +1,16 @@
 <style>
-/* --- réglages faciles --- */
+
 :root {
-    --mailbox-max-width: 380px; /* augmente si tu veux une boîte plus large sur desktop */
-    --envelope-max-width: 150px; /* taille max de l'enveloppe (px) */
+    --mailbox-max-width: 380px;
+    --envelope-max-width: 150px;
     --animation-duration: 1000ms;
 }
 
 .mailbox-container {
-    position: relative;                 /* conteneur relatif pour position absolute des overlays */
+    position: relative;
     text-align: center;
     margin: 2rem auto;
-    max-width: var(--mailbox-max-width); /* réduit la boîte sur grand écran */
+    max-width: var(--mailbox-max-width);
     width: 100%;
 }
 
@@ -22,23 +22,21 @@
     display: block;
 }
 
-/* mobile : garder le rendu parfait (par ex. ce que tu avais) */
 @media (max-width: 768px) {
     .mailbox-container {
     max-width: 90%;
     }
 }
 
-/* overlay du formulaire (superposé sur la boîte) */
 .form-overlay {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    display: none;             /* affiché via JS */
+    display: none;
     align-items: flex-start;
     justify-content: center;
-    z-index: 10;               /* dessous du bouton fermer (afin qu'il reste cliquable) */
+    z-index: 10;
     pointer-events: auto;
     background-color: rgb(216, 216, 216);
 }
@@ -46,11 +44,9 @@
 .form-overlay iframe {
     width: 100%;
     border: none;
-    /* la hauteur est fixée dynamiquement par JS pour être = hauteur de l'image */
     display: block;
 }
 
-/* bouton fermer (sous l'image) */
 .close-btn {
     margin-top: 0.75rem;
     padding: 0.5rem 1rem;
@@ -59,17 +55,16 @@
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    display: none;             /* visible seulement quand le formulaire est ouvert */
+    display: none;
     position: relative;
-    z-index: 20;               /* au-dessus de l'overlay pour pouvoir cliquer dessus */
+    z-index: 20;
 }
 
-/* Enveloppe animée */
 .envelope {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 30%;                /* proportionnelle à la boîte */
+    width: 30%;
     max-width: var(--envelope-max-width);
     transform: translate(-50%, -50%) scale(1);
     pointer-events: none;
@@ -77,7 +72,6 @@
     z-index: 15;
 }
 
-/* quand la classe 'animate' est ajoutée, on lance l'animation */
 .envelope.animate {
     display: block;
     animation: flyAway var(--animation-duration) forwards ease-in;
@@ -88,22 +82,19 @@
     transform: translate(-50%, -50%) scale(1);
     }
     100% {
-    /* se déplace et rétrécit. change les valeurs si tu veux une autre direction */
     transform: translate(-300%, -300%) scale(0.12);
     }
 }
 </style>
 
 <div class="mailbox-container" id="mailboxContainer">
-<!-- image de boîte aux lettres (remplace par ta propre image) -->
 <img
     id="mailbox"
-    src="boite-a-idees.jpg"
+    src="../assets/images/equipe-et-planning/boite-a-idees.jpg"
     alt="Boîte à idées — cliquer pour ouvrir le formulaire"
     class="mailbox-image"
 />
 
-<!-- overlay du formulaire (superposé au-dessus de l'image) -->
 <div class="form-overlay" id="formOverlay" aria-hidden="true">
     <iframe
     id="googleForm"
@@ -112,14 +103,12 @@
     ></iframe>
 </div>
 
-<!-- bouton Fermer sous l'image (mais placé dans le même conteneur) -->
 <button class="close-btn" id="closeBtn" aria-controls="googleForm">Fermer</button>
 
-<!-- enveloppe animée (remplace par ton image enveloppe) -->
 <img
     id="envelope"
     class="envelope"
-    src="enveloppe.webp"
+    src="../assets/images/equipe-et-planning/enveloppe.webp"
     alt=""
     aria-hidden="true"
 />

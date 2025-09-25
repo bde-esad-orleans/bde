@@ -26,12 +26,12 @@ Cette réunion permettra aux clubs et aux associations de se rencontrer et de co
 - **17h50** : présentation des clubs + temps d'échange tous ensemble
 
 ## À préparer pour les clubs
-- **lister les membres du nouveau bureau et leur rôle**
-- **des contacts pour nous et pour les étudiants qui souhaitent vous contacter (insta, mail, etc.)**
-- **signer le contrat de club et nous le renvoyer**
+- ➤ **lister les membres du nouveau bureau et leur rôle**
+- ➤ **des contacts pour nous et pour les étudiants qui souhaitent vous contacter (insta, mail, etc.)**
+- ➤ **signer le contrat de club et nous le renvoyer**
 
-- une affiche officielle du club
-- un petit récap / présentation
-- définir les objectifs de l'année ou du moins du premier semestre
-- définir les besoins spatiales, matériel, et autres
-- un planning d'évènements (facultatif)
+- ➤ une affiche officielle du club
+- ➤ un petit récap / présentation
+- ➤ définir les objectifs de l'année ou du moins du premier semestre
+- ➤ définir les besoins spatiales, matériel, et autres
+- ➤ un planning d'évènements (facultatif)

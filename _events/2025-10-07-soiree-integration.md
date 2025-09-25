@@ -8,9 +8,10 @@ poster: ""
 
 # Soirée d'intégration
 
-Un moment de rencontre pour tous nos nouveaux étudiant(e)s.
+Un moment de rencontre, de rire et de souvenirs pour tous nos nouveaux étudiants•tes !
 
 ## Détails de l'Événement
+Au programme : des activités collectives, DJ set par le groupe Menu Étudiant et bar tenu par votre BDE !
 - **Inscription aux jeux** : [Inscrivez votre équipe]()
 
 ## Déroulement
@@ -18,4 +19,7 @@ Un moment de rencontre pour tous nos nouveaux étudiant(e)s.
 - **18h30** : Fin des jeux et ouverture du bar
 
 ## Informations pratiques
-- Soirée réservée aux étudiant(e)s de l'ESAD
+Soirée réservée :
+- aux étudiant(e)s de l'ESAD,
+- aux membre du 108.
+Accompagnants possibles.

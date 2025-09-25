@@ -14,7 +14,7 @@ title: Accueil
 </div>
 
 {% assign upcoming_events = site.events | sort: "date" %}
-{% for event in upcoming_events limit:3 %}
+{% for event in upcoming_events limit:5 %}
 <div class="event-card" style="diplay: flex;">
   <img src="{{ event.poster }}">
   <div>

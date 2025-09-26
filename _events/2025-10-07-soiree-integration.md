@@ -16,7 +16,7 @@ Au programme : des activités collectives, DJ set par le groupe Menu Étudiant e
 
 ## Déroulement
 - **17h00** : Accueil et jeux pour les étudiant(e)s en 1ère année.
-- **18h30** : Fin des jeux et ouverture du bar
+- **19h00** : Fin des jeux et ouverture du bar
 
 ## Informations pratiques
 Soirée réservée :

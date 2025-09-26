@@ -1,6 +1,6 @@
 ---
 titre: "Marché de Noël"
-date: 2025-12
+date: 2025-12-01
 heure: ""
 lieu: ""
 poster: ""

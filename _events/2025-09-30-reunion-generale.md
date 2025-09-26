@@ -1,7 +1,7 @@
 ---
 titre: "Réunion Générale"
 date: 2025-09-30
-heure: "17:30 - 19h00"
+heure: "17:30 - 20h00"
 lieu: "Auditorium de l'ESAD"
 poster: "assets/images/posters/reunion-generale-09-2025.webp"
 ---
@@ -22,8 +22,9 @@ Cette réunion permettra aux clubs et aux associations de se rencontrer et de co
 - **17h30** : présentation du BDE + objectifs de la réunion
 - **17h35** : présentation de la Prototek
 - **17h40** : présentation de la COOP
-- **17h45** : présentation de la Vie Étudiante par Juliette BEAUCHOT
-- **17h50** : présentation des clubs + temps d'échange tous ensemble
+- **17h45** : présentation de la Vie Étudiante au sein de l'administration
+- **17h50** : présentation des clubs
+- ** Après 18h00** : Temps d'échange tous ensemble
 
 ## À préparer pour les clubs
 - ➤ **lister les membres du nouveau bureau et leur rôle**

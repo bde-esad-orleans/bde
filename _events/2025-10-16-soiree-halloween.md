@@ -1,7 +1,7 @@
 ---
 titre: "Halloween Party"
 date: 2025-10-16
-heure: "20h00 - 02h00"
+heure: "19h00 - 00h00"
 lieu: "108 rue de Bourgogne, 45000 Orléans"
 poster: ""
 ---

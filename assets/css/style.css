@@ -1,20 +1,20 @@
 /* Code CSS avec une logique mobile first */
 
 /**** FONTS ****/
-@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
-.outfit {
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&family=Sigmar&display=swap');
+
+/*.outfit {
   font-family: "outfit", sans-serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
-}
+}*/
 
-@import url('https://fonts.googleapis.com/css2?family=Sigmar&display=swap');
-.sigmar-regular {
-  font-family: "sigmar", sans-serif;
+/*.sigmar {
+  font-family: 'Sigmar', cursive, sans-serif;
   font-weight: 400;
   font-style: normal;
-}
+}*/
 
 /**** RESET & BASE ****/
 
@@ -30,7 +30,7 @@
 }
 
 body {
-  font-family: "outfit", sans-serif;
+  font-family: 'Outfit', sans-serif;
   line-height: 1.6;
   background-color: #f8f9fa;
   color: #000;
@@ -57,7 +57,7 @@ body {
 }
 
 h1, h2 {
-  font-family: "sigmar";
+  font-family: 'Sigmar', cursive;
   letter-spacing: 2px;
   
   padding: 25px 0 10px 0;
@@ -72,7 +72,7 @@ header {
   background: var(--brown-default-color);
   color: white;
   padding: 1rem;
-  font-family: "sigmar";
+  font-family: 'Sigmar', cursive;
   letter-spacing: 2px;
 }
 

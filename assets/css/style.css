@@ -55,6 +55,9 @@ body {
 }
 
 h1, h2 {
+  font-family: sigmar;
+  letter-spacing: 2px;
+  
   padding: 25px 0 10px 0;
 }
 
@@ -67,6 +70,8 @@ header {
   background: var(--brown-default-color);
   color: white;
   padding: 1rem;
+  font-family: sigmar;
+  letter-spacing: 2px;
 }
 
 article header {
@@ -74,11 +79,17 @@ article header {
   border-radius: 10px;
 }
 
+header h1 {
+  text-transform: capitalize;
+}
+
 nav {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
+
+  padding-top: 15px;
 }
 
 nav h1 a {

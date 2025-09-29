@@ -15,6 +15,11 @@
 }
 
 /**** RESET & BASE ****/
+
+:root{
+  --brown-default-color: #e7c894;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -59,7 +64,7 @@ p {
 
 /**** HEADER & NAV ****/
 header {
-  background: #f1dab3;
+  background: var(--brown-default-color);
   color: white;
   padding: 1rem;
 }
@@ -168,7 +173,7 @@ main {
 }
 
 .event-card a {
-  color: #f1dab3;
+  color: var(--brown-default-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -224,7 +229,7 @@ main {
 
 .event-content h1 {
   font-size: 2rem;
-  border-bottom: 2px solid #f1dab3;
+  border-bottom: 2px solid var(--brown-default-color);
   padding-bottom: 0.5rem;
 }
 
@@ -257,7 +262,7 @@ main {
 }
 
 .event-content a {
-  color: #f1dab3;
+  color: var(--brown-default-color);
   text-decoration: none;
   font-weight: 500;
 }
@@ -267,7 +272,7 @@ main {
 }
 
 .event-content blockquote {
-  border-left: 4px solid #f1dab3;
+  border-left: 4px solid var(--brown-default-color);
   padding-left: 1rem;
   margin: 1.5rem 0;
   font-style: italic;

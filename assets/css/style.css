@@ -1,19 +1,17 @@
 /* Code CSS avec une logique mobile first */
 
 /**** FONTS ****/
-@font-face {
-  src: url("https://fonts.googleapis.com/css2?family=Sigmar&display=swap");
-
-  font-family: "sigmar";
+@import url('https://fonts.googleapis.com/css2?family=Outfit&display=swap');
+.outfit {
+  font-family: "outfit", sans-serif;
+  font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
 }
 
-.outfit-regular {
-  src: url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
-
-  font-family: "outfit";
-  font-optical-sizing: auto;
+@import url('https://fonts.googleapis.com/css2?family=Sigmar&display=swap');
+.sigmar-regular {
+  font-family: "sigmar", sans-serif;
   font-weight: 400;
   font-style: normal;
 }

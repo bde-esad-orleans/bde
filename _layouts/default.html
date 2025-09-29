@@ -39,13 +39,25 @@
         document.addEventListener("DOMContentLoaded", function() {
             const burger = document.querySelector(".burger");
             const navLinks = document.querySelector(".nav-links");
-
             if (burger && navLinks) {
                 burger.addEventListener("click", () => {
                 navLinks.classList.toggle("active");
                 });
             }
         });
+
+
+        function updateTitle() {
+            const title = document.getElementById('bde-title');
+            if (window.innerWidth <= 768) {
+            title.textContent = 'BDE';
+            } else {
+            title.textContent = 'Bureau des étudiants de l\'ESAD Orléans';
+            }
+        }
+        updateTitle();
+        window.addEventListener('resize', updateTitle);
+
     </script>
 
 </body>

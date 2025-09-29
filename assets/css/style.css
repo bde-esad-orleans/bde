@@ -1,14 +1,18 @@
 /* Code CSS avec une logique mobile first */
 
 /**** FONTS ****/
-.sigmar-one-regular {
-  font-family: "Sigmar One", sans-serif;
+@font-face {
+  src: url("https://fonts.googleapis.com/css2?family=Sigmar&display=swap");
+
+  font-family: "sigmar";
   font-weight: 400;
   font-style: normal;
 }
 
 .outfit-regular {
-  font-family: "Outfit", sans-serif;
+  src: url("https://fonts.googleapis.com/css2?family=Outfit&display=swap");
+
+  font-family: "outfit";
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -28,7 +32,7 @@
 }
 
 body {
-  font-family: "Outfit", sans-serif;
+  font-family: "outfit", sans-serif;
   line-height: 1.6;
   background-color: #f8f9fa;
   color: #000;
@@ -55,7 +59,7 @@ body {
 }
 
 h1, h2 {
-  font-family: sigmar;
+  font-family: "sigmar";
   letter-spacing: 2px;
   
   padding: 25px 0 10px 0;
@@ -70,7 +74,7 @@ header {
   background: var(--brown-default-color);
   color: white;
   padding: 1rem;
-  font-family: sigmar;
+  font-family: "sigmar";
   letter-spacing: 2px;
 }
 

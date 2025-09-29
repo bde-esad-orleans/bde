@@ -12,7 +12,7 @@ title: "Nos activités"
     <li><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> <a href="https://www.instagram.com/fanzizine/"> Le club fanzine</a><br>
     Tenu par Jade JARRY (3 DVG-VM) et Naya JEAN (3 DVG-DAD)</li>
     <li><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> <a href="https://www.instagram.com/orlinzoofc/"> Le club de foot</a><br>
-    Tenu par ... et Ali AZAROUAL (2 )</li>
+    Tenu par Elian YAGOUNI et Chris-Rayan SOUNGA (4e année)</li>
     <li><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> <a href="https://www.instagram.com/esaderange_twitch/"> Le club émission</a><br>
     Tenu par Mosa BRETON (3 DVG-DAD) et créé avec Harlow PROUST (ex - 3 DVG DAD)</li>
     <li><img class="glitters" src="https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif"> Le club d'animation<br>

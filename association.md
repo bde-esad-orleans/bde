@@ -15,7 +15,7 @@ title: "L'association"
 
 <a href="mailto:bde-communication@esad-orleans.fr">![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } bde-communication@esad-orleans.fr</a>
 
-# Qu'est-ce qu'un BDE ?
+## Qu'est-ce qu'un BDE ?
 
 <p>Le bureau des étudiants est une association composée par des étudiants pour les étudiants. Il y a une co-direction composée par 5 de ces membres permanents qui gèrent l'ensemble de l'administration et de l'organisation de l'association. 
 Ils sont assistés par d'autres étudiants appelés agents volants. <br>

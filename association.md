@@ -11,9 +11,9 @@ title: "L'association"
 
 ## Nous contacter
 
-<a href="https://www.instagram.com/bdeesadorleans/">![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif) @bdeesadorleans</a><br>
+<a href="https://www.instagram.com/bdeesadorleans/">![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } @bdeesadorleans</a><br>
 
-<a href="mailto:bde-communication@esad-orleans.fr">![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif) bde-communication@esad-orleans.fr</a>
+<a href="mailto:bde-communication@esad-orleans.fr">![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } bde-communication@esad-orleans.fr</a>
 
 # Qu'est-ce qu'un BDE ?
 

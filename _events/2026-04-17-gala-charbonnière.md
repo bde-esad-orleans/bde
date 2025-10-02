@@ -26,7 +26,7 @@ La traditionnelle Charbo, gala organisé dans un château à l'occasion du deuxi
 
 ## BILLETERIE
 
-[J'achète mon billet]()
+J'achète mon billet (à venir)
 
 **Tarifs :**
 Adhérents :

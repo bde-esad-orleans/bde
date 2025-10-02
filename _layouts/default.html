@@ -58,10 +58,26 @@
         updateTitle();
         window.addEventListener('resize', updateTitle);
 
-        //document.body.innerHTML = document.body.innerHTML.replace(
-        //    /\b(le|la|les|de|des|du|un|une|et|ou|?|!)\s+/gi,
-        //    '$1&nbsp;'
-        //);
+        document.addEventListener("DOMContentLoaded", function() {
+        // Liste des petits mots français à protéger
+        const petitsMots = ["le", "la", "les", "de", "des", "du", "un", "une", "et", "ou", "à", "au", "aux", "en"];
+
+        // Expression régulière dynamique
+        const regex = new RegExp("\\b(" + petitsMots.join("|") + ")\\s", "gi");
+
+        function traiterTexte(node) {
+            // On ne traite que les nœuds de texte
+            if (node.nodeType === Node.TEXT_NODE) {
+            node.textContent = node.textContent.replace(regex, "$1\u00A0"); // \u00A0 = espace insécable
+            } else {
+            // Parcourir récursivement les enfants
+            node.childNodes.forEach(traiterTexte);
+            }
+        }
+        // Lancer le traitement sur tout le body
+        traiterTexte(document.body);
+        });
+
 
     </script>
 

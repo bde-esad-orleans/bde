@@ -1,6 +1,6 @@
 # Configuration du site BDE - Version développement local
-title: "BDE - Bureau des Élèves"
-description: "Site officiel du Bureau des Élèves - Événements et archives"
+title: "BDE - Bureau des Étudiants"
+description: "Site officiel du Bureau des Étudiants de l'ESAD Orléans"
 baseurl: "" # Pas de baseurl en local
 url: "http://localhost:4000" # URL locale
 

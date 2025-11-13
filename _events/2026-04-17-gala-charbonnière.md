@@ -1,7 +1,7 @@
 ---
 titre: "La Charbo"
-date: 2026-04-17
-heure: "20h00 - 04h00"
+date: 2026-04-18
+heure: "20h00 - 02h00"
 lieu: "Château de la Charbonnière, Saint-Jean-de-Braye"
 poster: ""
 ---
@@ -14,8 +14,8 @@ La traditionnelle Charbo, gala organisé dans un château à l'occasion du deuxi
 (suspens 👀)
 
 ## Détails de l'Événement
-📅 Le 17 avril
-📍 De 20h00 à 04h00
+📅 Le 18 avril
+📍 De 20h00 à 02h00
 
 - Soirées à thème avec animations et DJ sets  
 - Bar

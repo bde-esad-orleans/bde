@@ -3,7 +3,7 @@ name: Archive Past Events
 on:
   schedule:
     # Exécute tous les jours à 2h00 UTC (3h00 en France en hiver, 4h00 en été)
-    - cron: '0 2 * * *'
+    - cron: '0 2 1 * *'
   workflow_dispatch: # Permet d'exécuter manuellement depuis l'interface GitHub
 
 jobs:

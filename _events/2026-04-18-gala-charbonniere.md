@@ -3,7 +3,7 @@ titre: "Gala de la Charbonnière"
 date: 2026-04-18
 heure: "20:30 - 03h00"
 lieu: "108 rue de Bourgogne"
-poster: ""
+poster: "assets/images/posters/charbo-04-2026.jpg"
 ---
 
 # Gala de la Charbonnière

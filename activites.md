@@ -15,7 +15,7 @@ title: "Nos activités"
 - ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club fanzine : Fanzizine](https://www.instagram.com/fanzizine/)  
   Tenu par **Jade JARRY** (DVG) et **Naya JEAN** (DVG)
 
-- ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club de foot. OrlinzooFC](https://www.instagram.com/orlinzoofc/)  
+- ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club de foot : OrlinzooFC](https://www.instagram.com/orlinzoofc/)  
   Tenu par **Elian YAGOUNI** et **Chris-Rayan SOUNGA** (4e année)
 
 - ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club émission : ESADérange](https://www.instagram.com/esaderange_twitch/)  
@@ -24,7 +24,7 @@ title: "Nos activités"
 - ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } Le club d'animation
 Tenu par **Martin MARTINOV** (DVG)
 
-- ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club de couture. Le Vestiaire](https://www.instagram.com/le_vestiaire_esad/)
+- ![✨](https://media.tenor.com/xQKnWkukw9YAAAAi/brilho-shine.gif){: .glitters } [Le club de couture : Le Vestiaire](https://www.instagram.com/le_vestiaire_esad/)
 Tenu par **Mélyna RIGAUX–AUIXILIEN**, **Léa VENOT–LE CREFF** et **Ariane RANDRIAMANAMBELO**
 
 

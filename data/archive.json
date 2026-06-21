@@ -1,0 +1,31 @@
+[
+  {
+    "titre": "Gala de la Charbonnière",
+    "date": "2026-04-18",
+    "heure": "20:30 - 03h00",
+    "lieu": "108 rue de Bourgogne",
+    "poster": "assets/images/posters/charbo-04-2026.jpg",
+    "file": "_archive/2026-04-18-gala-charbonniere.md"
+  },
+  {
+    "titre": "Soirée Saint-Valentin",
+    "date": "2026-02-12",
+    "heure": "19:00 - 00h00",
+    "lieu": "108 rue de Bourgogne",
+    "poster": "assets/images/posters/soiree-valentin-02-2026.png",
+    "file": "_archive/2026-02-12-soiree-saint-valentin.md"
+  },
+  {
+    "titre": "Marché de Noël",
+    "date": "2025-12-01",
+    "file": "_archive/2025-12-01-marche-noel.md"
+  },
+  {
+    "titre": "ESADADA — Exposition des étudiant(e)s",
+    "date": "2025-11-17",
+    "heure": "Vernissage : le 17/11 à 18h00",
+    "lieu": "108 rue de Bourgogne, 45000 Orléans",
+    "poster": "assets/images/posters/esadada-11-2025.jpg",
+    "file": "_archive/2025-11-17-esadada.md"
+  }
+]

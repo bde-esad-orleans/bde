@@ -1,12 +1,5 @@
-# Jekyll
-_site/
-.sass-cache/
-.jekyll-cache/
-.jekyll-metadata
-
-# Ruby
-.bundle/
-vendor/
+# Environnement local
+.env
 
 # OS
 .DS_Store

@@ -2,152 +2,104 @@ name: Archive Past Events
 
 on:
   schedule:
-    # Exécute le 1er du mois à 2h00 UTC (3h00 en France en hiver, 4h00 en été)
-    - cron: '0 2 1 * *'
-  workflow_dispatch: # Permet d'exécuter manuellement depuis l'interface GitHub
+    - cron: '0 2 1 * *'  # 1er du mois à 2h UTC
+  workflow_dispatch:
 
 jobs:
   archive-events:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Permet de pousser des commits
-      pull-requests: read  # Permet de lire les PRs si nécessaire
-    
+      contents: write
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        fetch-depth: 0  # Récupère tout l'historique Git
+      - uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Archive past events
-      run: |
-        # Créer le dossier archive s'il n'existe pas
-        mkdir -p _archive
-        
-        # Date d'aujourd'hui au format YYYY-MM-DD
-        TODAY=$(date +%Y-%m-%d)
-        echo "📅 Date d'aujourd'hui: $TODAY"
-        
-        moved_count=0
-        
-        # Vérifier si le dossier _events existe et contient des fichiers .md
-        if [ ! -d "_events" ]; then
-          echo "⚠️  Dossier _events/ n'existe pas"
-          exit 0
-        fi
-        
-        # Parcourir tous les fichiers .md dans _events/
-        shopt -s nullglob  # Évite les erreurs si pas de fichiers correspondants
-        for file in _events/*.md; do
-          # Vérifier si le fichier existe (évite les erreurs si pas de fichiers .md)
-          if [[ ! -f "$file" ]]; then
-            continue
-          fi
-          
-          # Ignorer .gitkeep
-          if [[ "$file" == "_events/.gitkeep" ]]; then
-            continue
-          fi
-          
-          # Extraire la date du nom de fichier (format: YYYY-MM-DD-nom.md)
-          filename=$(basename "$file")
-          date_from_filename=$(echo "$filename" | grep -o '^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}')
-          
-          if [[ -n "$date_from_filename" ]]; then
-            echo "🔍 Fichier: $filename (date: $date_from_filename)"
-            
-            # Comparer les dates (format YYYY-MM-DD se compare directement)
-            if [[ "$date_from_filename" < "$TODAY" ]]; then
-              archive_path="_archive/$filename"
-              
-              # Vérifier si le fichier n'existe pas déjà dans les archives
-              if [[ ! -f "$archive_path" ]]; then
-                if mv "$file" "$archive_path"; then
-                  echo "✅ Déplacé: $filename"
-                  moved_count=$((moved_count + 1))
-                else
-                  echo "❌ Erreur lors du déplacement de: $filename"
-                fi
+      - name: Archive past events and update JSON
+        run: |
+          TODAY=$(date +%Y-%m-%d)
+          echo "Date : $TODAY"
+          moved_count=0
+
+          mkdir -p _archive
+
+          shopt -s nullglob
+          for file in _events/*.md; do
+            [[ "$file" == *".gitkeep" ]] && continue
+            filename=$(basename "$file")
+            event_date=$(echo "$filename" | grep -o '^[0-9]\{4\}-[0-9]\{2\}-[0-9]\{2\}')
+            [[ -z "$event_date" ]] && continue
+
+            if [[ "$event_date" < "$TODAY" ]]; then
+              dest="_archive/$filename"
+              if [[ ! -f "$dest" ]]; then
+                mv "$file" "$dest"
+                echo "Archivé : $filename"
+                moved_count=$((moved_count + 1))
               else
-                echo "⚠️  Fichier déjà dans les archives: $filename"
-                if rm "$file"; then
-                  echo "🗑️  Doublon supprimé: $filename"
-                else
-                  echo "❌ Erreur lors de la suppression du doublon: $filename"
-                fi
+                rm "$file"
               fi
-            else
-              echo "⏳ Événement futur: $filename"
             fi
+          done
+
+          if [ $moved_count -gt 0 ]; then
+            python3 - <<'PYEOF'
+          import json, os, re
+
+          def parse_fm(path):
+              with open(path, encoding='utf-8') as f:
+                  text = f.read()
+              meta = {}
+              m = re.match(r'^---(.*?)---', text, re.DOTALL)
+              if not m:
+                  return meta
+              for line in m.group(1).splitlines():
+                  kv = re.match(r'^(\w+):\s*"?([^"]*?)"?\s*$', line)
+                  if kv:
+                      meta[kv.group(1)] = kv.group(2).strip()
+              return meta
+
+          def build_list(folder):
+              entries = []
+              for fn in sorted(os.listdir(folder)):
+                  if not fn.endswith('.md') or fn == '.gitkeep':
+                      continue
+                  meta = parse_fm(os.path.join(folder, fn))
+                  if not meta.get('titre'):
+                      continue
+                  entry = {'titre': meta['titre'], 'date': meta.get('date',''), 'file': f'{folder}/{fn}'}
+                  for k in ('heure', 'lieu', 'poster'):
+                      if meta.get(k):
+                          entry[k] = meta[k]
+                  entries.append(entry)
+              return entries
+
+          events  = sorted(build_list('_events'),  key=lambda e: e['date'])
+          archive = sorted(build_list('_archive'), key=lambda e: e['date'], reverse=True)
+
+          os.makedirs('data', exist_ok=True)
+          with open('data/events.json', 'w', encoding='utf-8') as f:
+              json.dump(events, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+          with open('data/archive.json', 'w', encoding='utf-8') as f:
+              json.dump(archive, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+
+          print(f"events.json : {len(events)} entree(s)")
+          print(f"archive.json : {len(archive)} entree(s)")
+          PYEOF
+            echo "MOVED_COUNT=$moved_count" >> $GITHUB_ENV
           else
-            echo "❌ Impossible d'extraire la date de: $filename"
+            echo "Aucun evenement a archiver."
+            echo "MOVED_COUNT=0" >> $GITHUB_ENV
           fi
-        done
-        
-        echo ""
-        echo "📊 Résumé:"
-        echo "   - Événements déplacés: $moved_count"
-        echo "   - Date de traitement: $TODAY"
-        
-        # Créer un fichier de log pour le commit seulement s'il y a des changements
-        if [ $moved_count -gt 0 ]; then
-          echo "Archive automatique du $TODAY" > archive-log.txt
-          echo "Événements déplacés: $moved_count" >> archive-log.txt
-          echo "MOVED_COUNT=$moved_count" >> $GITHUB_ENV
-          echo "ARCHIVE_DATE=$TODAY" >> $GITHUB_ENV
-        else
-          echo "✅ Aucun événement à archiver aujourd'hui"
-          echo "MOVED_COUNT=0" >> $GITHUB_ENV
-          echo "ARCHIVE_DATE=$TODAY" >> $GITHUB_ENV
-        fi
 
-    - name: Check for changes
-      id: check-changes
-      run: |
-        if [ -n "$(git status --porcelain)" ]; then
-          echo "changes=true" >> $GITHUB_OUTPUT
-        else
-          echo "changes=false" >> $GITHUB_OUTPUT
-        fi
-
-    - name: Commit and push changes
-      if: steps.check-changes.outputs.changes == 'true'
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action"
-        
-        # Ajouter tous les changements
-        git add .
-        
-        # Créer le message de commit
-        COMMIT_MSG="🤖 Archive automatique des événements passés"
-        if [ -f archive-log.txt ]; then
-          COMMIT_MSG="$COMMIT_MSG - $(cat archive-log.txt)"
-        fi
-        
-        git commit -m "$COMMIT_MSG"
-        git push
-        
-        # Nettoyer le fichier de log
-        rm -f archive-log.txt
-
-    - name: Create summary
-      if: always()
-      run: |
-        echo "## 📅 Archive des Événements Passés" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        echo "**Date d'exécution:** $(date)" >> $GITHUB_STEP_SUMMARY
-        echo "" >> $GITHUB_STEP_SUMMARY
-        
-        if [ "$MOVED_COUNT" -gt 0 ]; then
-          echo "**Résultat:**" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-          echo "Archive automatique du $ARCHIVE_DATE" >> $GITHUB_STEP_SUMMARY
-          echo "Événements déplacés: $MOVED_COUNT" >> $GITHUB_STEP_SUMMARY
-          echo '```' >> $GITHUB_STEP_SUMMARY
-        else
-          echo "**Résultat:** ✅ Aucun événement à archiver aujourd'hui" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "Tous les événements dans \`_events/\` sont encore à venir." >> $GITHUB_STEP_SUMMARY
-        fi
+      - name: Commit changes
+        if: env.MOVED_COUNT != '0'
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git add .
+          git commit -m "Archive automatique du $(date +%Y-%m-%d) - $MOVED_COUNT evenement(s) deplace(s)"
+          git push

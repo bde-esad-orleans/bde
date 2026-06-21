@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDE — Gestion</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        body { background: var(--cream); }
+
+        .manage-layout {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 65px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            border-right: 1px solid var(--border);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .sidebar-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0.5rem 0.75rem 0.25rem;
+            margin-top: 1rem;
+        }
+        .sidebar-label:first-child { margin-top: 0; }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.55rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.88rem;
+            font-family: inherit;
+            font-weight: 400;
+            cursor: pointer;
+            border: none;
+            background: transparent;
+            color: var(--ink);
+            text-align: left;
+            width: 100%;
+            transition: background 0.15s;
+        }
+        .sidebar-btn:hover { background: var(--border); }
+        .sidebar-btn.active { background: var(--ink); color: var(--cream); }
+
+        .sidebar-commit {
+            margin-top: auto;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Panel */
+        .panel { padding: 2.5rem 3rem; }
+
+        .panel-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+        }
+
+        /* Screens */
+        .screen { display: none; }
+        .screen.active { display: block; }
+
+        /* Forms */
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+        }
+
+        .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+        .form-group.full { grid-column: 1 / -1; }
+
+        label {
+            font-size: 0.72rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        input, textarea {
+            font-family: inherit;
+            font-size: 0.95rem;
+            padding: 0.65rem 0.85rem;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            background: var(--white);
+            color: var(--ink);
+            outline: none;
+            transition: border-color 0.2s;
+            width: 100%;
+        }
+        input:focus, textarea:focus { border-color: var(--ink); }
+        textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
+
+        .preview-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.25rem;
+            align-items: start;
+        }
+
+        .preview-label {
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 0.4rem;
+        }
+
+        .preview-box {
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 1.25rem 1.5rem;
+            background: var(--white);
+            min-height: 140px;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .preview-box h1 { font-size: 1.3rem; margin-bottom: 0.5rem; }
+        .preview-box h2 { font-size: 1.05rem; margin: 0.75rem 0 0.35rem; }
+        .preview-box p { margin-bottom: 0.6rem; }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.4rem;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 500;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: none;
+            transition: opacity 0.2s;
+        }
+        .btn:hover { opacity: 0.82; }
+        .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-primary { background: var(--ink); color: var(--cream); }
+        .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
+        .btn-ghost:hover { color: var(--ink); border-color: var(--ink); opacity: 1; }
+        .btn-commit { background: #2d6a4f; color: white; width: 100%; justify-content: center; }
+        .btn-danger { background: transparent; color: #c0392b; border: 1px solid #c0392b; }
+        .btn-danger:hover { background: #c0392b; color: white; opacity: 1; }
+
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.75rem;
+            align-items: center;
+        }
+
+        /* Event rows */
+        .event-list-manage { margin-top: 0.5rem; }
+
+        .event-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .event-row-date {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 1.2rem;
+            color: var(--muted);
+            min-width: 60px;
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .event-row-info { flex: 1; min-width: 0; }
+        .event-row-info strong { display: block; font-size: 0.95rem; }
+        .event-row-info span { font-size: 0.8rem; color: var(--muted); }
+
+        .event-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+
+        .icon-btn {
+            padding: 0.4rem 0.6rem;
+            border-radius: 5px;
+            font-size: 0.78rem;
+            font-family: inherit;
+            cursor: pointer;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--muted);
+            font-weight: 500;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            transition: all 0.15s;
+        }
+        .icon-btn:hover { color: var(--ink); border-color: var(--ink); }
+        .icon-btn.danger:hover { color: #c0392b; border-color: #c0392b; }
+        .icon-btn.archive-btn:hover { color: var(--accent); border-color: var(--accent); }
+
+        /* Commit status */
+        .commit-status {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 0.5rem;
+            text-align: center;
+            min-height: 1rem;
+        }
+
+        /* Toast */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--ink);
+            color: var(--cream);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            opacity: 0;
+            transition: all 0.3s;
+            pointer-events: none;
+            z-index: 999;
+        }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+        #toast.error { background: #c0392b; }
+        #toast.success { background: #2d6a4f; }
+
+        .empty { color: var(--muted); font-style: italic; font-size: 0.9rem; padding: 1.5rem 0; }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed; inset: 0;
+            background: rgba(17,17,17,0.4);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: var(--cream);
+            border-radius: 10px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+        }
+        .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.75rem; }
+        .modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
+
+        @media (max-width: 700px) {
+            .manage-layout { grid-template-columns: 1fr; }
+            .sidebar { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; padding: 1rem; }
+            .sidebar-label { display: none; }
+            .sidebar-commit { display: none; }
+            .panel { padding: 1.5rem 1rem; }
+            .form-grid, .preview-split { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <h1 class="site-title"><a href="index.html">BDE</a></h1>
+            <ul>
+                <li><a href="index.html">← Site</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="manage-layout">
+        <aside class="sidebar">
+            <span class="sidebar-label">Événements</span>
+            <button class="sidebar-btn active" onclick="showPanel('add')" id="nav-add">
+                ＋ Ajouter
+            </button>
+            <button class="sidebar-btn" onclick="showPanel('upcoming')" id="nav-upcoming">
+                ◷ À venir
+            </button>
+            <button class="sidebar-btn" onclick="showPanel('archive')" id="nav-archive">
+                ◴ Archives
+            </button>
+
+            <div class="sidebar-commit">
+                <button class="btn btn-commit" onclick="commitAll()" id="btn-commit">
+                    ↑ Publier sur le site
+                </button>
+                <p class="commit-status" id="commit-status"></p>
+            </div>
+        </aside>
+
+        <div class="panel">
+            <!-- ADD / EDIT -->
+            <div id="panel-add" class="screen active">
+                <p class="panel-title" id="form-panel-title">Ajouter un événement</p>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="f-titre">Titre</label>
+                        <input type="text" id="f-titre" placeholder="Gala de la Charbonnière" />
+                    </div>
+                    <div class="form-group">
+                        <label for="f-date">Date</label>
+                        <input type="date" id="f-date" />
+                    </div>
+                    <div class="form-group">
+                        <label for="f-heure">Heure</label>
+                        <input type="text" id="f-heure" placeholder="20:30 – 03:00" />
+                    </div>
+                    <div class="form-group">
+                        <label for="f-lieu">Lieu</label>
+                        <input type="text" id="f-lieu" placeholder="108 rue de Bourgogne, Orléans" />
+                    </div>
+                    <div class="form-group full">
+                        <label for="f-poster">Poster (image)</label>
+                        <input type="file" id="f-poster" accept="image/*" onchange="onPosterChange(this)" />
+                    </div>
+                    <div class="form-group full">
+                        <label>Description + aperçu</label>
+                        <div class="preview-split">
+                            <div>
+                                <div class="preview-label">Markdown</div>
+                                <textarea id="f-desc" placeholder="Décris l'événement…" oninput="updatePreview()"></textarea>
+                            </div>
+                            <div>
+                                <div class="preview-label">Aperçu</div>
+                                <div class="preview-box" id="f-preview"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="btn-row">
+                    <button class="btn btn-primary" onclick="saveEvent()">Enregistrer</button>
+                    <button class="btn btn-ghost" onclick="resetForm()">Annuler</button>
+                    <span id="form-mode-hint" style="font-size:0.78rem;color:var(--muted);margin-left:auto"></span>
+                </div>
+            </div>
+
+            <!-- UPCOMING -->
+            <div id="panel-upcoming" class="screen">
+                <p class="panel-title">Événements à venir</p>
+                <div id="list-upcoming" class="event-list-manage"></div>
+            </div>
+
+            <!-- ARCHIVE -->
+            <div id="panel-archive" class="screen">
+                <p class="panel-title">Archives</p>
+                <div id="list-archive" class="event-list-manage"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirm modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h3 id="modal-title">Confirmer</h3>
+            <p id="modal-body"></p>
+            <div class="modal-actions">
+                <button class="btn btn-ghost" onclick="closeModal()">Annuler</button>
+                <button class="btn btn-danger" id="modal-confirm">Supprimer</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
+    <script>
+    const API = '';
+    let eventsData = [];
+    let archiveData = [];
+    let editingFile = null;
+    let posterDataUrl = null;   // nouvelle image choisie (base64)
+    let posterFileName = null;  // nom du fichier de la nouvelle image
+    let existingPosterPath = null; // chemin du poster déjà en place
+
+    // ── Init ─────────────────────────────────────────────────────────
+
+    async function loadData() {
+        try {
+            const [ev, ar] = await Promise.all([
+                fetch(`${API}/api/events`).then(r => r.json()),
+                fetch(`${API}/api/archive`).then(r => r.json()),
+            ]);
+            eventsData  = ev;
+            archiveData = ar;
+            renderList('upcoming');
+            renderList('archive');
+        } catch {
+            toast('Impossible de charger les données. Serveur démarré ?', true);
+        }
+    }
+
+    loadData();
+
+    // ── Save ─────────────────────────────────────────────────────────
+
+    async function saveEvent() {
+        const titre = document.getElementById('f-titre').value.trim();
+        const date  = document.getElementById('f-date').value;
+        const heure = document.getElementById('f-heure').value.trim();
+        const lieu  = document.getElementById('f-lieu').value.trim();
+        const desc  = document.getElementById('f-desc').value.trim();
+
+        if (!titre || !date) { toast('Titre et date sont requis', true); return; }
+
+        const btn = document.querySelector('[onclick="saveEvent()"]');
+        btn.disabled = true;
+
+        try {
+            const res = await fetch(`${API}/api/save`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    titre, date, heure, lieu, desc,
+                    old_file: editingFile,
+                    poster_data: posterDataUrl,
+                    poster_name: posterFileName,
+                }),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+
+            toast(editingFile ? 'Événement modifié ✓' : 'Événement enregistré ✓');
+            resetForm();
+            await loadData();
+        } catch (e) {
+            toast(e.message, true);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // ── Edit ─────────────────────────────────────────────────────────
+
+    async function editEvent(source, index) {
+        const list = source === 'upcoming' ? eventsData : archiveData;
+        const e = list[index];
+        editingFile = e.file;
+
+        document.getElementById('f-titre').value = e.titre || '';
+        document.getElementById('f-date').value  = e.date  || '';
+        document.getElementById('f-heure').value = e.heure || '';
+        document.getElementById('f-lieu').value  = e.lieu  || '';
+        document.getElementById('f-desc').value  = '';
+
+        // Charger body + poster depuis le fichier
+        existingPosterPath = e.poster || null;
+        try {
+            const resp = await fetch('/' + e.file);
+            if (resp.ok) {
+                const text = await resp.text();
+                // Extraire le poster du frontmatter si pas dans le JSON
+                const fmMatch = text.match(/^---([\s\S]*?)---/);
+                if (fmMatch && !existingPosterPath) {
+                    const pLine = fmMatch[1].match(/^poster:\s*"?([^"\n]+)"?/m);
+                    if (pLine) existingPosterPath = pLine[1].trim();
+                }
+                const match = text.match(/^---[\s\S]*?---\n([\s\S]*)$/);
+                if (match) {
+                    const body = match[1].split('\n').filter(line => {
+                        if (/^#+ /.test(line)) return false;
+                        if (/^\*\*Date\s*:\*\*/.test(line)) return false;
+                        if (/^\*\*Heure\s*:\*\*/.test(line)) return false;
+                        if (/^\*\*Lieu\s*:\*\*/.test(line)) return false;
+                        return true;
+                    }).join('\n').trim();
+                    document.getElementById('f-desc').value = body;
+                }
+            }
+        } catch {}
+
+        updatePreview();
+        document.getElementById('form-panel-title').textContent = 'Modifier l\'événement';
+        document.getElementById('form-mode-hint').textContent = 'Mode édition';
+        showPanel('add');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function onPosterChange(input) {
+        const file = input.files[0];
+        if (!file) { posterDataUrl = null; posterFileName = null; updatePreview(); return; }
+        posterFileName = file.name;
+        const reader = new FileReader();
+        reader.onload = e => { posterDataUrl = e.target.result; updatePreview(); };
+        reader.readAsDataURL(file);
+    }
+
+    function resetForm() {
+        editingFile = null;
+        posterDataUrl = null;
+        posterFileName = null;
+        existingPosterPath = null;
+        ['f-titre','f-date','f-heure','f-lieu','f-desc'].forEach(id => {
+            document.getElementById(id).value = '';
+        });
+        document.getElementById('f-poster').value = '';
+        document.getElementById('form-panel-title').textContent = 'Ajouter un événement';
+        document.getElementById('form-mode-hint').textContent = '';
+        updatePreview();
+    }
+
+    // ── Archive ───────────────────────────────────────────────────────
+
+    async function archiveEvent(index) {
+        const e = eventsData[index];
+        try {
+            const res = await fetch(`${API}/api/archive-event`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ file: e.file }),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            toast('Archivé ✓');
+            await loadData();
+        } catch (e) { toast(e.message, true); }
+    }
+
+    // ── Delete ────────────────────────────────────────────────────────
+
+    let pendingDelete = null;
+
+    function confirmDelete(source, index) {
+        const list = source === 'upcoming' ? eventsData : archiveData;
+        pendingDelete = { source, index, file: list[index].file, titre: list[index].titre };
+        document.getElementById('modal-title').textContent = 'Supprimer cet événement ?';
+        document.getElementById('modal-body').textContent = `« ${pendingDelete.titre} » sera supprimé définitivement.`;
+        document.getElementById('modal-confirm').onclick = doDelete;
+        document.getElementById('modal').classList.add('open');
+    }
+
+    async function doDelete() {
+        if (!pendingDelete) return;
+        try {
+            const res = await fetch(`${API}/api/delete`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ file: pendingDelete.file, source: pendingDelete.source }),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            toast('Supprimé');
+            closeModal();
+            await loadData();
+        } catch (e) { toast(e.message, true); }
+    }
+
+    function closeModal() {
+        document.getElementById('modal').classList.remove('open');
+        pendingDelete = null;
+    }
+
+    // ── Commit ────────────────────────────────────────────────────────
+
+    async function commitAll() {
+        const btn = document.getElementById('btn-commit');
+        const status = document.getElementById('commit-status');
+        btn.disabled = true;
+        status.textContent = 'Commit en cours…';
+        try {
+            const res = await fetch(`${API}/api/commit`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ titre: 'mise à jour via manage.html' }),
+            });
+            const data = await res.json();
+            if (data.error) throw new Error(data.error);
+            status.textContent = 'Committé ✓';
+            toast('Commit effectué — pense à pousser sur GitHub ✓', false);
+            setTimeout(() => { status.textContent = ''; }, 4000);
+        } catch (e) {
+            status.textContent = 'Erreur commit';
+            toast(e.message, true);
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    // ── Render ────────────────────────────────────────────────────────
+
+    function renderList(type) {
+        const list = type === 'upcoming' ? eventsData : archiveData;
+        const el = document.getElementById(`list-${type}`);
+        if (!list || list.length === 0) {
+            el.innerHTML = '<p class="empty">Aucun événement.</p>';
+            return;
+        }
+        el.innerHTML = list.map((e, i) => `
+            <div class="event-row">
+                <div class="event-row-date">${formatShort(e.date)}</div>
+                <div class="event-row-info">
+                    <strong>${e.titre}</strong>
+                    <span>${[e.heure, e.lieu].filter(Boolean).join(' · ') || '—'}</span>
+                </div>
+                <div class="event-row-actions">
+                    <button class="icon-btn" onclick="editEvent('${type}', ${i})">Modifier</button>
+                    ${type === 'upcoming' ? `<button class="icon-btn archive-btn" onclick="archiveEvent(${i})">Archiver</button>` : ''}
+                    <button class="icon-btn danger" onclick="confirmDelete('${type}', ${i})">Suppr.</button>
+                </div>
+            </div>`).join('');
+    }
+
+    // ── Nav ───────────────────────────────────────────────────────────
+
+    function showPanel(name) {
+        document.querySelectorAll('.panel .screen').forEach(s => s.classList.remove('active'));
+        document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
+        document.getElementById(`panel-${name}`).classList.add('active');
+        document.getElementById(`nav-${name}`).classList.add('active');
+        if (name !== 'add') resetForm();
+    }
+
+    // ── Preview ───────────────────────────────────────────────────────
+
+    const MONTHS_LONG_PREV = ['janvier','février','mars','avril','mai','juin',
+        'juillet','août','septembre','octobre','novembre','décembre'];
+
+    function fmtDate(d) {
+        if (!d) return '';
+        const [y, m, day] = d.split('-');
+        return `${parseInt(day)} ${MONTHS_LONG_PREV[parseInt(m)-1]} ${y}`;
+    }
+
+    function updatePreview() {
+        const titre = document.getElementById('f-titre').value.trim();
+        const date  = document.getElementById('f-date').value;
+        const heure = document.getElementById('f-heure').value.trim();
+        const lieu  = document.getElementById('f-lieu').value.trim();
+        const desc  = document.getElementById('f-desc').value.trim();
+        const el    = document.getElementById('f-preview');
+
+        const metaItems = [
+            date  ? fmtDate(date) : '',
+            heure,
+            lieu,
+        ].filter(Boolean).map(s => `<span style="display:block;color:#888;font-size:0.85rem">${s}</span>`).join('');
+
+        const descHtml = desc ? `
+            <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#C95F3F;margin:1rem 0 0.5rem">Informations</div>
+            <div style="font-size:0.88rem;line-height:1.6">${marked.parse(desc)}</div>` : '';
+
+        const posterSrc = posterDataUrl || (existingPosterPath ? '/' + existingPosterPath : null);
+        const posterHtml = posterSrc
+            ? `<img src="${posterSrc}" style="max-width:100%;margin-top:1rem;border-radius:4px" />`
+            : '';
+
+        if (!titre && !date && !desc && !posterDataUrl) {
+            el.innerHTML = '<span style="color:var(--muted);font-style:italic;font-size:0.85rem">L\'aperçu apparaît ici…</span>';
+            return;
+        }
+
+        el.innerHTML = `
+            ${titre ? `<div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.5rem">${titre}</div>` : ''}
+            ${metaItems ? `<div style="margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid #D8D4CC">${metaItems}</div>` : ''}
+            ${descHtml}
+            ${posterHtml}
+        `;
+    }
+
+    // ── Utils ─────────────────────────────────────────────────────────
+
+    const MONTHS_FR = ['jan.','fév.','mar.','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
+
+    function formatShort(dateStr) {
+        if (!dateStr) return '—';
+        const [, m, d] = dateStr.split('-');
+        return `${parseInt(d)} ${MONTHS_FR[parseInt(m)-1]}`;
+    }
+
+    let toastTimer;
+    function toast(msg, error = false) {
+        const el = document.getElementById('toast');
+        el.textContent = msg;
+        el.className = 'show' + (error ? ' error' : '');
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => el.className = '', 4000);
+    }
+
+    document.getElementById('modal').addEventListener('click', e => {
+        if (e.target === e.currentTarget) closeModal();
+    });
+    </script>
+</body>
+</html>

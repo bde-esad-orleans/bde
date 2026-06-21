@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "bde",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["/Users/alice/Documents/GitHub/bde/server.py"],
+      "port": 4242
+    }
+  ]
+}

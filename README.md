@@ -1,4 +1,4 @@
-# BDE — Bureau des Élèves · ESAD Orléans
+# BDE — Bureau Des Étudiants · ESAD Orléans
 
 Site web du BDE de l'ESAD Orléans.
 

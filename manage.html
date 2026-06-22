@@ -428,8 +428,7 @@
             <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:0.75rem">Configuration du token GitHub</p>
             <p style="font-family:'Lora',serif;font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem">
                 Pour publier des modifications, tu as besoin d'un <strong>Personal Access Token GitHub</strong> avec l'accès en écriture à ce dépôt.<br>
-                Crée-en un sur <strong>github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.
-                Permissions requises : <em>Contents: Read & Write</em> sur le dépôt <code style="background:#e8e4db;padding:0.1rem 0.35rem">bde-esad-orleans/bde</code>.
+                Si tu n'y as pas accès, demande à l'équipe ou à Alice Massart ;-)</code>.
             </p>
             <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem">
                 <label for="token-input" style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">GitHub Personal Access Token</label>
@@ -502,6 +501,9 @@
                     ↑ Publier sur le site
                 </button>
                 <p class="commit-status" id="commit-status"></p>
+                <p style="font-family:'Space Grotesk',sans-serif;font-size:0.65rem;color:rgba(255,255,255,0.28);text-align:center;margin-top:0.4rem;line-height:1.5">
+                    ℹ Les modifications peuvent prendre quelques minutes à apparaître sur le site.
+                </p>
                 <button onclick="resetToken()" style="margin-top:0.5rem;background:none;border:none;color:rgba(255,255,255,0.25);font-family:'Space Grotesk',sans-serif;font-size:0.65rem;cursor:pointer;width:100%;text-align:center;letter-spacing:0.05em" title="Changer le token GitHub">
                     ⚙ Token GitHub
                 </button>

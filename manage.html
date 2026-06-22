@@ -403,6 +403,56 @@
     </style>
 </head>
 <body>
+    <!-- ── Overlay de connexion ── -->
+    <div id="login-overlay" style="position:fixed;inset:0;background:var(--navy);display:flex;align-items:center;justify-content:center;z-index:1000">
+        <div style="background:var(--cream);padding:2.5rem;width:90%;max-width:360px;border-top:3px solid var(--brick)">
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.18em;text-transform:uppercase;color:var(--brick);margin-bottom:0.5rem">Gestion du site</p>
+            <h2 style="font-family:'Playfair Display',serif;font-size:1.5rem;font-weight:700;margin-bottom:1.75rem">BDE ESAD Orléans</h2>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem">
+                <label for="login-password" style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">Mot de passe</label>
+                <input type="password" id="login-password" autocomplete="current-password"
+                    onkeydown="if(event.key==='Enter') doLogin()"
+                    style="font-family:'Lora',serif;font-size:0.95rem;padding:0.65rem 0.85rem;border:1px solid var(--border);background:var(--card);color:var(--navy);outline:none;border-radius:0;width:100%" />
+            </div>
+            <p id="login-error" style="color:#c0392b;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;min-height:1.1rem;margin-bottom:0.75rem"></p>
+            <button id="login-btn" onclick="doLogin()"
+                style="width:100%;padding:0.75rem;background:var(--navy);color:white;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:0.75rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase">
+                Se connecter
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Overlay de configuration du token GitHub ── -->
+    <div id="token-overlay" style="position:fixed;inset:0;background:rgba(27,31,46,0.9);display:none;align-items:center;justify-content:center;z-index:1001">
+        <div style="background:var(--cream);padding:2rem;width:90%;max-width:500px;border-top:3px solid var(--brick)">
+            <p style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:0.75rem">Configuration du token GitHub</p>
+            <p style="font-family:'Lora',serif;font-size:0.88rem;color:var(--muted);line-height:1.7;margin-bottom:1.25rem">
+                Pour publier des modifications, tu as besoin d'un <strong>Personal Access Token GitHub</strong> avec l'accès en écriture à ce dépôt.<br>
+                Crée-en un sur <strong>github.com → Settings → Developer settings → Personal access tokens → Fine-grained tokens</strong>.
+                Permissions requises : <em>Contents: Read & Write</em> sur le dépôt <code style="background:#e8e4db;padding:0.1rem 0.35rem">bde-esad-orleans/bde</code>.
+            </p>
+            <div style="display:flex;flex-direction:column;gap:0.4rem;margin-bottom:1rem">
+                <label for="token-input" style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted)">GitHub Personal Access Token</label>
+                <input type="password" id="token-input" placeholder="github_pat_…"
+                    style="font-family:'Lora',serif;font-size:0.9rem;padding:0.65rem 0.85rem;border:1px solid var(--border);background:var(--card);color:var(--navy);outline:none;border-radius:0;width:100%" />
+            </div>
+            <p id="token-error" style="color:#c0392b;font-family:'Space Grotesk',sans-serif;font-size:0.78rem;min-height:1rem;margin-bottom:0.75rem"></p>
+            <div style="display:flex;gap:0.75rem">
+                <button onclick="saveToken()"
+                    style="flex:1;padding:0.7rem;background:var(--navy);color:white;border:none;cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:0.73rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase">
+                    Enregistrer le token
+                </button>
+                <button onclick="finishLogin()"
+                    style="padding:0.7rem 1rem;background:transparent;color:var(--muted);border:1px solid var(--border);cursor:pointer;font-family:'Space Grotesk',sans-serif;font-size:0.73rem;font-weight:500;letter-spacing:0.08em;text-transform:uppercase">
+                    Ignorer
+                </button>
+            </div>
+            <p style="font-family:'Space Grotesk',sans-serif;font-size:0.7rem;color:var(--muted);margin-top:0.75rem">
+                Le token est stocké localement dans ce navigateur. Tu n'auras à le saisir qu'une seule fois par appareil.
+            </p>
+        </div>
+    </div>
+
     <div id="inactivity-banner">
         Déconnexion dans <span id="countdown">60</span>s pour inactivité —
         <a href="#" onclick="resetInactivity(); return false;" style="color:white;text-decoration:underline">Rester connecté</a>
@@ -452,6 +502,9 @@
                     ↑ Publier sur le site
                 </button>
                 <p class="commit-status" id="commit-status"></p>
+                <button onclick="resetToken()" style="margin-top:0.5rem;background:none;border:none;color:rgba(255,255,255,0.25);font-family:'Space Grotesk',sans-serif;font-size:0.65rem;cursor:pointer;width:100%;text-align:center;letter-spacing:0.05em" title="Changer le token GitHub">
+                    ⚙ Token GitHub
+                </button>
             </div>
         </aside>
 
@@ -518,7 +571,7 @@
                 <p class="panel-title">Planning</p>
                 <div class="form-group" style="max-width:480px">
                     <label>Image actuelle</label>
-                    <img id="planning-preview" src="assets/images/equipe-et-planning/planning.webp"
+                    <img id="planning-preview" src="https://raw.githubusercontent.com/bde-esad-orleans/bde/main/assets/images/equipe-et-planning/planning.webp"
                          style="width:100%;border:1px solid var(--border);margin-bottom:1rem" />
                     <label for="planning-file">Remplacer l'image</label>
                     <input type="file" id="planning-file" accept="image/*" onchange="onPlanningChange(this)" />
@@ -571,7 +624,7 @@
 
                 <div class="form-group" style="max-width:480px;margin-bottom:2rem">
                     <label>Photo de l'équipe</label>
-                    <img id="equipe-photo-preview" src="assets/images/equipe-et-planning/photo-equipe.png"
+                    <img id="equipe-photo-preview" src="https://raw.githubusercontent.com/bde-esad-orleans/bde/main/assets/images/equipe-et-planning/photo-equipe.png"
                          style="width:100%;border:1px solid var(--border);margin-bottom:0.6rem" />
                     <input type="file" id="equipe-photo-file" accept="image/*" onchange="onEquipePhotoChange(this)" />
                     <p style="font-family:'Space Grotesk',sans-serif;font-size:0.72rem;color:var(--muted);margin-top:0.5rem">
@@ -603,7 +656,143 @@
     <div id="toast"></div>
 
     <script>
-    const API = '';
+    // ── Config GitHub ──────────────────────────────────────────────────
+    const REPO_OWNER  = 'bde-esad-orleans';
+    const REPO_NAME   = 'bde';
+    const REPO_BRANCH = 'main';
+    const RAW_BASE    = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${REPO_BRANCH}`;
+    const GH_API      = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents`;
+    const PWD_HASH    = '8866e2c20b10be1f601c7be23e583a20ed7546c544f126ff415f86804f5d5b58';
+
+    let ghToken   = localStorage.getItem('bde_gh_token') || '';
+
+    // ── API GitHub helpers ─────────────────────────────────────────────
+
+    function ghHeaders(json = false) {
+        const h = { 'Accept': 'application/vnd.github.v3+json' };
+        if (ghToken) h['Authorization'] = `token ${ghToken}`;
+        if (json) h['Content-Type'] = 'application/json';
+        return h;
+    }
+
+    async function ghGetFile(path) {
+        const r = await fetch(`${GH_API}/${path}`, { headers: ghHeaders() });
+        return r.ok ? r.json() : null;
+    }
+
+    async function ghPutText(path, text, sha, message) {
+        const content = btoa(unescape(encodeURIComponent(text)));
+        const body = { message, content, branch: REPO_BRANCH };
+        if (sha) body.sha = sha;
+        const r = await fetch(`${GH_API}/${path}`, {
+            method: 'PUT', headers: ghHeaders(true), body: JSON.stringify(body),
+        });
+        if (!r.ok) { const e = await r.json(); throw new Error(e.message || 'Erreur GitHub'); }
+        return r.json();
+    }
+
+    async function ghPutBinary(path, base64, sha, message) {
+        const body = { message, content: base64, branch: REPO_BRANCH };
+        if (sha) body.sha = sha;
+        const r = await fetch(`${GH_API}/${path}`, {
+            method: 'PUT', headers: ghHeaders(true), body: JSON.stringify(body),
+        });
+        if (!r.ok) { const e = await r.json(); throw new Error(e.message || 'Erreur GitHub'); }
+        return r.json();
+    }
+
+    async function ghDelete(path, sha, message) {
+        const r = await fetch(`${GH_API}/${path}`, {
+            method: 'DELETE', headers: ghHeaders(true),
+            body: JSON.stringify({ message, sha, branch: REPO_BRANCH }),
+        });
+        if (!r.ok) throw new Error('Erreur suppression GitHub');
+        return r.json();
+    }
+
+    async function writeJson(path, data, message) {
+        const current = await ghGetFile(path);
+        return ghPutText(path, JSON.stringify(data, null, 2), current?.sha, message);
+    }
+
+    async function writeBinary(path, dataUrl, message) {
+        const base64 = dataUrl.split(',')[1];
+        const current = await ghGetFile(path);
+        return ghPutBinary(path, base64, current?.sha, message);
+    }
+
+    // ── Auth ───────────────────────────────────────────────────────────
+
+    async function hashPwd(pwd) {
+        const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(pwd));
+        return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    async function doLogin() {
+        const pwd = document.getElementById('login-password').value;
+        if (!pwd) return;
+        const btn = document.getElementById('login-btn');
+        btn.disabled = true;
+        document.getElementById('login-error').textContent = '';
+        try {
+            const hash = await hashPwd(pwd);
+            if (hash !== PWD_HASH) {
+                document.getElementById('login-error').textContent = 'Mot de passe incorrect';
+                return;
+            }
+            document.getElementById('login-overlay').style.display = 'none';
+            if (!ghToken) {
+                document.getElementById('token-overlay').style.display = 'flex';
+            } else {
+                finishLogin();
+            }
+        } finally {
+            btn.disabled = false;
+        }
+    }
+
+    async function saveToken() {
+        const t = document.getElementById('token-input').value.trim();
+        if (!t) { document.getElementById('token-error').textContent = 'Token requis'; return; }
+        // Vérifier que le token fonctionne
+        const test = await fetch(`${GH_API}/data/events.json`, {
+            headers: { 'Authorization': `token ${t}`, 'Accept': 'application/vnd.github.v3+json' }
+        });
+        if (!test.ok && test.status === 401) {
+            document.getElementById('token-error').textContent = 'Token invalide ou accès refusé';
+            return;
+        }
+        ghToken = t;
+        localStorage.setItem('bde_gh_token', t);
+        document.getElementById('token-overlay').style.display = 'none';
+        finishLogin();
+    }
+
+    function finishLogin() {
+        document.getElementById('token-overlay').style.display = 'none';
+        document.getElementById('login-overlay').style.display = 'none';
+        sessionStorage.setItem('bde_auth', '1');
+        loadData();
+        resetInactivity();
+    }
+
+    function resetToken() {
+        document.getElementById('token-input').value = ghToken;
+        document.getElementById('token-error').textContent = '';
+        document.getElementById('token-overlay').style.display = 'flex';
+    }
+
+    // Vérifier session au chargement
+    (function checkSession() {
+        if (sessionStorage.getItem('bde_auth') === '1') {
+            document.getElementById('login-overlay').style.display = 'none';
+            loadData();
+            resetInactivity();
+        }
+    })();
+
+    // ── Data ───────────────────────────────────────────────────────────
+
     let eventsData = [];
     let archiveData = [];
     let editingFile = null;
@@ -657,35 +846,41 @@
         }, WARNING_MS);
 
         inactivityTimer = setTimeout(() => {
-            window.location.href = '/login';
+            sessionStorage.removeItem('bde_auth');
+            document.getElementById('login-password').value = '';
+            document.getElementById('login-error').textContent = '';
+            document.getElementById('inactivity-banner').classList.remove('show');
+            document.getElementById('login-overlay').style.display = 'flex';
         }, INACTIVE_MS);
     }
 
     ['mousemove','keydown','click','scroll','touchstart'].forEach(ev => {
         document.addEventListener(ev, resetInactivity, { passive: true });
     });
-    resetInactivity();
 
     // ── Init ─────────────────────────────────────────────────────────
 
     async function loadData() {
         try {
             const [ev, ar] = await Promise.all([
-                fetch(`${API}/api/events`).then(r => r.json()),
-                fetch(`${API}/api/archive`).then(r => r.json()),
+                fetch(`${RAW_BASE}/data/events.json`).then(r => r.json()),
+                fetch(`${RAW_BASE}/data/archive.json`).then(r => r.json()),
             ]);
             eventsData  = ev;
             archiveData = ar;
             renderList('upcoming');
             renderList('archive');
         } catch {
-            toast('Impossible de charger les données. Serveur démarré ?', true);
+            toast('Impossible de charger les données', true);
         }
     }
 
-    loadData();
+    // ── Save event ────────────────────────────────────────────────────
 
-    // ── Save ─────────────────────────────────────────────────────────
+    function slugify(s) {
+        return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')
+            .replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'').slice(0,40);
+    }
 
     async function saveEvent() {
         const titre = document.getElementById('f-titre').value.trim();
@@ -695,28 +890,51 @@
         const desc  = document.getElementById('f-desc').value.trim();
 
         if (!titre || !date) { toast('Titre et date sont requis', true); return; }
+        if (!ghToken) { toast('Token GitHub requis — configure-le via ⚙️ Paramètres', true); return; }
 
         const btn = document.querySelector('[onclick="saveEvent()"]');
         btn.disabled = true;
 
         try {
-            const res = await fetch(`${API}/api/save`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    titre, date, heure, lieu, desc,
-                    old_file: editingFile,
-                    poster_data: posterDataUrl,
-                    poster_name: posterFileName,
-                    existing_poster: existingPosterPath,
-                }),
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
+            // Chemin du fichier markdown
+            const filePath = editingFile || `_events/${date}-${slugify(titre)}.md`;
 
-            toast(editingFile ? 'Événement modifié ✓' : 'Événement enregistré ✓');
+            // Upload poster si nouveau
+            let posterPath = existingPosterPath;
+            if (posterDataUrl && posterFileName) {
+                const ext = posterFileName.split('.').pop().toLowerCase();
+                const pPath = `assets/images/posters/${date}-${slugify(titre)}.${ext}`;
+                const cur = await ghGetFile(pPath);
+                await ghPutBinary(pPath, posterDataUrl.split(',')[1], cur?.sha, `Affiche : ${titre}`);
+                posterPath = pPath;
+            }
+
+            // Générer le markdown
+            let md = `---\ntitre: "${titre}"\ndate: ${date}\n`;
+            if (heure) md += `heure: "${heure}"\n`;
+            if (lieu)  md += `lieu: "${lieu}"\n`;
+            if (posterPath) md += `poster: "${posterPath}"\n`;
+            md += `---\n\n${desc}`;
+
+            // Sauvegarder le fichier markdown
+            const cur = await ghGetFile(filePath);
+            await ghPutText(filePath, md, cur?.sha, `Événement : ${titre}`);
+
+            // Mettre à jour events.json
+            const entry = { titre, date, heure, lieu, file: filePath };
+            if (posterPath) entry.poster = posterPath;
+            if (editingFile) {
+                const idx = eventsData.findIndex(e => e.file === editingFile);
+                if (idx >= 0) eventsData[idx] = entry; else eventsData.push(entry);
+            } else {
+                eventsData.push(entry);
+            }
+            eventsData.sort((a, b) => a.date.localeCompare(b.date));
+            await writeJson('data/events.json', eventsData, 'Index événements mis à jour');
+
+            toast(editingFile ? 'Événement modifié ✓' : 'Événement ajouté ✓');
             resetForm();
-            await loadData();
+            renderList('upcoming');
         } catch (e) {
             toast(e.message, true);
         } finally {
@@ -736,33 +954,19 @@
         document.getElementById('f-heure').value = e.heure || '';
         document.getElementById('f-lieu').value  = e.lieu  || '';
         document.getElementById('f-desc').value  = '';
-
         existingPosterPath = e.poster || null;
+
         try {
-            const resp = await fetch('/' + e.file);
+            const resp = await fetch(`${RAW_BASE}/${e.file}`);
             if (resp.ok) {
                 const text = await resp.text();
-                const fmMatch = text.match(/^---([\s\S]*?)---/);
-                if (fmMatch && !existingPosterPath) {
-                    const pLine = fmMatch[1].match(/^poster:\s*"?([^"\n]+)"?/m);
-                    if (pLine) existingPosterPath = pLine[1].trim();
-                }
                 const match = text.match(/^---[\s\S]*?---\n([\s\S]*)$/);
-                if (match) {
-                    const body = match[1].split('\n').filter(line => {
-                        if (/^#+ /.test(line)) return false;
-                        if (/^\*\*Date\s*:\*\*/.test(line)) return false;
-                        if (/^\*\*Heure\s*:\*\*/.test(line)) return false;
-                        if (/^\*\*Lieu\s*:\*\*/.test(line)) return false;
-                        return true;
-                    }).join('\n').trim();
-                    document.getElementById('f-desc').value = body;
-                }
+                if (match) document.getElementById('f-desc').value = match[1].trim();
             }
         } catch {}
 
         updatePreview();
-        document.getElementById('form-panel-title').textContent = 'Modifier l\'événement';
+        document.getElementById('form-panel-title').textContent = "Modifier l'événement";
         document.getElementById('form-mode-hint').textContent = 'Mode édition';
         showPanel('add');
         window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -795,17 +999,27 @@
 
     async function archiveEvent(index) {
         const e = eventsData[index];
+        if (!ghToken) { toast('Token GitHub requis', true); return; }
         try {
-            const res = await fetch(`${API}/api/archive-event`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file: e.file }),
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
+            const oldPath = e.file;
+            const newPath = oldPath.replace('_events/', '_archive/');
+            const cur = await ghGetFile(oldPath);
+            if (!cur) throw new Error('Fichier introuvable');
+            // Copier dans _archive (le contenu est déjà en base64 dans cur.content)
+            await ghPutBinary(newPath, cur.content.replace(/\n/g,''), null, `Archive : ${e.titre}`);
+            // Supprimer de _events
+            await ghDelete(oldPath, cur.sha, `Archive : ${e.titre}`);
+            // Mettre à jour les JSON
+            eventsData.splice(index, 1);
+            archiveData.unshift({ ...e, file: newPath });
+            await Promise.all([
+                writeJson('data/events.json', eventsData, 'Archivage : index événements'),
+                writeJson('data/archive.json', archiveData, 'Archivage : archives'),
+            ]);
             toast('Archivé ✓');
-            await loadData();
-        } catch (e) { toast(e.message, true); }
+            renderList('upcoming');
+            renderList('archive');
+        } catch (err) { toast(err.message, true); }
     }
 
     // ── Delete ────────────────────────────────────────────────────────
@@ -823,18 +1037,19 @@
 
     async function doDelete() {
         if (!pendingDelete) return;
+        if (!ghToken) { toast('Token GitHub requis', true); return; }
         try {
-            const res = await fetch(`${API}/api/delete`, {
-                method: 'DELETE',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ file: pendingDelete.file, source: pendingDelete.source }),
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
+            const cur = await ghGetFile(pendingDelete.file);
+            if (cur) await ghDelete(pendingDelete.file, cur.sha, `Suppression : ${pendingDelete.titre}`);
+            const list = pendingDelete.source === 'upcoming' ? eventsData : archiveData;
+            const idx = list.findIndex(e => e.file === pendingDelete.file);
+            if (idx >= 0) list.splice(idx, 1);
+            const jsonPath = `data/${pendingDelete.source === 'upcoming' ? 'events' : 'archive'}.json`;
+            await writeJson(jsonPath, list, `Suppression : ${pendingDelete.titre}`);
             toast('Supprimé');
             closeModal();
-            await loadData();
-        } catch (e) { toast(e.message, true); }
+            renderList(pendingDelete.source === 'upcoming' ? 'upcoming' : 'archive');
+        } catch (err) { toast(err.message, true); }
     }
 
     function closeModal() {
@@ -842,76 +1057,46 @@
         pendingDelete = null;
     }
 
-    // ── Commit ────────────────────────────────────────────────────────
+    // ── Publier (clubs / équipe / planning) ───────────────────────────
 
     async function commitAll() {
+        if (!ghToken) { toast('Token GitHub requis pour publier', true); return; }
         const btn = document.getElementById('btn-commit');
         const status = document.getElementById('commit-status');
         btn.disabled = true;
-        status.textContent = 'Enregistrement…';
+        status.textContent = 'Publication…';
         try {
-            // 1. Sauvegarder toutes les modifications en attente sur le disque
             if (pending.clubs) {
-                const res = await fetch('/api/clubs', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clubsData),
-                });
-                const d = await res.json();
-                if (d.error) throw new Error('Clubs : ' + d.error);
+                await writeJson('data/clubs.json', clubsData, 'Clubs mis à jour');
                 markClean('clubs');
             }
             if (pending.equipe) {
                 const clean = equipeData.map(m => m.trim()).filter(Boolean);
-                const res = await fetch('/api/equipe', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(clean),
-                });
-                const d = await res.json();
-                if (d.error) throw new Error('Équipe : ' + d.error);
+                await writeJson('data/equipe.json', clean, 'Équipe mise à jour');
                 equipeData = clean;
                 if (equipePhotoDataUrl) {
-                    const res2 = await fetch('/api/equipe-photo', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ image_data: equipePhotoDataUrl }),
-                    });
-                    const d2 = await res2.json();
-                    if (d2.error) throw new Error('Photo équipe : ' + d2.error);
+                    const mime = equipePhotoDataUrl.split(';')[0].split('/')[1];
+                    const ext = mime === 'jpeg' ? 'jpg' : mime;
+                    await writeBinary(`assets/images/equipe-et-planning/photo-equipe.${ext}`, equipePhotoDataUrl, 'Photo équipe mise à jour');
                     equipePhotoDataUrl = null;
                     document.getElementById('equipe-photo-file').value = '';
                 }
                 markClean('equipe');
             }
             if (pending.planning) {
-                const res = await fetch('/api/planning', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ image_data: planningDataUrl }),
-                });
-                const d = await res.json();
-                if (d.error) throw new Error('Planning : ' + d.error);
+                const mime = planningDataUrl.split(';')[0].split('/')[1];
+                const ext = mime === 'jpeg' ? 'jpg' : mime;
+                await writeBinary(`assets/images/equipe-et-planning/planning.${ext}`, planningDataUrl, 'Planning mis à jour');
                 planningDataUrl = null;
                 document.getElementById('planning-file').value = '';
                 markClean('planning');
             }
-
-            // 2. Commit git
-            status.textContent = 'Publication…';
-            const res = await fetch(`${API}/api/commit`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ titre: 'mise à jour via manage.html' }),
-            });
-            const data = await res.json();
-            if (data.error) throw new Error(data.error);
             status.textContent = 'Publié ✓';
-            toast('Publié ✓ — pense à pousser sur GitHub');
+            toast('Publié sur GitHub ✓');
             setTimeout(() => { status.textContent = ''; }, 4000);
-        } catch (e) {
+        } catch (err) {
             status.textContent = 'Erreur';
-            toast(e.message, true);
+            toast(err.message, true);
         } finally {
             btn.disabled = false;
             updatePublishBtn();
@@ -981,7 +1166,7 @@
             <div style="font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--brick);margin:1rem 0 0.5rem">Informations</div>
             <div style="font-size:0.88rem;line-height:1.65">${marked.parse(desc)}</div>` : '';
 
-        const posterSrc = posterDataUrl || (existingPosterPath ? '/' + existingPosterPath : null);
+        const posterSrc = posterDataUrl || (existingPosterPath ? `${RAW_BASE}/${existingPosterPath}` : null);
         const posterHtml = posterSrc
             ? `<img src="${posterSrc}" style="max-width:100%;margin-top:1rem;border:1px solid var(--border)" />`
             : '';
@@ -1042,7 +1227,7 @@
 
     // Charger la bonne extension pour l'aperçu initial de la photo d'équipe
     (async () => {
-        const base = 'assets/images/equipe-et-planning/photo-equipe';
+        const base = `${RAW_BASE}/assets/images/equipe-et-planning/photo-equipe`;
         for (const ext of ['jpg', 'jpeg', 'webp', 'png']) {
             const r = await fetch(`${base}.${ext}`, { method: 'HEAD' }).catch(() => null);
             if (r && r.ok) {
@@ -1073,7 +1258,7 @@
 
     async function loadClubs() {
         try {
-            clubsData = await fetch('/api/clubs').then(r => r.json());
+            clubsData = await fetch(`${RAW_BASE}/data/clubs.json`).then(r => r.json());
             renderClubs();
         } catch { toast('Impossible de charger les clubs', true); }
     }
@@ -1153,9 +1338,9 @@
 
     async function loadEquipe() {
         try {
-            equipeData = await fetch('/api/equipe').then(r => r.json());
+            equipeData = await fetch(`${RAW_BASE}/data/equipe.json`).then(r => r.json());
             renderEquipe();
-        } catch { toast('Impossible de charger l\'équipe', true); }
+        } catch { toast("Impossible de charger l'équipe", true); }
     }
 
     function renderEquipe() {

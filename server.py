@@ -11,6 +11,7 @@ import os
 import re
 import secrets
 import subprocess
+import time
 from http.server import HTTPServer, SimpleHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 
@@ -37,10 +38,13 @@ if not PASSWORD:
 
 # Token de session en mémoire (valide jusqu'au redémarrage du serveur)
 SESSION_TOKEN = secrets.token_hex(32)
+SESSION_LAST_ACTIVITY = 0.0   # timestamp de la dernière requête authentifiée
+SESSION_TIMEOUT = 20 * 60     # 20 minutes en secondes
 
 # Routes qui nécessitent une authentification
 PROTECTED_PATHS = {'/manage.html', '/api/events', '/api/archive',
-                   '/api/save', '/api/archive-event', '/api/delete', '/api/commit'}
+                   '/api/save', '/api/archive-event', '/api/delete', '/api/commit',
+                   '/api/clubs', '/api/equipe', '/api/planning'}
 
 # Page de login HTML
 LOGIN_PAGE = """<!DOCTYPE html>
@@ -107,12 +111,18 @@ class Handler(SimpleHTTPRequestHandler):
     # ── Auth ─────────────────────────────────────────────────────────
 
     def is_authenticated(self):
+        global SESSION_LAST_ACTIVITY
         cookie_header = self.headers.get('Cookie', '')
         for part in cookie_header.split(';'):
             part = part.strip()
             if part.startswith('bde_session='):
                 token = part[len('bde_session='):]
-                return secrets.compare_digest(token, SESSION_TOKEN)
+                if not secrets.compare_digest(token, SESSION_TOKEN):
+                    return False
+                if SESSION_LAST_ACTIVITY and time.time() - SESSION_LAST_ACTIVITY > SESSION_TIMEOUT:
+                    return False
+                SESSION_LAST_ACTIVITY = time.time()
+                return True
         return False
 
     def requires_auth(self, path):
@@ -195,6 +205,8 @@ class Handler(SimpleHTTPRequestHandler):
         params = parse_qs(raw.decode('utf-8'))
         submitted = params.get('password', [''])[0]
         if secrets.compare_digest(submitted, PASSWORD):
+            global SESSION_LAST_ACTIVITY
+            SESSION_LAST_ACTIVITY = time.time()
             self.send_response(302)
             self.send_header('Set-Cookie',
                 f'bde_session={SESSION_TOKEN}; HttpOnly; SameSite=Strict; Path=/')
@@ -210,6 +222,10 @@ class Handler(SimpleHTTPRequestHandler):
             self.json_response(self.read_json('data/events.json') or [])
         elif path == '/api/archive':
             self.json_response(self.read_json('data/archive.json') or [])
+        elif path == '/api/clubs':
+            self.json_response(self.read_json('data/clubs.json') or [])
+        elif path == '/api/equipe':
+            self.json_response(self.read_json('data/equipe.json') or [])
         else:
             self.send_error(404)
 
@@ -222,6 +238,14 @@ class Handler(SimpleHTTPRequestHandler):
             self.api_archive_event(body)
         elif path == '/api/commit':
             self.api_commit(body)
+        elif path == '/api/clubs':
+            self.api_save_json('data/clubs.json', body)
+        elif path == '/api/equipe':
+            self.api_save_json('data/equipe.json', body)
+        elif path == '/api/planning':
+            self.api_save_planning(body)
+        elif path == '/api/equipe-photo':
+            self.api_save_equipe_photo(body)
         else:
             self.send_error(404)
 
@@ -374,6 +398,72 @@ class Handler(SimpleHTTPRequestHandler):
         except Exception as e:
             self.json_response({'error': str(e)}, 500)
 
+    def api_save_json(self, rel_path, body):
+        try:
+            data = json.loads(body)
+            self.write_json(rel_path, data)
+            self.json_response({'ok': True})
+        except Exception as e:
+            self.json_response({'error': str(e)}, 500)
+
+    def api_save_planning(self, body):
+        try:
+            data = json.loads(body)
+            image_data = data.get('image_data', '')
+            if not image_data:
+                self.json_response({'error': 'Pas de données image'}, 400)
+                return
+            # Déterminer extension depuis data URL
+            ext = 'webp'
+            if image_data.startswith('data:image/'):
+                mime = image_data.split(';')[0].split('/')[1]
+                if mime in ('jpeg', 'jpg'):
+                    ext = 'jpg'
+                elif mime == 'png':
+                    ext = 'png'
+                else:
+                    ext = mime
+            raw = base64.b64decode(image_data.split(',', 1)[1])
+            dest = os.path.join(ROOT, f'assets/images/equipe-et-planning/planning.{ext}')
+            # Supprimer anciens fichiers planning si extension change
+            for old_ext in ('webp', 'jpg', 'jpeg', 'png'):
+                old_path = os.path.join(ROOT, f'assets/images/equipe-et-planning/planning.{old_ext}')
+                if old_path != dest and os.path.exists(old_path):
+                    os.remove(old_path)
+            with open(dest, 'wb') as f:
+                f.write(raw)
+            self.json_response({'ok': True, 'path': f'assets/images/equipe-et-planning/planning.{ext}'})
+        except Exception as e:
+            self.json_response({'error': str(e)}, 500)
+
+    def api_save_equipe_photo(self, body):
+        try:
+            data = json.loads(body)
+            image_data = data.get('image_data', '')
+            if not image_data:
+                self.json_response({'error': 'Pas de données image'}, 400)
+                return
+            ext = 'webp'
+            if image_data.startswith('data:image/'):
+                mime = image_data.split(';')[0].split('/')[1]
+                if mime in ('jpeg', 'jpg'):
+                    ext = 'jpg'
+                elif mime == 'png':
+                    ext = 'png'
+                else:
+                    ext = mime
+            raw = base64.b64decode(image_data.split(',', 1)[1])
+            dest = os.path.join(ROOT, f'assets/images/equipe-et-planning/photo-equipe.{ext}')
+            for old_ext in ('webp', 'jpg', 'jpeg', 'png'):
+                old_path = os.path.join(ROOT, f'assets/images/equipe-et-planning/photo-equipe.{old_ext}')
+                if old_path != dest and os.path.exists(old_path):
+                    os.remove(old_path)
+            with open(dest, 'wb') as f:
+                f.write(raw)
+            self.json_response({'ok': True, 'path': f'assets/images/equipe-et-planning/photo-equipe.{ext}'})
+        except Exception as e:
+            self.json_response({'error': str(e)}, 500)
+
     # ── Utils ────────────────────────────────────────────────────────
 
     def read_json(self, rel_path):
@@ -426,8 +516,14 @@ def format_date_fr(date_str):
 
 if __name__ == '__main__':
     os.chdir(ROOT)
-    server = HTTPServer(('localhost', PORT), Handler)
-    print(f"  BDE      → http://localhost:{PORT}")
+    import socket
+    try:
+        local_ip = socket.gethostbyname(socket.gethostname())
+    except Exception:
+        local_ip = '(IP inconnue)'
+    server = HTTPServer(('0.0.0.0', PORT), Handler)
+    print(f"  Local    → http://localhost:{PORT}")
+    print(f"  Réseau   → http://{local_ip}:{PORT}")
     print(f"  Manage   → http://localhost:{PORT}/manage.html")
     print(f"  Ctrl+C pour arrêter\n")
     try:

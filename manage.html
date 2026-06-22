@@ -7,61 +7,136 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <style>
+        /* ── Variables locales ── */
+        :root {
+            --sidebar-w: 230px;
+        }
+
         body { background: var(--cream); }
 
         .manage-layout {
             display: grid;
-            grid-template-columns: 220px 1fr;
+            grid-template-columns: var(--sidebar-w) 1fr;
             min-height: calc(100vh - 65px);
         }
 
-        /* Sidebar */
+        /* ── Sidebar ── */
         .sidebar {
-            border-right: 1px solid var(--border);
-            padding: 2rem 1.5rem;
+            background: var(--navy);
             display: flex;
             flex-direction: column;
-            gap: 0.25rem;
+            padding: 1.75rem 0 1.25rem;
+        }
+
+        .sidebar-section {
+            padding: 0 1rem;
+            margin-bottom: 0.25rem;
         }
 
         .sidebar-label {
-            font-size: 0.68rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.62rem;
             font-weight: 500;
-            letter-spacing: 0.14em;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
-            color: var(--muted);
-            padding: 0.5rem 0.75rem 0.25rem;
-            margin-top: 1rem;
+            color: rgba(255,255,255,0.35);
+            padding: 0.5rem 0.75rem 0.3rem;
+            display: block;
         }
-        .sidebar-label:first-child { margin-top: 0; }
 
         .sidebar-btn {
             display: flex;
             align-items: center;
-            gap: 0.6rem;
-            padding: 0.55rem 0.75rem;
+            gap: 0.65rem;
+            padding: 0.6rem 0.75rem;
             border-radius: 6px;
-            font-size: 0.88rem;
-            font-family: inherit;
+            font-size: 0.85rem;
+            font-family: 'Lora', serif;
             font-weight: 400;
             cursor: pointer;
             border: none;
             background: transparent;
-            color: var(--ink);
+            color: rgba(255,255,255,0.65);
             text-align: left;
             width: 100%;
-            transition: background 0.15s;
+            transition: background 0.15s, color 0.15s;
         }
-        .sidebar-btn:hover { background: var(--border); }
-        .sidebar-btn.active { background: var(--ink); color: var(--cream); }
+        .sidebar-btn .icon {
+            font-size: 0.9rem;
+            width: 1.1rem;
+            text-align: center;
+            flex-shrink: 0;
+            opacity: 0.6;
+        }
+        .sidebar-btn:hover {
+            background: rgba(255,255,255,0.08);
+            color: white;
+        }
+        .sidebar-btn:hover .icon { opacity: 1; }
+        .sidebar-btn.active {
+            background: rgba(255,255,255,0.14);
+            color: white;
+        }
+        .sidebar-btn.active .icon { opacity: 1; }
+        .sidebar-btn.dirty::after {
+            content: '●';
+            color: var(--brick);
+            font-size: 0.45rem;
+            margin-left: auto;
+            line-height: 1;
+            vertical-align: middle;
+        }
+        .btn-commit.has-pending {
+            animation: pulse-pending 2.5s infinite;
+        }
+        @keyframes pulse-pending {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.75; }
+        }
 
-        .sidebar-commit {
+        .sidebar-divider {
+            border: none;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            margin: 1rem 1rem;
+        }
+
+        .sidebar-bottom {
             margin-top: auto;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
+            padding: 0 1rem;
         }
 
-        /* Panel */
+        .btn-commit {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.7rem 1rem;
+            background: var(--brick);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+        .btn-commit:hover { opacity: 0.85; }
+        .btn-commit:disabled { opacity: 0.4; cursor: not-allowed; }
+
+        .commit-status {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            font-family: 'Space Grotesk', sans-serif;
+            text-align: center;
+            margin-top: 0.5rem;
+            min-height: 1rem;
+        }
+
+        /* ── Panel ── */
         .panel { padding: 2.5rem 3rem; }
 
         .panel-title {
@@ -71,11 +146,11 @@
             margin-bottom: 2rem;
         }
 
-        /* Screens */
+        /* ── Screens ── */
         .screen { display: none; }
         .screen.active { display: block; }
 
-        /* Forms */
+        /* ── Forms ── */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -86,7 +161,8 @@
         .form-group.full { grid-column: 1 / -1; }
 
         label {
-            font-size: 0.72rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -94,18 +170,18 @@
         }
 
         input, textarea {
-            font-family: inherit;
+            font-family: 'Lora', serif;
             font-size: 0.95rem;
             padding: 0.65rem 0.85rem;
             border: 1px solid var(--border);
-            border-radius: 6px;
-            background: var(--white);
-            color: var(--ink);
+            background: var(--card);
+            color: var(--navy);
             outline: none;
             transition: border-color 0.2s;
             width: 100%;
+            border-radius: 0;
         }
-        input:focus, textarea:focus { border-color: var(--ink); }
+        input:focus, textarea:focus { border-color: var(--navy); }
         textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
 
         .preview-split {
@@ -116,7 +192,8 @@
         }
 
         .preview-label {
-            font-size: 0.68rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
             font-weight: 500;
             letter-spacing: 0.1em;
             text-transform: uppercase;
@@ -126,9 +203,8 @@
 
         .preview-box {
             border: 1px solid var(--border);
-            border-radius: 6px;
             padding: 1.25rem 1.5rem;
-            background: var(--white);
+            background: var(--card);
             min-height: 140px;
             font-size: 0.9rem;
             line-height: 1.7;
@@ -137,17 +213,16 @@
         .preview-box h2 { font-size: 1.05rem; margin: 0.75rem 0 0.35rem; }
         .preview-box p { margin-bottom: 0.6rem; }
 
-        /* Buttons */
+        /* ── Buttons ── */
         .btn {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
             padding: 0.65rem 1.4rem;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.82rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
             font-weight: 500;
-            letter-spacing: 0.06em;
+            letter-spacing: 0.08em;
             text-transform: uppercase;
             cursor: pointer;
             border: none;
@@ -155,10 +230,9 @@
         }
         .btn:hover { opacity: 0.82; }
         .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-        .btn-primary { background: var(--ink); color: var(--cream); }
+        .btn-primary { background: var(--navy); color: white; }
         .btn-ghost { background: transparent; color: var(--muted); border: 1px solid var(--border); }
-        .btn-ghost:hover { color: var(--ink); border-color: var(--ink); opacity: 1; }
-        .btn-commit { background: #2d6a4f; color: white; width: 100%; justify-content: center; }
+        .btn-ghost:hover { color: var(--navy); border-color: var(--navy); opacity: 1; }
         .btn-danger { background: transparent; color: #c0392b; border: 1px solid #c0392b; }
         .btn-danger:hover { background: #c0392b; color: white; opacity: 1; }
 
@@ -167,9 +241,10 @@
             gap: 0.75rem;
             margin-top: 1.75rem;
             align-items: center;
+            flex-wrap: wrap;
         }
 
-        /* Event rows */
+        /* ── Event rows ── */
         .event-list-manage { margin-top: 0.5rem; }
 
         .event-row {
@@ -183,57 +258,51 @@
         .event-row-date {
             font-family: 'Playfair Display', serif;
             font-style: italic;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--muted);
-            min-width: 60px;
+            min-width: 55px;
             text-align: right;
             flex-shrink: 0;
         }
 
         .event-row-info { flex: 1; min-width: 0; }
-        .event-row-info strong { display: block; font-size: 0.95rem; }
-        .event-row-info span { font-size: 0.8rem; color: var(--muted); }
+        .event-row-info strong { display: block; font-family: 'Lora', serif; font-size: 0.95rem; }
+        .event-row-info span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
 
-        .event-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+        .event-row-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
 
         .icon-btn {
-            padding: 0.4rem 0.6rem;
-            border-radius: 5px;
-            font-size: 0.78rem;
-            font-family: inherit;
+            padding: 0.35rem 0.6rem;
+            font-size: 0.7rem;
+            font-family: 'Space Grotesk', sans-serif;
             cursor: pointer;
             border: 1px solid var(--border);
             background: transparent;
             color: var(--muted);
             font-weight: 500;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.07em;
             text-transform: uppercase;
             transition: all 0.15s;
         }
-        .icon-btn:hover { color: var(--ink); border-color: var(--ink); }
+        .icon-btn:hover { color: var(--navy); border-color: var(--navy); }
         .icon-btn.danger:hover { color: #c0392b; border-color: #c0392b; }
-        .icon-btn.archive-btn:hover { color: var(--accent); border-color: var(--accent); }
+        .icon-btn.archive-btn:hover { color: var(--brick); border-color: var(--brick); }
 
-        /* Commit status */
-        .commit-status {
-            font-size: 0.72rem;
-            color: var(--muted);
-            margin-top: 0.5rem;
-            text-align: center;
-            min-height: 1rem;
-        }
-
-        /* Toast */
+        /* ── Toast ── */
         #toast {
             position: fixed;
             bottom: 2rem;
             left: 50%;
             transform: translateX(-50%) translateY(20px);
-            background: var(--ink);
+            background: var(--navy);
             color: var(--cream);
             padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            font-size: 0.85rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.82rem;
             opacity: 0;
             transition: all 0.3s;
             pointer-events: none;
@@ -245,10 +314,10 @@
 
         .empty { color: var(--muted); font-style: italic; font-size: 0.9rem; padding: 1.5rem 0; }
 
-        /* Modal */
+        /* ── Modal ── */
         .modal-overlay {
             position: fixed; inset: 0;
-            background: rgba(17,17,17,0.4);
+            background: rgba(27,31,46,0.5);
             display: none;
             align-items: center;
             justify-content: center;
@@ -257,30 +326,91 @@
         .modal-overlay.open { display: flex; }
         .modal {
             background: var(--cream);
-            border-radius: 10px;
             padding: 2rem;
             width: 90%;
-            max-width: 500px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            max-width: 460px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.25);
+            border-top: 3px solid var(--brick);
         }
-        .modal h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 0.75rem; }
-        .modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; }
+        .modal h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+        .modal p { font-size: 0.9rem; color: var(--muted); margin-bottom: 1.5rem; font-family: 'Lora', serif; }
         .modal-actions { display: flex; gap: 0.75rem; justify-content: flex-end; }
 
+        /* ── Inactivité ── */
+        #inactivity-banner {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: var(--brick);
+            color: white;
+            text-align: center;
+            padding: 0.65rem 1rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.8rem;
+            letter-spacing: 0.05em;
+            z-index: 200;
+        }
+        #inactivity-banner.show { display: block; }
+
+        /* ── Mobile ── */
         @media (max-width: 700px) {
             .manage-layout { grid-template-columns: 1fr; }
-            .sidebar { border-right: none; border-bottom: 1px solid var(--border); flex-direction: row; flex-wrap: wrap; padding: 1rem; }
+
+            .sidebar {
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 0.75rem 1rem;
+                gap: 0.25rem;
+            }
+            .sidebar-section { padding: 0; }
             .sidebar-label { display: none; }
-            .sidebar-commit { display: none; }
+            .sidebar-divider { display: none; }
+            .sidebar-bottom { display: none; }
+            .sidebar-btn {
+                padding: 0.45rem 0.75rem;
+                border-radius: 4px;
+                font-size: 0.82rem;
+                width: auto;
+            }
+            .sidebar-btn .icon { display: none; }
+
             .panel { padding: 1.5rem 1rem; }
-            .form-grid, .preview-split { grid-template-columns: 1fr; }
+
+            .form-grid { grid-template-columns: 1fr; }
+            .form-group.full { grid-column: 1; }
+            .preview-split { grid-template-columns: 1fr; }
+
+            .event-row {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            .event-row-date {
+                min-width: auto;
+                text-align: left;
+                font-size: 0.95rem;
+            }
+            .event-row-info { width: calc(100% - 60px); }
+            .event-row-actions {
+                width: 100%;
+                padding-top: 0.25rem;
+            }
         }
     </style>
 </head>
 <body>
+    <div id="inactivity-banner">
+        Déconnexion dans <span id="countdown">60</span>s pour inactivité —
+        <a href="#" onclick="resetInactivity(); return false;" style="color:white;text-decoration:underline">Rester connecté</a>
+    </div>
+
     <header>
         <nav class="container">
-            <h1 class="site-title"><a href="index.html">BDE</a></h1>
+            <h1 class="site-title"><a href="index.html">BDE ESAD Orléans</a></h1>
             <ul>
                 <li><a href="index.html">← Site</a></li>
             </ul>
@@ -289,19 +419,36 @@
 
     <div class="manage-layout">
         <aside class="sidebar">
-            <span class="sidebar-label">Événements</span>
-            <button class="sidebar-btn active" onclick="showPanel('add')" id="nav-add">
-                ＋ Ajouter
-            </button>
-            <button class="sidebar-btn" onclick="showPanel('upcoming')" id="nav-upcoming">
-                ◷ À venir
-            </button>
-            <button class="sidebar-btn" onclick="showPanel('archive')" id="nav-archive">
-                ◴ Archives
-            </button>
+            <div class="sidebar-section">
+                <span class="sidebar-label">Événements</span>
+                <button class="sidebar-btn active" onclick="showPanel('add')" id="nav-add">
+                    <span class="icon">＋</span> Ajouter
+                </button>
+                <button class="sidebar-btn" onclick="showPanel('upcoming')" id="nav-upcoming">
+                    <span class="icon">◷</span> À venir
+                </button>
+                <button class="sidebar-btn" onclick="showPanel('archive')" id="nav-archive">
+                    <span class="icon">◴</span> Archives
+                </button>
+            </div>
 
-            <div class="sidebar-commit">
-                <button class="btn btn-commit" onclick="commitAll()" id="btn-commit">
+            <div class="sidebar-section">
+                <span class="sidebar-label">Contenu</span>
+                <button class="sidebar-btn" onclick="showPanel('planning')" id="nav-planning">
+                    <span class="icon">🗓</span> Planning
+                </button>
+                <button class="sidebar-btn" onclick="showPanel('clubs')" id="nav-clubs">
+                    <span class="icon">◈</span> Clubs
+                </button>
+                <button class="sidebar-btn" onclick="showPanel('equipe')" id="nav-equipe">
+                    <span class="icon">◎</span> Équipe
+                </button>
+            </div>
+
+            <hr class="sidebar-divider">
+
+            <div class="sidebar-bottom">
+                <button class="btn-commit" onclick="commitAll()" id="btn-commit">
                     ↑ Publier sur le site
                 </button>
                 <p class="commit-status" id="commit-status"></p>
@@ -350,7 +497,7 @@
                 <div class="btn-row">
                     <button class="btn btn-primary" onclick="saveEvent()">Enregistrer</button>
                     <button class="btn btn-ghost" onclick="resetForm()">Annuler</button>
-                    <span id="form-mode-hint" style="font-size:0.78rem;color:var(--muted);margin-left:auto"></span>
+                    <span id="form-mode-hint" style="font-size:0.78rem;color:var(--muted);margin-left:auto;font-family:'Space Grotesk',sans-serif"></span>
                 </div>
             </div>
 
@@ -364,6 +511,79 @@
             <div id="panel-archive" class="screen">
                 <p class="panel-title">Archives</p>
                 <div id="list-archive" class="event-list-manage"></div>
+            </div>
+
+            <!-- PLANNING -->
+            <div id="panel-planning" class="screen">
+                <p class="panel-title">Planning</p>
+                <div class="form-group" style="max-width:480px">
+                    <label>Image actuelle</label>
+                    <img id="planning-preview" src="assets/images/equipe-et-planning/planning.webp"
+                         style="width:100%;border:1px solid var(--border);margin-bottom:1rem" />
+                    <label for="planning-file">Remplacer l'image</label>
+                    <input type="file" id="planning-file" accept="image/*" onchange="onPlanningChange(this)" />
+                    <p style="font-family:'Space Grotesk',sans-serif;font-size:0.72rem;color:var(--muted);margin-top:0.6rem">
+                        La nouvelle image sera publiée lors du prochain clic sur <em>Publier</em>.
+                    </p>
+                </div>
+            </div>
+
+            <!-- CLUBS -->
+            <div id="panel-clubs" class="screen">
+                <p class="panel-title">Clubs</p>
+                <div id="clubs-manage" class="event-list-manage"></div>
+                <div class="btn-row" style="margin-top:1rem">
+                    <button class="btn btn-primary" onclick="addClub()">＋ Ajouter un club</button>
+                </div>
+
+                <!-- Formulaire club (inline) -->
+                <div id="club-form" style="display:none;margin-top:2rem;max-width:560px">
+                    <div style="height:1px;background:var(--border);margin-bottom:1.5rem"></div>
+                    <p style="font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:1rem" id="club-form-title">Nouveau club</p>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="c-nom">Nom du club</label>
+                            <input type="text" id="c-nom" placeholder="La Prototek" />
+                        </div>
+                        <div class="form-group">
+                            <label for="c-categorie">Catégorie</label>
+                            <input type="text" id="c-categorie" placeholder="Matériaux" />
+                        </div>
+                        <div class="form-group full">
+                            <label for="c-membres">Membres</label>
+                            <input type="text" id="c-membres" placeholder="Prénom Nom (promo), …" />
+                        </div>
+                        <div class="form-group full">
+                            <label for="c-instagram">Lien Instagram (optionnel)</label>
+                            <input type="url" id="c-instagram" placeholder="https://www.instagram.com/…" />
+                        </div>
+                    </div>
+                    <div class="btn-row">
+                        <button class="btn btn-primary" onclick="saveClub()">Enregistrer</button>
+                        <button class="btn btn-ghost" onclick="cancelClub()">Annuler</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ÉQUIPE -->
+            <div id="panel-equipe" class="screen">
+                <p class="panel-title">Équipe BDE</p>
+
+                <div class="form-group" style="max-width:480px;margin-bottom:2rem">
+                    <label>Photo de l'équipe</label>
+                    <img id="equipe-photo-preview" src="assets/images/equipe-et-planning/photo-equipe.png"
+                         style="width:100%;border:1px solid var(--border);margin-bottom:0.6rem" />
+                    <input type="file" id="equipe-photo-file" accept="image/*" onchange="onEquipePhotoChange(this)" />
+                    <p style="font-family:'Space Grotesk',sans-serif;font-size:0.72rem;color:var(--muted);margin-top:0.5rem">
+                        La nouvelle photo sera publiée lors du prochain clic sur <em>Publier</em>.
+                    </p>
+                </div>
+
+                <p style="font-family:'Space Grotesk',sans-serif;font-size:0.82rem;color:var(--muted);margin-bottom:1rem">Membres (un par ligne)</p>
+                <div id="equipe-members" style="display:flex;flex-direction:column;gap:0.6rem;max-width:400px"></div>
+                <div class="btn-row">
+                    <button class="btn btn-ghost" onclick="addMembre()">＋ Ajouter</button>
+                </div>
             </div>
         </div>
     </div>
@@ -387,9 +607,64 @@
     let eventsData = [];
     let archiveData = [];
     let editingFile = null;
-    let posterDataUrl = null;   // nouvelle image choisie (base64)
-    let posterFileName = null;  // nom du fichier de la nouvelle image
-    let existingPosterPath = null; // chemin du poster déjà en place
+    let posterDataUrl = null;
+    let posterFileName = null;
+    let existingPosterPath = null;
+
+    // ── État des modifications en attente ─────────────────────────────
+    const pending = { clubs: false, equipe: false, planning: false };
+
+    function markDirty(section) {
+        pending[section] = true;
+        document.getElementById(`nav-${section}`)?.classList.add('dirty');
+        updatePublishBtn();
+    }
+
+    function markClean(section) {
+        pending[section] = false;
+        document.getElementById(`nav-${section}`)?.classList.remove('dirty');
+        updatePublishBtn();
+    }
+
+    function updatePublishBtn() {
+        const anyPending = Object.values(pending).some(Boolean);
+        const btn = document.getElementById('btn-commit');
+        btn.classList.toggle('has-pending', anyPending);
+        const count = Object.values(pending).filter(Boolean).length;
+        btn.textContent = anyPending ? `↑ Publier · ${count} en attente` : '↑ Publier sur le site';
+    }
+
+    // ── Inactivité ────────────────────────────────────────────────────
+    const INACTIVE_MS   = 20 * 60 * 1000;   // 20 min
+    const WARNING_MS    = 19 * 60 * 1000;   // avertissement à 19 min
+    let inactivityTimer, warningTimer, countdownInterval;
+
+    function resetInactivity() {
+        clearTimeout(inactivityTimer);
+        clearTimeout(warningTimer);
+        clearInterval(countdownInterval);
+        document.getElementById('inactivity-banner').classList.remove('show');
+
+        warningTimer = setTimeout(() => {
+            let remaining = 60;
+            document.getElementById('countdown').textContent = remaining;
+            document.getElementById('inactivity-banner').classList.add('show');
+            countdownInterval = setInterval(() => {
+                remaining--;
+                document.getElementById('countdown').textContent = remaining;
+                if (remaining <= 0) clearInterval(countdownInterval);
+            }, 1000);
+        }, WARNING_MS);
+
+        inactivityTimer = setTimeout(() => {
+            window.location.href = '/login';
+        }, INACTIVE_MS);
+    }
+
+    ['mousemove','keydown','click','scroll','touchstart'].forEach(ev => {
+        document.addEventListener(ev, resetInactivity, { passive: true });
+    });
+    resetInactivity();
 
     // ── Init ─────────────────────────────────────────────────────────
 
@@ -433,6 +708,7 @@
                     old_file: editingFile,
                     poster_data: posterDataUrl,
                     poster_name: posterFileName,
+                    existing_poster: existingPosterPath,
                 }),
             });
             const data = await res.json();
@@ -461,13 +737,11 @@
         document.getElementById('f-lieu').value  = e.lieu  || '';
         document.getElementById('f-desc').value  = '';
 
-        // Charger body + poster depuis le fichier
         existingPosterPath = e.poster || null;
         try {
             const resp = await fetch('/' + e.file);
             if (resp.ok) {
                 const text = await resp.text();
-                // Extraire le poster du frontmatter si pas dans le JSON
                 const fmMatch = text.match(/^---([\s\S]*?)---/);
                 if (fmMatch && !existingPosterPath) {
                     const pLine = fmMatch[1].match(/^poster:\s*"?([^"\n]+)"?/m);
@@ -574,8 +848,57 @@
         const btn = document.getElementById('btn-commit');
         const status = document.getElementById('commit-status');
         btn.disabled = true;
-        status.textContent = 'Commit en cours…';
+        status.textContent = 'Enregistrement…';
         try {
+            // 1. Sauvegarder toutes les modifications en attente sur le disque
+            if (pending.clubs) {
+                const res = await fetch('/api/clubs', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clubsData),
+                });
+                const d = await res.json();
+                if (d.error) throw new Error('Clubs : ' + d.error);
+                markClean('clubs');
+            }
+            if (pending.equipe) {
+                const clean = equipeData.map(m => m.trim()).filter(Boolean);
+                const res = await fetch('/api/equipe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(clean),
+                });
+                const d = await res.json();
+                if (d.error) throw new Error('Équipe : ' + d.error);
+                equipeData = clean;
+                if (equipePhotoDataUrl) {
+                    const res2 = await fetch('/api/equipe-photo', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ image_data: equipePhotoDataUrl }),
+                    });
+                    const d2 = await res2.json();
+                    if (d2.error) throw new Error('Photo équipe : ' + d2.error);
+                    equipePhotoDataUrl = null;
+                    document.getElementById('equipe-photo-file').value = '';
+                }
+                markClean('equipe');
+            }
+            if (pending.planning) {
+                const res = await fetch('/api/planning', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image_data: planningDataUrl }),
+                });
+                const d = await res.json();
+                if (d.error) throw new Error('Planning : ' + d.error);
+                planningDataUrl = null;
+                document.getElementById('planning-file').value = '';
+                markClean('planning');
+            }
+
+            // 2. Commit git
+            status.textContent = 'Publication…';
             const res = await fetch(`${API}/api/commit`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -583,14 +906,15 @@
             });
             const data = await res.json();
             if (data.error) throw new Error(data.error);
-            status.textContent = 'Committé ✓';
-            toast('Commit effectué — pense à pousser sur GitHub ✓', false);
+            status.textContent = 'Publié ✓';
+            toast('Publié ✓ — pense à pousser sur GitHub');
             setTimeout(() => { status.textContent = ''; }, 4000);
         } catch (e) {
-            status.textContent = 'Erreur commit';
+            status.textContent = 'Erreur';
             toast(e.message, true);
         } finally {
             btn.disabled = false;
+            updatePublishBtn();
         }
     }
 
@@ -651,15 +975,15 @@
             date  ? fmtDate(date) : '',
             heure,
             lieu,
-        ].filter(Boolean).map(s => `<span style="display:block;color:#888;font-size:0.85rem">${s}</span>`).join('');
+        ].filter(Boolean).map(s => `<span style="display:block;color:var(--muted);font-size:0.82rem;font-family:'Space Grotesk',sans-serif">${s}</span>`).join('');
 
         const descHtml = desc ? `
-            <div style="font-size:0.7rem;font-weight:500;letter-spacing:0.12em;text-transform:uppercase;color:#C95F3F;margin:1rem 0 0.5rem">Informations</div>
-            <div style="font-size:0.88rem;line-height:1.6">${marked.parse(desc)}</div>` : '';
+            <div style="font-family:'Space Grotesk',sans-serif;font-size:0.65rem;font-weight:500;letter-spacing:0.14em;text-transform:uppercase;color:var(--brick);margin:1rem 0 0.5rem">Informations</div>
+            <div style="font-size:0.88rem;line-height:1.65">${marked.parse(desc)}</div>` : '';
 
         const posterSrc = posterDataUrl || (existingPosterPath ? '/' + existingPosterPath : null);
         const posterHtml = posterSrc
-            ? `<img src="${posterSrc}" style="max-width:100%;margin-top:1rem;border-radius:4px" />`
+            ? `<img src="${posterSrc}" style="max-width:100%;margin-top:1rem;border:1px solid var(--border)" />`
             : '';
 
         if (!titre && !date && !desc && !posterDataUrl) {
@@ -668,8 +992,8 @@
         }
 
         el.innerHTML = `
-            ${titre ? `<div style="font-family:'Playfair Display',serif;font-size:1.2rem;font-weight:700;margin-bottom:0.5rem">${titre}</div>` : ''}
-            ${metaItems ? `<div style="margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid #D8D4CC">${metaItems}</div>` : ''}
+            ${titre ? `<div style="font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;margin-bottom:0.5rem">${titre}</div>` : ''}
+            ${metaItems ? `<div style="margin-bottom:0.75rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">${metaItems}</div>` : ''}
             ${descHtml}
             ${posterHtml}
         `;
@@ -697,6 +1021,183 @@
     document.getElementById('modal').addEventListener('click', e => {
         if (e.target === e.currentTarget) closeModal();
     });
+
+    // ── Planning ──────────────────────────────────────────────────────
+
+    let planningDataUrl = null;
+    let equipePhotoDataUrl = null;
+
+    function onPlanningChange(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            planningDataUrl = e.target.result;
+            document.getElementById('planning-preview').src = planningDataUrl;
+            markDirty('planning');
+            toast('Image sélectionnée — publie pour enregistrer');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // Charger la bonne extension pour l'aperçu initial de la photo d'équipe
+    (async () => {
+        const base = 'assets/images/equipe-et-planning/photo-equipe';
+        for (const ext of ['jpg', 'jpeg', 'webp', 'png']) {
+            const r = await fetch(`${base}.${ext}`, { method: 'HEAD' }).catch(() => null);
+            if (r && r.ok) {
+                const img = document.getElementById('equipe-photo-preview');
+                if (img && !equipePhotoDataUrl) img.src = `${base}.${ext}`;
+                break;
+            }
+        }
+    })();
+
+    function onEquipePhotoChange(input) {
+        const file = input.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = e => {
+            equipePhotoDataUrl = e.target.result;
+            document.getElementById('equipe-photo-preview').src = equipePhotoDataUrl;
+            markDirty('equipe');
+            toast('Photo sélectionnée — publie pour enregistrer');
+        };
+        reader.readAsDataURL(file);
+    }
+
+    // ── Clubs ─────────────────────────────────────────────────────────
+
+    let clubsData = [];
+    let editingClubIndex = null;
+
+    async function loadClubs() {
+        try {
+            clubsData = await fetch('/api/clubs').then(r => r.json());
+            renderClubs();
+        } catch { toast('Impossible de charger les clubs', true); }
+    }
+
+    function renderClubs() {
+        const el = document.getElementById('clubs-manage');
+        if (!clubsData.length) { el.innerHTML = '<p class="empty">Aucun club.</p>'; return; }
+        el.innerHTML = clubsData.map((c, i) => `
+            <div class="event-row">
+                <div class="event-row-info">
+                    <strong>${c.nom}</strong>
+                    <span>${c.categorie} · ${c.membres}</span>
+                </div>
+                <div class="event-row-actions">
+                    <button class="icon-btn" onclick="editClub(${i})">Modifier</button>
+                    <button class="icon-btn danger" onclick="deleteClub(${i})">Suppr.</button>
+                </div>
+            </div>`).join('');
+    }
+
+    function addClub() {
+        editingClubIndex = null;
+        document.getElementById('c-nom').value = '';
+        document.getElementById('c-categorie').value = '';
+        document.getElementById('c-membres').value = '';
+        document.getElementById('c-instagram').value = '';
+        document.getElementById('club-form-title').textContent = 'Nouveau club';
+        document.getElementById('club-form').style.display = 'block';
+        document.getElementById('club-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function editClub(i) {
+        editingClubIndex = i;
+        const c = clubsData[i];
+        document.getElementById('c-nom').value = c.nom;
+        document.getElementById('c-categorie').value = c.categorie;
+        document.getElementById('c-membres').value = c.membres;
+        document.getElementById('c-instagram').value = c.instagram || '';
+        document.getElementById('club-form-title').textContent = 'Modifier le club';
+        document.getElementById('club-form').style.display = 'block';
+        document.getElementById('club-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function cancelClub() {
+        document.getElementById('club-form').style.display = 'none';
+        editingClubIndex = null;
+    }
+
+    function saveClub() {
+        const nom = document.getElementById('c-nom').value.trim();
+        const categorie = document.getElementById('c-categorie').value.trim();
+        const membres = document.getElementById('c-membres').value.trim();
+        const instagram = document.getElementById('c-instagram').value.trim();
+        if (!nom) { toast('Le nom est requis', true); return; }
+        const entry = { nom, categorie, membres, instagram };
+        if (editingClubIndex !== null) {
+            clubsData[editingClubIndex] = entry;
+        } else {
+            clubsData.push(entry);
+        }
+        cancelClub();
+        renderClubs();
+        markDirty('clubs');
+        toast('Club ajouté à la liste — publie pour enregistrer');
+    }
+
+    function deleteClub(i) {
+        clubsData.splice(i, 1);
+        renderClubs();
+        markDirty('clubs');
+        toast('Club retiré — publie pour enregistrer');
+    }
+
+    // ── Équipe ────────────────────────────────────────────────────────
+
+    let equipeData = [];
+
+    async function loadEquipe() {
+        try {
+            equipeData = await fetch('/api/equipe').then(r => r.json());
+            renderEquipe();
+        } catch { toast('Impossible de charger l\'équipe', true); }
+    }
+
+    function renderEquipe() {
+        const el = document.getElementById('equipe-members');
+        el.innerHTML = equipeData.map((m, i) => `
+            <div style="display:flex;gap:0.5rem;align-items:center">
+                <input type="text" value="${m}" oninput="equipeData[${i}]=this.value; markDirty('equipe')"
+                    style="flex:1;font-family:'Lora',serif;font-size:0.95rem;padding:0.55rem 0.75rem;border:1px solid var(--border);background:var(--card);color:var(--navy);outline:none;border-radius:0" />
+                <button class="icon-btn danger" onclick="removeMembre(${i})">✕</button>
+            </div>`).join('');
+    }
+
+    function addMembre() {
+        equipeData.push('');
+        renderEquipe();
+        const inputs = document.querySelectorAll('#equipe-members input');
+        inputs[inputs.length - 1].focus();
+        markDirty('equipe');
+    }
+
+    function removeMembre(i) {
+        equipeData.splice(i, 1);
+        renderEquipe();
+        markDirty('equipe');
+    }
+
+    function saveEquipe() {
+        markDirty('equipe');
+        toast('Équipe mise à jour — publie pour enregistrer');
+    }
+
+    // ── Extension showPanel ───────────────────────────────────────────
+
+    const _showPanel = showPanel;
+    showPanel = function(name) {
+        _showPanel(name);
+        // Ne recharger depuis le disque que si aucune modif en attente
+        if (name === 'clubs' && !pending.clubs) loadClubs();
+        else if (name === 'clubs') renderClubs();
+        if (name === 'equipe' && !pending.equipe) loadEquipe();
+        else if (name === 'equipe') renderEquipe();
+    };
     </script>
 </body>
 </html>

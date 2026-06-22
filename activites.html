@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDE — Nos activités</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-hero {
+            background: var(--navy);
+            color: white;
+            padding: 3rem 0 2.5rem;
+            border-bottom: 3px solid var(--brick);
+        }
+        .page-hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: white;
+        }
+        .page-hero .hero-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-content {
+            padding: 3rem 0 5rem;
+            max-width: 720px;
+        }
+
+        .page-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+        }
+        .page-content h2:first-child { margin-top: 0; }
+
+        .page-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Clubs */
+        .clubs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+            margin-bottom: 2rem;
+        }
+
+        .club-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .club-row:first-child { border-top: 1px solid var(--border); }
+
+        .club-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.2rem;
+        }
+        .club-name a {
+            color: var(--navy);
+            border-bottom: 1px solid rgba(27,31,46,0.25);
+            transition: border-color 0.2s;
+        }
+        .club-name a:hover { border-color: var(--navy); }
+
+        .club-members {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .club-tag {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 500;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            border: 1px solid var(--border);
+            padding: 0.2rem 0.5rem;
+            white-space: nowrap;
+        }
+
+        /* Créer un club */
+        .create-club-block {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--brick);
+            padding: 1.25rem 1.5rem;
+            margin-bottom: 3rem;
+        }
+        .create-club-block p {
+            margin-bottom: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .create-club-block a {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--brick);
+            border-bottom: 1px solid var(--brick);
+            padding-bottom: 1px;
+        }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2.5rem 0 2rem;
+        }
+        .section-divider span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* Boîte à idées */
+        :root {
+            --mailbox-max-width: 380px;
+            --envelope-max-width: 150px;
+            --animation-duration: 1000ms;
+        }
+        .mailbox-container {
+            position: relative;
+            text-align: center;
+            margin: 1.5rem auto;
+            max-width: var(--mailbox-max-width);
+            width: 100%;
+        }
+        .mailbox-image {
+            width: 100%;
+            height: auto;
+            cursor: pointer;
+            display: block;
+        }
+        @media (max-width: 768px) {
+            .mailbox-container { max-width: 90%; }
+        }
+        .form-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            z-index: 10;
+            pointer-events: auto;
+            background-color: rgb(216,216,216);
+        }
+        .form-overlay iframe { width: 100%; border: none; display: block; }
+        .close-btn {
+            margin-top: 0.75rem;
+            padding: 0.5rem 1rem;
+            background: var(--navy);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: none;
+            position: relative;
+            z-index: 20;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+        }
+        .envelope {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 30%;
+            max-width: var(--envelope-max-width);
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: none;
+            display: none;
+            z-index: 15;
+        }
+        .envelope.animate {
+            display: block;
+            animation: flyAway var(--animation-duration) forwards ease-in;
+        }
+        @keyframes flyAway {
+            0%   { transform: translate(-50%, -50%) scale(2); }
+            100% { transform: translate(-300%, -300%) scale(0.12); }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <h1 class="site-title"><a href="index.html"><span class="title-full">BDE ESAD Orléans</span><span class="title-short">BDE</span></a></h1>
+            <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('nav-menu').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html">Événements</a></li>
+                <li><a href="activites.html">Activités</a></li>
+                <li><a href="association.html">Association</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-hero">
+            <div class="container">
+                <p class="hero-label">Bureau des Étudiants</p>
+                <h2>Nos activités</h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-content">
+
+                <h2>Les clubs</h2>
+
+                <div class="create-club-block">
+                    <p>Tu veux créer un club ? Le BDE se porte responsable légalement des clubs étudiants.</p>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSfdvX5rUUFXTu2i3cXDn03kfKD2BA0PLlPZJr6gO7AaRMh9zA/viewform?usp=dialog" target="_blank">→ Formulaire de création de club 2025/2026</a>
+                </div>
+
+                <div class="clubs-list" id="clubs-list">
+                    <p style="color:var(--muted);font-style:italic;font-size:0.9rem">Chargement…</p>
+                </div>
+
+                <div class="section-divider"><span>Une idée ?</span></div>
+
+                <h2>Une idée d'évènement, de projet ou d'amélioration ?</h2>
+                <p>Clique sur la boîte pour nous envoyer ta suggestion.</p>
+
+                <div class="mailbox-container" id="mailboxContainer">
+                    <img id="mailbox" src="assets/images/equipe-et-planning/boite-a-idees.png"
+                         alt="Boîte à idées — cliquer pour ouvrir le formulaire" class="mailbox-image" />
+                    <div class="form-overlay" id="formOverlay" aria-hidden="true">
+                        <iframe id="googleForm" title="Formulaire Google"
+                                src="https://forms.gle/ComPRrqLWTitosSHA"></iframe>
+                    </div>
+                    <button class="close-btn" id="closeBtn">Fermer</button>
+                    <img id="envelope" class="envelope"
+                         src="assets/images/equipe-et-planning/enveloppe.webp" alt="" aria-hidden="true" />
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span>BDE — Bureau des Élèves</span>
+                <span><a href="manage.html">Gestion du site</a></span>
+                <span id="year"></span>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    fetch('data/clubs.json').then(r => r.json()).then(clubs => {
+        const el = document.getElementById('clubs-list');
+        if (!clubs.length) { el.innerHTML = '<p style="color:var(--muted);font-style:italic;font-size:0.9rem">Aucun club pour le moment.</p>'; return; }
+        el.innerHTML = clubs.map(c => `
+            <div class="club-row">
+                <div>
+                    <div class="club-name">${c.instagram ? `<a href="${c.instagram}" target="_blank">${c.nom}</a>` : c.nom}</div>
+                    <div class="club-members">${c.membres}</div>
+                </div>
+                <span class="club-tag">${c.categorie}</span>
+            </div>`).join('');
+    }).catch(() => {
+        document.getElementById('clubs-list').innerHTML = '<p style="color:var(--muted);font-style:italic;font-size:0.9rem">Impossible de charger les clubs.</p>';
+    });
+    document.querySelectorAll('#nav-menu a').forEach(a => {
+        a.addEventListener('click', () => {
+            document.getElementById('nav-menu').classList.remove('open');
+            document.querySelector('.nav-burger').classList.remove('open');
+        });
+    });
+
+    const mailbox = document.getElementById('mailbox');
+    const formOverlay = document.getElementById('formOverlay');
+    const googleForm = document.getElementById('googleForm');
+    const closeBtn = document.getElementById('closeBtn');
+    const envelope = document.getElementById('envelope');
+
+    function setFormHeight() {
+        const h = mailbox.clientHeight;
+        googleForm.style.height = h + 'px';
+        formOverlay.style.height = h + 'px';
+    }
+
+    mailbox.addEventListener('click', () => {
+        setFormHeight();
+        formOverlay.style.display = 'flex';
+        formOverlay.setAttribute('aria-hidden', 'false');
+        closeBtn.style.display = 'inline-block';
+    });
+
+    window.addEventListener('resize', () => {
+        if (formOverlay.style.display === 'flex') setFormHeight();
+    });
+
+    function startEnvelopeAnimation() {
+        envelope.style.display = 'block';
+        envelope.classList.remove('animate');
+        void envelope.offsetWidth;
+        envelope.classList.add('animate');
+    }
+
+    envelope.addEventListener('animationend', () => {
+        envelope.classList.remove('animate');
+        envelope.style.display = 'none';
+    });
+
+    closeBtn.addEventListener('click', () => {
+        formOverlay.style.display = 'none';
+        formOverlay.setAttribute('aria-hidden', 'true');
+        closeBtn.style.display = 'none';
+        startEnvelopeAnimation();
+    });
+    </script>
+</body>
+</html>

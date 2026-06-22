@@ -5,7 +5,8 @@
       "name": "bde",
       "runtimeExecutable": "python3",
       "runtimeArgs": ["/Users/alice/Documents/GitHub/bde/server.py"],
-      "port": 4242
+      "port": 4242,
+      "autoPort": false
     }
   ]
 }

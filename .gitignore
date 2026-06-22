@@ -1,5 +1,6 @@
 # Environnement local
 .env
+.claude/
 
 # OS
 .DS_Store

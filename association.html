@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BDE — L'association</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .page-hero {
+            background: var(--navy);
+            color: white;
+            padding: 3rem 0 2.5rem;
+            border-bottom: 3px solid var(--brick);
+        }
+        .page-hero h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            line-height: 1.15;
+            color: white;
+        }
+        .page-hero .hero-label {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--brick);
+            margin-bottom: 0.75rem;
+        }
+
+        .page-content {
+            padding: 3rem 0 5rem;
+            max-width: 720px;
+        }
+
+        .page-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 2.5rem 0 0.75rem;
+        }
+        .page-content h2:first-child { margin-top: 0; }
+
+        .page-content p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            color: var(--navy);
+        }
+
+        .page-content ul {
+            margin: 0.5rem 0 1rem 1.25rem;
+        }
+        .page-content li {
+            line-height: 1.75;
+            margin-bottom: 0.3rem;
+        }
+
+        .team-photo {
+            width: 100%;
+            max-width: 640px;
+            height: auto;
+            display: block;
+            border: 1px solid var(--border);
+            margin-bottom: 0.75rem;
+        }
+
+        .team-caption {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.78rem;
+            color: var(--muted);
+            text-align: center;
+            max-width: 640px;
+            margin-bottom: 2.5rem;
+        }
+
+        .contact-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            margin: 1rem 0 2rem;
+        }
+        .contact-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.88rem;
+            color: var(--brick);
+            border-bottom: 1px solid rgba(184,76,42,0.35);
+            padding-bottom: 1px;
+            width: fit-content;
+            transition: border-color 0.2s;
+        }
+        .contact-link:hover { border-color: var(--brick); }
+
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 2.5rem 0 2rem;
+        }
+        .section-divider span {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 0.68rem;
+            font-weight: 500;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--muted);
+            white-space: nowrap;
+        }
+        .section-divider::before,
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <h1 class="site-title"><a href="index.html"><span class="title-full">BDE ESAD Orléans</span><span class="title-short">BDE</span></a></h1>
+            <button class="nav-burger" aria-label="Menu" onclick="this.classList.toggle('open');document.getElementById('nav-menu').classList.toggle('open')">
+                <span></span><span></span><span></span>
+            </button>
+            <ul id="nav-menu">
+                <li><a href="index.html">Événements</a></li>
+                <li><a href="activites.html">Activités</a></li>
+                <li><a href="association.html">Association</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="page-hero">
+            <div class="container">
+                <p class="hero-label">Bureau des Étudiants</p>
+                <h2>L'association</h2>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="page-content">
+
+                <h2>L'équipe</h2>
+                <a href="https://drive.google.com/file/d/1KkNyCm_52H9wUw4vD9HHK2-zXuHF3eWs/view?usp=drive_link" target="_blank">
+                    <img class="team-photo" id="team-photo" src="assets/images/equipe-et-planning/photo-equipe.png" alt="Photo de l'équipe BDE" />
+                </a>
+                <p class="team-caption" id="team-caption">Chargement…</p>
+
+                <div class="contact-block">
+                    <a class="contact-link" href="https://www.instagram.com/bdeesadorleans/" target="_blank">
+                        @bdeesadorleans — Instagram
+                    </a>
+                    <a class="contact-link" href="mailto:bde-communication@esad-orleans.fr">
+                        bde-communication@esad-orleans.fr
+                    </a>
+                </div>
+
+                <div class="section-divider"><span>Le BDE</span></div>
+
+                <h2>Qu'est-ce qu'un BDE ?</h2>
+                <p>Le bureau des étudiants est une association composée par des étudiants pour les étudiants. Il y a une co-direction composée par 5 membres permanents qui gèrent l'ensemble de l'administration et de l'organisation de l'association. Ils sont assistés par d'autres étudiants appelés agents volants.</p>
+                <p>Le BDE organise des événements en tous genres pour apporter un peu de bonheur dans la vie de l'école.</p>
+
+                <h2>Quel genre d'évènements ?</h2>
+                <p>Des soirées à thème, des expositions pour permettre aux étudiants de montrer leur travail, des concours de costumes, des ventes, des ateliers et bien plus encore. Le BDE organise aussi un grand Gala dans un château pendant le 2e semestre de l'année.</p>
+
+                <h2>Est-ce que les gens peuvent nous rejoindre ?</h2>
+                <p>Bien sûr, et nous encourageons tout le monde à nous rejoindre. Il y a plusieurs statuts :</p>
+                <ul>
+                    <li><strong>Adhésion</strong> — Un étudiant peut adhérer au BDE pour une cotisation de 10 € afin de bénéficier d'avantages pendant les évènements tout au long de l'année.</li>
+                    <li><strong>Agent volant</strong> — Un étudiant adhérent qui souhaite nous aider davantage peut devenir agent volant et se mettre à disposition du BDE lors des soirées (préparatifs, déroulement, rangement).</li>
+                </ul>
+
+                <h2>Quels sont les objectifs de l'association ?</h2>
+                <p>En dehors des évènements, le BDE soutient la création de clubs dont il se porte responsable légalement. Nous vous invitons à nous contacter pour toute question à ce sujet.</p>
+                <p><a href="activites.html" style="color:var(--brick);border-bottom:1px solid rgba(184,76,42,0.35)">→ Voir nos activités et clubs</a></p>
+
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-inner">
+                <span>BDE — Bureau des Élèves</span>
+                <span><a href="manage.html">Gestion du site</a></span>
+                <span id="year"></span>
+            </div>
+        </div>
+    </footer>
+    <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    fetch('data/equipe.json').then(r => r.json()).then(membres => {
+        document.getElementById('team-caption').textContent = membres.join(', ');
+    }).catch(() => {});
+
+    // Chercher la bonne extension pour la photo d'équipe
+    const photoBase = 'assets/images/equipe-et-planning/photo-equipe';
+    const photoExts = ['jpg', 'jpeg', 'webp', 'png'];
+    (async () => {
+        for (const ext of photoExts) {
+            const r = await fetch(`${photoBase}.${ext}`, { method: 'HEAD' }).catch(() => null);
+            if (r && r.ok) {
+                document.getElementById('team-photo').src = `${photoBase}.${ext}`;
+                break;
+            }
+        }
+    })();
+    document.querySelectorAll('#nav-menu a').forEach(a => {
+        a.addEventListener('click', () => {
+            document.getElementById('nav-menu').classList.remove('open');
+            document.querySelector('.nav-burger').classList.remove('open');
+        });
+    });
+    </script>
+</body>
+</html>

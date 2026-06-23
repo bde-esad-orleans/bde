@@ -832,15 +832,6 @@
         document.getElementById('token-overlay').style.display = 'flex';
     }
 
-    // Vérifier session au chargement
-    (function checkSession() {
-        if (sessionStorage.getItem('bde_auth') === '1') {
-            document.getElementById('login-overlay').style.display = 'none';
-            loadData();
-            resetInactivity();
-        }
-    })();
-
     // ── Data ───────────────────────────────────────────────────────────
 
     let eventsData = [];
@@ -1448,6 +1439,13 @@
         if (name === 'equipe' && !pending.equipe) loadEquipe();
         else if (name === 'equipe') renderEquipe();
     };
+
+    // Vérifier session au chargement (après toutes les déclarations)
+    if (sessionStorage.getItem('bde_auth') === '1') {
+        document.getElementById('login-overlay').style.display = 'none';
+        loadData();
+        resetInactivity();
+    }
     </script>
 
     <!-- Barre de publication fixe pour mobile -->

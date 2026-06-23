@@ -356,30 +356,41 @@
         }
         #inactivity-banner.show { display: block; }
 
+        /* ── Bouton Publier mobile (fixe en bas) ── */
+        #mobile-publish-bar {
+            display: none;
+        }
+
         /* ── Mobile ── */
         @media (max-width: 700px) {
-            .manage-layout { grid-template-columns: 1fr; }
+            .manage-layout {
+                grid-template-columns: 1fr;
+                padding-bottom: 64px; /* espace pour la barre fixe en bas */
+            }
 
             .sidebar {
                 flex-direction: row;
                 flex-wrap: wrap;
                 align-items: center;
-                padding: 0.75rem 1rem;
+                padding: 0.6rem 0.75rem;
                 gap: 0.25rem;
+                position: sticky;
+                top: 0;
+                z-index: 50;
             }
             .sidebar-section { padding: 0; }
             .sidebar-label { display: none; }
             .sidebar-divider { display: none; }
             .sidebar-bottom { display: none; }
             .sidebar-btn {
-                padding: 0.45rem 0.75rem;
+                padding: 0.4rem 0.65rem;
                 border-radius: 4px;
-                font-size: 0.82rem;
+                font-size: 0.8rem;
                 width: auto;
             }
             .sidebar-btn .icon { display: none; }
 
-            .panel { padding: 1.5rem 1rem; }
+            .panel { padding: 1.25rem 1rem; }
 
             .form-grid { grid-template-columns: 1fr; }
             .form-group.full { grid-column: 1; }
@@ -398,6 +409,43 @@
             .event-row-actions {
                 width: 100%;
                 padding-top: 0.25rem;
+            }
+
+            /* Barre de publication fixe en bas */
+            #mobile-publish-bar {
+                display: flex;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: var(--navy);
+                padding: 0.75rem 1rem;
+                gap: 0.75rem;
+                align-items: center;
+                z-index: 50;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            #mobile-publish-bar button {
+                flex: 1;
+                padding: 0.65rem;
+                background: var(--brick);
+                color: white;
+                border: none;
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 0.72rem;
+                font-weight: 500;
+                letter-spacing: 0.08em;
+                text-transform: uppercase;
+                cursor: pointer;
+                border-radius: 4px;
+            }
+            #mobile-publish-bar button:disabled { opacity: 0.4; }
+            #mobile-publish-bar .mobile-status {
+                font-family: 'Space Grotesk', sans-serif;
+                font-size: 0.68rem;
+                color: rgba(255,255,255,0.5);
+                text-align: right;
+                min-width: 60px;
             }
         }
     </style>
@@ -819,10 +867,18 @@
 
     function updatePublishBtn() {
         const anyPending = Object.values(pending).some(Boolean);
+        const count = Object.values(pending).filter(Boolean).length;
+        const label = anyPending ? `↑ Publier · ${count} en attente` : '↑ Publier sur le site';
+
         const btn = document.getElementById('btn-commit');
         btn.classList.toggle('has-pending', anyPending);
-        const count = Object.values(pending).filter(Boolean).length;
-        btn.textContent = anyPending ? `↑ Publier · ${count} en attente` : '↑ Publier sur le site';
+        btn.textContent = label;
+
+        const mBtn = document.getElementById('mobile-publish-btn');
+        if (mBtn) {
+            mBtn.textContent = label;
+            mBtn.disabled = false;
+        }
     }
 
     // ── Inactivité ────────────────────────────────────────────────────
@@ -1064,9 +1120,13 @@
     async function commitAll() {
         if (!ghToken) { toast('Token GitHub requis pour publier', true); return; }
         const btn = document.getElementById('btn-commit');
+        const mBtn = document.getElementById('mobile-publish-btn');
         const status = document.getElementById('commit-status');
+        const mStatus = document.getElementById('mobile-commit-status');
         btn.disabled = true;
+        if (mBtn) mBtn.disabled = true;
         status.textContent = 'Publication…';
+        if (mStatus) mStatus.textContent = 'Publication…';
         try {
             if (pending.clubs) {
                 await writeJson('data/clubs.json', clubsData, 'Clubs mis à jour');
@@ -1094,13 +1154,16 @@
                 markClean('planning');
             }
             status.textContent = 'Publié ✓';
+            if (mStatus) mStatus.textContent = '✓';
             toast('Publié sur GitHub ✓');
-            setTimeout(() => { status.textContent = ''; }, 4000);
+            setTimeout(() => { status.textContent = ''; if (mStatus) mStatus.textContent = ''; }, 4000);
         } catch (err) {
             status.textContent = 'Erreur';
+            if (mStatus) mStatus.textContent = 'Erreur';
             toast(err.message, true);
         } finally {
             btn.disabled = false;
+            if (mBtn) mBtn.disabled = false;
             updatePublishBtn();
         }
     }
@@ -1386,5 +1449,11 @@
         else if (name === 'equipe') renderEquipe();
     };
     </script>
+
+    <!-- Barre de publication fixe pour mobile -->
+    <div id="mobile-publish-bar">
+        <button id="mobile-publish-btn" onclick="commitAll()">↑ Publier sur le site</button>
+        <span class="mobile-status" id="mobile-commit-status"></span>
+    </div>
 </body>
 </html>

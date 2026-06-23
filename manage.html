@@ -182,6 +182,7 @@
             border-radius: 0;
         }
         input:focus, textarea:focus { border-color: var(--navy); }
+        input::placeholder, textarea::placeholder { color: #dad6ce; }
         textarea { resize: vertical; min-height: 140px; line-height: 1.6; }
 
         .preview-split {
@@ -365,30 +366,74 @@
         @media (max-width: 700px) {
             .manage-layout {
                 grid-template-columns: 1fr;
-                padding-bottom: 64px; /* espace pour la barre fixe en bas */
+                grid-template-rows: auto 1fr;
+                min-height: 0;
+                padding-bottom: 70px;
             }
 
+            /* Nav mobile : label au-dessus des boutons du groupe */
             .sidebar {
                 flex-direction: row;
-                flex-wrap: wrap;
-                align-items: center;
-                padding: 0.6rem 0.75rem;
-                gap: 0.25rem;
+                flex-wrap: nowrap;
+                align-items: flex-start;
+                padding: 0;
+                gap: 0;
                 position: sticky;
                 top: 0;
                 z-index: 50;
+                height: fit-content;
+                align-self: start;
             }
-            .sidebar-section { padding: 0; }
-            .sidebar-label { display: none; }
+            /* Chaque section : label sur une ligne, boutons dessous en ligne */
+            .sidebar-section {
+                display: flex;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items: center;
+                padding: 0;
+                gap: 0;
+            }
+            .sidebar-section + .sidebar-section {
+                border-left: 1px solid rgba(255,255,255,0.12);
+            }
+            .sidebar-label {
+                display: block;
+                width: 100%;
+                font-size: 0.52rem;
+                letter-spacing: 0.14em;
+                padding: 0.45rem 0.75rem 0.2rem;
+                color: rgba(255,255,255,0.35);
+                white-space: nowrap;
+            }
             .sidebar-divider { display: none; }
             .sidebar-bottom { display: none; }
             .sidebar-btn {
-                padding: 0.4rem 0.65rem;
-                border-radius: 4px;
-                font-size: 0.8rem;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 0.2rem;
+                padding: 0.3rem 0.7rem 0.55rem;
+                border-radius: 0;
+                font-size: 0.6rem;
+                letter-spacing: 0.06em;
                 width: auto;
+                min-width: 52px;
+                border-left: none;
+                border-right: none;
+                border-top: none;
+                border-bottom: 2px solid transparent;
+                white-space: nowrap;
             }
-            .sidebar-btn .icon { display: none; }
+            .sidebar-btn.active {
+                border-bottom-color: var(--brick);
+                background: rgba(255,255,255,0.06);
+            }
+            .sidebar-btn .icon {
+                display: block;
+                font-size: 1rem;
+                line-height: 1;
+            }
 
             .panel { padding: 1.25rem 1rem; }
 
@@ -419,15 +464,14 @@
                 left: 0;
                 right: 0;
                 background: var(--navy);
-                padding: 0.75rem 1rem;
-                gap: 0.75rem;
+                padding: 0.75rem 1.25rem;
                 align-items: center;
+                justify-content: center;
                 z-index: 50;
                 border-top: 1px solid rgba(255,255,255,0.1);
             }
             #mobile-publish-bar button {
-                flex: 1;
-                padding: 0.65rem;
+                padding: 0.65rem 2rem;
                 background: var(--brick);
                 color: white;
                 border: none;
@@ -441,11 +485,7 @@
             }
             #mobile-publish-bar button:disabled { opacity: 0.4; }
             #mobile-publish-bar .mobile-status {
-                font-family: 'Space Grotesk', sans-serif;
-                font-size: 0.68rem;
-                color: rgba(255,255,255,0.5);
-                text-align: right;
-                min-width: 60px;
+                display: none;
             }
         }
     </style>
@@ -532,10 +572,10 @@
             <div class="sidebar-section">
                 <span class="sidebar-label">Contenu</span>
                 <button class="sidebar-btn" onclick="showPanel('planning')" id="nav-planning">
-                    <span class="icon">🗓</span> Planning
+                    <span class="icon">⊞</span> Planning
                 </button>
                 <button class="sidebar-btn" onclick="showPanel('clubs')" id="nav-clubs">
-                    <span class="icon">◈</span> Clubs
+                    <span class="icon">⭐︎</span> Clubs
                 </button>
                 <button class="sidebar-btn" onclick="showPanel('equipe')" id="nav-equipe">
                     <span class="icon">◎</span> Équipe
@@ -1281,16 +1321,16 @@
         reader.readAsDataURL(file);
     }
 
-    // Charger la bonne extension pour l'aperçu initial de la photo d'équipe
+    // Trouver la photo d'équipe sans générer de 404 dans la console
     (async () => {
-        const base = `${RAW_BASE}/assets/images/equipe-et-planning/photo-equipe`;
-        for (const ext of ['jpg', 'jpeg', 'webp', 'png']) {
-            const r = await fetch(`${base}.${ext}`, { method: 'HEAD' }).catch(() => null);
-            if (r && r.ok) {
-                const img = document.getElementById('equipe-photo-preview');
-                if (img && !equipePhotoDataUrl) img.src = `${base}.${ext}`;
-                break;
-            }
+        const apiUrl = `${GH_API}/assets/images/equipe-et-planning`;
+        const r = await fetch(apiUrl).catch(() => null);
+        if (!r || !r.ok) return;
+        const files = await r.json();
+        const photo = files.find(f => /^photo-equipe\.(png|jpe?g|webp)$/i.test(f.name));
+        if (photo) {
+            const img = document.getElementById('equipe-photo-preview');
+            if (img && !equipePhotoDataUrl) img.src = `${RAW_BASE}/${photo.path}`;
         }
     })();
 

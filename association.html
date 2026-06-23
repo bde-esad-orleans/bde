@@ -200,17 +200,14 @@
         document.getElementById('team-caption').textContent = membres.join(', ');
     }).catch(() => {});
 
-    // Chercher la bonne extension pour la photo d'équipe
-    const photoBase = 'assets/images/equipe-et-planning/photo-equipe';
-    const photoExts = ['jpg', 'jpeg', 'webp', 'png'];
+    // Trouver la photo d'équipe sans générer de 404 dans la console
     (async () => {
-        for (const ext of photoExts) {
-            const r = await fetch(`${photoBase}.${ext}`, { method: 'HEAD' }).catch(() => null);
-            if (r && r.ok) {
-                document.getElementById('team-photo').src = `${photoBase}.${ext}`;
-                break;
-            }
-        }
+        const apiUrl = 'https://api.github.com/repos/bde-esad-orleans/bde/contents/assets/images/equipe-et-planning';
+        const r = await fetch(apiUrl).catch(() => null);
+        if (!r || !r.ok) return;
+        const files = await r.json();
+        const photo = files.find(f => /^photo-equipe\.(png|jpe?g|webp)$/i.test(f.name));
+        if (photo) document.getElementById('team-photo').src = `https://raw.githubusercontent.com/bde-esad-orleans/bde/main/${photo.path}`;
     })();
     document.querySelectorAll('#nav-menu a').forEach(a => {
         a.addEventListener('click', () => {
